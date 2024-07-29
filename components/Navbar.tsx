@@ -17,6 +17,34 @@ const Navbar = () => {
     { href: "/signup", label: "Sign Up", position: "right", button: true },
   ];
 
+  const renderMenuItem = ({
+    href,
+    label,
+    button,
+  }: {
+    href: string;
+    label: string;
+    button?: boolean;
+  }) => {
+    return button ? (
+      <Link
+        key={href}
+        href={href}
+        className="bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-300 px-6 py-2 rounded-full"
+      >
+        {label}
+      </Link>
+    ) : (
+      <Link
+        key={href}
+        href={href}
+        className="text-gray-700 hover:bg-gray-200 transition duration-300 px-3 py-1 rounded"
+      >
+        {label}
+      </Link>
+    );
+  };
+
   return (
     <nav className="bg-white shadow-md flex items-center justify-between px-4 xl:px-[10%] py-3 gap-8">
       {/* Logo and App Name */}
@@ -31,40 +59,14 @@ const Navbar = () => {
         <div className="flex flex-grow items-center gap-4">
           {menuItems
             .filter(({ position }) => position === "left")
-            .map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-gray-700 hover:bg-gray-200 transition duration-300 px-3 py-1 rounded"
-              >
-                {label}
-              </Link>
-            ))}
+            .map(renderMenuItem)}
         </div>
 
         {/* Right Menu */}
         <div className="flex items-center gap-4">
           {menuItems
             .filter(({ position }) => position === "right")
-            .map(({ href, label, button }) =>
-              button ? (
-                <Link
-                  key={href}
-                  href={href}
-                  className="bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-300 px-6 py-2 rounded-full"
-                >
-                  {label}
-                </Link>
-              ) : (
-                <Link
-                  key={href}
-                  href={href}
-                  className="text-gray-700 hover:text-gray-500 transition duration-300 px-3 py-1 rounded"
-                >
-                  {label}
-                </Link>
-              )
-            )}
+            .map(renderMenuItem)}
         </div>
       </div>
 
@@ -92,25 +94,7 @@ const Navbar = () => {
 
         {/* Menu Items */}
         <div className="flex flex-col items-center space-y-6 mt-32">
-          {menuItems.map(({ href, label, button }) =>
-            button ? (
-              <Link
-                key={href}
-                href={href}
-                className="bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-300 px-6 py-2 rounded-full"
-              >
-                {label}
-              </Link>
-            ) : (
-              <Link
-                key={href}
-                href={href}
-                className="text-gray-700 hover:bg-gray-200 transition duration-300 px-3 py-1 rounded"
-              >
-                {label}
-              </Link>
-            )
-          )}
+          {menuItems.map(renderMenuItem)}
         </div>
       </div>
     </nav>
