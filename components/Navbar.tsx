@@ -46,7 +46,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md flex items-center justify-between px-4 xl:px-[10%] py-3 gap-8">
+    <nav className="bg-white shadow-md border-b border-gray-100 flex items-center justify-between px-4 xl:px-[10%] py-3 gap-8">
       {/* Logo and App Name */}
       <Link href="/" className="flex items-center space-x-4">
         <Image src={logo} alt="Expandit Logo" width={40} height={40} />
