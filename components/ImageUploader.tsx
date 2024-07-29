@@ -10,12 +10,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("The selected file is not a valid image.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const isValidImageUrl = (url: string) => {
+    return /\.(jpeg|jpg|gif|png|bmp|webp|svg)$/i.test(url);
   };
 
   const handlePaste = (event: ClipboardEvent) => {
@@ -34,8 +43,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
           }
         } else if (item.type === "text/plain") {
           item.getAsString((url) => {
-            if (url.startsWith("http")) {
+            if (isValidImageUrl(url)) {
               setImage(url);
+            } else {
+              alert("The URL provided is not a valid image URL.");
             }
           });
         }
@@ -46,7 +57,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
   const handleURLUpload = () => {
     const url = prompt("Please enter the image URL");
     if (url) {
-      setImage(url);
+      if (isValidImageUrl(url)) {
+        setImage(url);
+      } else {
+        alert("The URL provided is not a valid image URL.");
+      }
     }
   };
 
@@ -54,6 +69,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
     event.preventDefault();
     const file = event.dataTransfer.files?.[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("The dropped file is not a valid image.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
