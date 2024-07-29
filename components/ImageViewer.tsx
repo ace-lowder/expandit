@@ -1,11 +1,9 @@
 import ImageUploader from "@/components/ImageUploader";
+import { useImage } from "@/context/ImageContext";
 
-interface ImageViewerProps {
-  image: string | ArrayBuffer | null;
-  setImage: (image: string | ArrayBuffer | null) => void;
-}
+const ImageViewer: React.FC = () => {
+  const { image } = useImage();
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ image, setImage }) => {
   return (
     <div className="w-3/4 bg-gray-100 p-4 flex justify-center items-center">
       {image ? (
@@ -17,7 +15,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ image, setImage }) => {
           />
         </div>
       ) : (
-        <ImageUploader setImage={setImage} />
+        <ImageUploader />
       )}
     </div>
   );

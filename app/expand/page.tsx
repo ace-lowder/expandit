@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Toolbar from "@/components/Toolbar";
 import ImageViewer from "@/components/ImageViewer";
+import { useImage } from "@/context/ImageContext";
 
 const ExpandPage = () => {
-  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+  const { image } = useImage();
 
   return (
     <div className="flex h-[calc(100vh-65px)]">
       <Toolbar />
-      <ImageViewer image={image} setImage={setImage} />
+      <ImageViewer />
     </div>
   );
 };

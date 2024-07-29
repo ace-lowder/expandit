@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react";
+import { useImage } from "@/context/ImageContext";
 
-interface ImageUploaderProps {
-  setImage: (image: string | ArrayBuffer | null) => void;
-}
-
-const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
+const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
+  onImageUpload,
+}) => {
+  const { setImage } = useImage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +18,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
+        if (onImageUpload) onImageUpload();
       };
       reader.readAsDataURL(file);
     }
@@ -38,6 +39,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
             const reader = new FileReader();
             reader.onloadend = () => {
               setImage(reader.result);
+              if (onImageUpload) onImageUpload();
             };
             reader.readAsDataURL(file);
           }
@@ -45,6 +47,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
           item.getAsString((url) => {
             if (isValidImageUrl(url)) {
               setImage(url);
+              if (onImageUpload) onImageUpload();
             } else {
               alert("The URL provided is not a valid image URL.");
             }
@@ -59,6 +62,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
     if (url) {
       if (isValidImageUrl(url)) {
         setImage(url);
+        if (onImageUpload) onImageUpload();
       } else {
         alert("The URL provided is not a valid image URL.");
       }
@@ -77,6 +81,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
+        if (onImageUpload) onImageUpload();
       };
       reader.readAsDataURL(file);
     }
@@ -95,7 +100,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ setImage }) => {
 
   return (
     <div
-      className="w-1/2 p-8 bg-white rounded-lg shadow-md flex flex-col items-center"
+      className="w-1/2 p-8 bg-white rounded-3xl shadow-md flex flex-col items-center max-w-sm"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
