@@ -1,21 +1,30 @@
-import ImageUploader from "@/components/ImageUploader";
+"use client";
+
 import { useImage } from "@/context/ImageContext";
+import ImageUploader from "@/components/ImageUploader";
+import DownloadButton from "@/components/DownloadButton";
 
 const ImageViewer: React.FC = () => {
-  const { image } = useImage();
+  const { image, width, height } = useImage();
 
   return (
-    <div className="w-3/4 bg-gray-100 p-4 flex justify-center items-center">
-      {image ? (
-        <div className="relative max-w-full h-auto">
-          <img
-            src={typeof image === "string" ? image : ""}
-            alt="Uploaded"
-            className="max-w-full h-auto"
-          />
-        </div>
-      ) : (
+    <div className="w-full h-full bg-gray-100 flex justify-center items-center relative">
+      {!image ? (
         <ImageUploader />
+      ) : (
+        <>
+          <DownloadButton />
+          <div className="max-w-[50%] flex flex-col items-end">
+            <img
+              src={typeof image === "string" ? image : ""}
+              alt="Uploaded Image"
+              className="max-w-full max-h-[50%] h-auto object-contain"
+            />
+            <span className="text-gray-700 mt-2">
+              {width}x{height}
+            </span>
+          </div>
+        </>
       )}
     </div>
   );
