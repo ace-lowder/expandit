@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useImage } from "@/context/ImageContext";
 import { saveAs } from "file-saver";
 import { FaDownload } from "react-icons/fa";
-import SquareButton from "@/components/SquareButton";
+import SquareButton from "@/components/common/SquareButton";
 
 const DownloadButton: React.FC = () => {
   const { image, width, height } = useImage();

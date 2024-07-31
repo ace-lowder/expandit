@@ -1,8 +1,8 @@
 "use client";
 
 import { useImage } from "@/context/ImageContext";
-import ImageUploader from "@/components/ImageUploader";
-import DownloadButton from "@/components/DownloadButton";
+import ImageUploader from "@/components/common/ImageUploader";
+import DownloadButton from "@/components/imageviewer/DownloadButton";
 
 const ImageViewer: React.FC = () => {
   const { image, width, height } = useImage();

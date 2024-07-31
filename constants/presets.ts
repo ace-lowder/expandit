@@ -16,6 +16,7 @@ export const presetList = [
   {
     name: "LinkedIn",
     icon: FaLinkedin,
+    color: "bg-blue-700",
     categories: [
       {
         category: "Profile",
@@ -33,6 +34,7 @@ export const presetList = [
   {
     name: "Facebook",
     icon: FaFacebook,
+    color: "bg-blue-600",
     categories: [
       {
         category: "Profile",
@@ -50,6 +52,7 @@ export const presetList = [
   {
     name: "Instagram",
     icon: FaInstagram,
+    color: "bg-pink-500",
     categories: [
       {
         category: "Posts",
@@ -68,6 +71,7 @@ export const presetList = [
   {
     name: "Twitter",
     icon: FaTwitter,
+    color: "bg-blue-400",
     categories: [
       {
         category: "Profile",
@@ -85,6 +89,7 @@ export const presetList = [
   {
     name: "Pinterest",
     icon: FaPinterest,
+    color: "bg-red-600",
     categories: [
       {
         category: "Pins",
@@ -99,6 +104,7 @@ export const presetList = [
   {
     name: "YouTube",
     icon: FaYoutube,
+    color: "bg-red-700",
     categories: [
       {
         category: "Channel",
@@ -116,6 +122,7 @@ export const presetList = [
   {
     name: "Snapchat",
     icon: FaSnapchat,
+    color: "bg-yellow-500",
     categories: [
       {
         category: "Stories",
@@ -126,6 +133,7 @@ export const presetList = [
   {
     name: "TikTok",
     icon: FaTiktok,
+    color: "bg-black",
     categories: [
       {
         category: "Videos",
@@ -136,6 +144,7 @@ export const presetList = [
   {
     name: "Reddit",
     icon: FaReddit,
+    color: "bg-orange-600",
     categories: [
       {
         category: "Profile",
@@ -150,6 +159,7 @@ export const presetList = [
   {
     name: "Tumblr",
     icon: FaTumblr,
+    color: "bg-blue-600",
     categories: [
       {
         category: "Profile",
@@ -164,6 +174,7 @@ export const presetList = [
   {
     name: "Twitch",
     icon: FaTwitch,
+    color: "bg-purple-600",
     categories: [
       {
         category: "Profile",

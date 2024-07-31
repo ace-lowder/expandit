@@ -1,7 +1,7 @@
 "use client";
 
-import Toolbar from "@/components/Toolbar";
-import ImageViewer from "@/components/ImageViewer";
+import Toolbar from "@/components/toolbar/Toolbar";
+import ImageViewer from "@/components/imageviewer/ImageViewer";
 import { useImage } from "@/context/ImageContext";
 
 const ExpandPage = () => {

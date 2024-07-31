@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import ImageUploader from "@/components/ImageUploader";
+import ImageUploader from "@/components/common/ImageUploader";
 
 const HomePage = () => {
   const router = useRouter();
