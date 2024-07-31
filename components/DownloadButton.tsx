@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useImage } from "@/context/ImageContext";
 import { saveAs } from "file-saver";
-import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
+import { FaDownload } from "react-icons/fa";
+import SquareButton from "@/components/SquareButton";
 
 const DownloadButton: React.FC = () => {
   const { image, width, height } = useImage();
@@ -9,25 +10,23 @@ const DownloadButton: React.FC = () => {
 
   const handleDownload = () => {
     if (image) {
-      saveAs(image as string, `image_original.png`);
+      saveAs(image as string, `image_${width}x${height}.png`);
     }
   };
 
   return (
     <div className="absolute top-4 right-4 flex flex-col items-end">
-      <button
+      <SquareButton
+        icon={<FaDownload className="w-7 h-7" />}
         onClick={() => setShowPanel(!showPanel)}
-        className="bg-gray-300 text-white p-4 rounded-xl hover:bg-gray-400"
-      >
-        <ArrowDownTrayIcon className="w-6 h-6" />
-      </button>
+      />
       {showPanel && (
         <div className="mt-2 bg-white p-4 rounded-lg shadow-lg flex flex-col">
           <button
             onClick={handleDownload}
-            className="bg-blue-500 text-white px-4 py-2 rounded-full"
+            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-full mb-2"
           >
-            Download Original {width}x{height}
+            Download {width}x{height}
           </button>
         </div>
       )}

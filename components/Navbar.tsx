@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "@/public/logo.svg";
 
 const Navbar = () => {
@@ -75,7 +75,7 @@ const Navbar = () => {
         className="md:hidden text-gray-700 focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Bars3Icon className="w-6 h-6" />
+        <FaBars className="w-6 h-6" />
       </button>
 
       {/* Mobile Menu */}
@@ -89,7 +89,7 @@ const Navbar = () => {
           className="absolute top-5 right-4 text-gray-700 focus:outline-none"
           onClick={() => setIsOpen(false)}
         >
-          <XMarkIcon className="w-6 h-6" />
+          <FaTimes className="w-6 h-6" />
         </button>
 
         {/* Menu Items */}
