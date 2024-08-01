@@ -14,7 +14,7 @@ const Toolbar: React.FC = () => {
   };
 
   return (
-    <div className="min-w-80 max-w-80 bg-white p-4 shadow-lg text-black">
+    <div className="min-w-80 max-w-80 bg-white p-4 shadow-lg text-black max-h-screen overflow-y-auto">
       <CustomScaleSection />
       <SocialPresetsSection
         selectedPlatform={selectedPlatform}

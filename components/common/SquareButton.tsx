@@ -9,7 +9,7 @@ const SquareButton: React.FC<SquareButtonProps> = ({
   icon,
   onClick,
   color = "bg-gray-300",
-  className,
+  className = "",
 }) => {
   return (
     <button

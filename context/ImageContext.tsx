@@ -13,8 +13,10 @@ interface ImageContextProps {
   setImage: (image: string | ArrayBuffer | null) => void;
   width: number;
   height: number;
-  ratio: number;
-  setRatio: (ratio: number) => void;
+  fillWidth: number;
+  fillHeight: number;
+  setFillWidth: (width: number) => void;
+  setFillHeight: (height: number) => void;
 }
 
 const ImageContext = createContext<ImageContextProps | undefined>(undefined);
@@ -23,7 +25,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [ratio, setRatio] = useState(1);
+  const [fillWidth, setFillWidth] = useState(0);
+  const [fillHeight, setFillHeight] = useState(0);
 
   useEffect(() => {
     if (image) {
@@ -32,14 +35,24 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       img.onload = () => {
         setWidth(img.width);
         setHeight(img.height);
-        setRatio(img.width / img.height);
+        setFillWidth(img.width);
+        setFillHeight(img.height);
       };
     }
   }, [image]);
 
   return (
     <ImageContext.Provider
-      value={{ image, setImage, width, height, ratio, setRatio }}
+      value={{
+        image,
+        setImage,
+        width,
+        height,
+        fillWidth,
+        fillHeight,
+        setFillWidth,
+        setFillHeight,
+      }}
     >
       {children}
     </ImageContext.Provider>

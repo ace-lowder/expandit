@@ -13,29 +13,29 @@ const PresetButton: React.FC<PresetButtonProps> = ({
   maxWidth,
   maxHeight,
 }) => {
-  const { setRatio } = useImage();
+  const { setFillWidth, setFillHeight } = useImage();
   const [width, height] = size.split("x").map(Number);
 
   const maxButtonSize = 200;
   const scale = Math.min(maxButtonSize / maxWidth, maxButtonSize / maxHeight);
+  const style = {
+    width: width * scale,
+    height: height * scale,
+  };
 
   const handleClick = () => {
-    setRatio(width / height);
+    setFillWidth(width);
+    setFillHeight(height);
   };
 
   return (
     <button
-      onClick={handleClick}
       className="flex flex-col items-center bg-blue-500 text-white p-4 rounded-xl"
+      onClick={handleClick}
     >
       <div
         className="bg-white mb-2"
-        style={{
-          width: maxButtonSize,
-          height: maxButtonSize * (height / width),
-          border: "1px solid #fff",
-          aspectRatio: `${width}/${height}`,
-        }}
+        style={{ ...style, border: "1px solid #fff" }}
       ></div>
       <span>{label}</span>
       <span className="text-sm">{size}</span>
