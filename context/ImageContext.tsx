@@ -17,6 +17,8 @@ interface ImageContextProps {
   fillHeight: number;
   setFillWidth: (width: number) => void;
   setFillHeight: (height: number) => void;
+  generatedImage: string | null;
+  setGeneratedImage: (url: string) => void;
 }
 
 const ImageContext = createContext<ImageContextProps | undefined>(undefined);
@@ -27,6 +29,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [height, setHeight] = useState(0);
   const [fillWidth, setFillWidth] = useState(0);
   const [fillHeight, setFillHeight] = useState(0);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (image) {
@@ -52,6 +55,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         fillHeight,
         setFillWidth,
         setFillHeight,
+        generatedImage,
+        setGeneratedImage,
       }}
     >
       {children}

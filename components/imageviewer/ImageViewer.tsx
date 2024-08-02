@@ -14,6 +14,8 @@ const ImageViewer: React.FC = () => {
     fillHeight,
     setFillWidth,
     setFillHeight,
+    generatedImage,
+    setGeneratedImage,
   } = useImage();
   const viewerRef = useRef<HTMLDivElement>(null);
   const [scaleFactor, setScaleFactor] = useState(1);
@@ -51,6 +53,34 @@ const ImageViewer: React.FC = () => {
     }
   }, [fillWidth, fillHeight, width, height, setFillWidth, setFillHeight]);
 
+  const handleGenerativeFill = async () => {
+    try {
+      const response = await fetch("/api/generativeFill", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageUrl: image,
+          dimensions: {
+            width: Math.round(fillWidth),
+            height: Math.round(fillHeight),
+          },
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setGeneratedImage(data.url);
+      } else {
+        const errorData = await response.json();
+        console.error("Generative fill error:", errorData);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
   return (
     <div
       ref={viewerRef}
@@ -61,27 +91,34 @@ const ImageViewer: React.FC = () => {
       ) : (
         <>
           <DownloadButton />
+          <button
+            onClick={handleGenerativeFill}
+            className="absolute top-4 z-20 bg-blue-500 text-white p-2 rounded"
+          >
+            Generate Fill
+          </button>
           <img
-            src={typeof image === "string" ? image : ""}
-            alt="Uploaded Image"
-            className="z-10"
-            style={{
-              width: `${width * scaleFactor}px`,
-              height: `${height * scaleFactor}px`,
-            }}
-          />
-          <img
+            src={generatedImage || ""}
             alt="Generated Image"
             className="absolute bg-gray-400"
             style={{
               width: `${fillWidth * scaleFactor}px`,
               height: `${fillHeight * scaleFactor}px`,
-              backgroundImage:
-                "url('https://as1.ftcdn.net/v2/jpg/01/99/11/80/1000_F_199118049_QJ8e3sYdcuXJfODcA5YjJqKOyypKAKuR.jpg')",
               backgroundRepeat: "repeat",
               backgroundSize: "contain",
             }}
           />
+          {!generatedImage && (
+            <img
+              src={typeof image === "string" ? image : ""}
+              alt="Uploaded Image"
+              className="z-10"
+              style={{
+                width: `${width * scaleFactor}px`,
+                height: `${height * scaleFactor}px`,
+              }}
+            />
+          )}
         </>
       )}
     </div>
