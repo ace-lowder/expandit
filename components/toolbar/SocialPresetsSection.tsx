@@ -34,9 +34,7 @@ const SocialPresetsSection: React.FC<SocialPresetsProps> = ({
     <div className="flex flex-col items-start w-full">
       {!selectedPlatform ? (
         <>
-          <h2 className="text-xl font-bold text-center mb-6">
-            Choose a Preset Size
-          </h2>
+          <h2 className="text-xl font-bold mb-6">Choose a Preset Size</h2>
           <div className="grid grid-cols-3 gap-4 justify-items-stretch w-full">
             {presetList.map((social) => (
               <div
