@@ -100,12 +100,10 @@ const ImageViewer: React.FC = () => {
           <img
             src={generatedImage || ""}
             alt="Generated Image"
-            className="absolute bg-gray-400"
+            className="absolute checkerboard"
             style={{
               width: `${fillWidth * scaleFactor}px`,
               height: `${fillHeight * scaleFactor}px`,
-              backgroundRepeat: "repeat",
-              backgroundSize: "contain",
             }}
           />
           {!generatedImage && (
