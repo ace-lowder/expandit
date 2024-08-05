@@ -17,7 +17,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImage(reader.result, file.name, file.size);
         if (onImageUpload) onImageUpload();
       };
       reader.readAsDataURL(file);
@@ -38,7 +38,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
           if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-              setImage(reader.result);
+              setImage(reader.result, file.name, file.size);
               if (onImageUpload) onImageUpload();
             };
             reader.readAsDataURL(file);
@@ -46,7 +46,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
         } else if (item.type === "text/plain") {
           item.getAsString((url) => {
             if (isValidImageUrl(url)) {
-              setImage(url);
+              setImage(url, "", 0);
               if (onImageUpload) onImageUpload();
             } else {
               alert("The URL provided is not a valid image URL.");
@@ -61,7 +61,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
     const url = prompt("Please enter the image URL");
     if (url) {
       if (isValidImageUrl(url)) {
-        setImage(url);
+        setImage(url, "", 0);
         if (onImageUpload) onImageUpload();
       } else {
         alert("The URL provided is not a valid image URL.");
@@ -80,7 +80,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImage(reader.result, file.name, file.size);
         if (onImageUpload) onImageUpload();
       };
       reader.readAsDataURL(file);
