@@ -2,6 +2,7 @@ import { useState } from "react";
 import CustomScaleSection from "./CustomScaleSection";
 import SocialPresetsSection from "./SocialPresetsSection";
 import ImageInfo from "./ImageInfo";
+import GenerateButton from "./GenerateButton";
 
 const Toolbar: React.FC = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
@@ -17,6 +18,7 @@ const Toolbar: React.FC = () => {
   return (
     <div className="min-w-80 max-w-80 bg-white p-4 shadow-lg text-black max-h-screen overflow-y-auto">
       <ImageInfo />
+      <GenerateButton />
       <CustomScaleSection />
       <SocialPresetsSection
         selectedPlatform={selectedPlatform}

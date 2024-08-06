@@ -4,7 +4,6 @@ import { useImage } from "@/context/ImageContext";
 
 import ImageUploader from "../common/ImageUploader";
 import DownloadButton from "./DownloadButton";
-import GenerateButton from "./GenerateButton";
 import Display from "./Display";
 
 const ImageViewer: React.FC = () => {
@@ -17,7 +16,6 @@ const ImageViewer: React.FC = () => {
       ) : (
         <>
           <DownloadButton />
-          <GenerateButton />
           <Display />
         </>
       )}

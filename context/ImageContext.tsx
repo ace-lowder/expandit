@@ -21,6 +21,8 @@ interface ImageContextProps {
   fillHeight: number;
   setFillWidth: (width: number) => void;
   setFillHeight: (height: number) => void;
+  isGenerating: boolean;
+  setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
   setGeneratedImage: (url: string) => void;
   imageName: string;
@@ -37,6 +39,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [height, setHeight] = useState(0);
   const [fillWidth, setFillWidth] = useState(0);
   const [fillHeight, setFillHeight] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 
   const setImage = (
@@ -75,6 +78,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         fillHeight,
         setFillWidth,
         setFillHeight,
+        isGenerating,
+        setIsGenerating,
         generatedImage,
         setGeneratedImage,
       }}
