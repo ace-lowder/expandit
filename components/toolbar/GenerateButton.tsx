@@ -56,7 +56,7 @@ const GenerateButton: React.FC = () => {
           isDisabled ? "bg-gray-400" : "bg-blue-500"
         } text-white p-2 rounded w-full mb-4`}
       >
-        {isGenerating ? "Generating..." : "Generate Fill"}
+        {isGenerating ? "Generating..." : "Expand"}
       </button>
     )) ||
     null
