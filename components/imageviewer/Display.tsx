@@ -64,7 +64,7 @@ const Display: React.FC = () => {
       className="w-full h-full bg-gray-100 flex justify-center items-center relative"
     >
       <div
-        className="absolute checkerboard"
+        className="absolute checkerboard transition-all"
         style={{
           width: `${fillWidth * scaleFactor}px`,
           height: `${fillHeight * scaleFactor}px`,
@@ -97,7 +97,9 @@ const Display: React.FC = () => {
       <img
         src={typeof image === "string" ? image : ""}
         alt="Uploaded Image"
-        className={`z-10 ${startAnimation ? "fade-out-delay" : ""}`}
+        className={`z-10 transition-all ${
+          startAnimation ? "fade-out-delay" : ""
+        }`}
         style={{
           width: `${width * scaleFactor}px`,
           height: `${height * scaleFactor}px`,
