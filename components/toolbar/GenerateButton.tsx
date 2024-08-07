@@ -48,18 +48,15 @@ const GenerateButton: React.FC = () => {
   const isDisabled = fillWidth === width && fillHeight === height;
 
   return (
-    (image && (
-      <button
-        onClick={handleGenerativeFill}
-        disabled={isDisabled || isGenerating}
-        className={`${
-          isDisabled ? "bg-gray-400" : "bg-blue-500"
-        } text-white p-2 rounded w-full mb-4`}
-      >
-        {isGenerating ? "Generating..." : "Expand"}
-      </button>
-    )) ||
-    null
+    <button
+      onClick={handleGenerativeFill}
+      disabled={isDisabled || isGenerating}
+      className={`${
+        isDisabled ? "bg-gray-400" : "bg-blue-500"
+      } text-white p-2 rounded w-full`}
+    >
+      {isGenerating ? "Generating..." : "Expand"}
+    </button>
   );
 };
 

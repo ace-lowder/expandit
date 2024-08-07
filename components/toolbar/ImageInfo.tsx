@@ -19,21 +19,18 @@ const ImageInfo: React.FC = () => {
     width && height ? formatAspectRatio(width, height) : "N/A";
 
   return (
-    (image && (
-      <div className="flex flex-col items-center w-full mb-4">
-        <img
-          src={typeof image === "string" ? image : ""}
-          alt="Thumbnail"
-          className="w-24 h-24 object-contain mb-2"
-        />
-        <span className="text-gray-700">{imageName || "No Image Name"}</span>
-        <span className="text-gray-700">
-          {width}x{height} ({formatSize(imageSize)})
-        </span>
-        <span className="text-gray-700">Aspect Ratio: {aspectRatio}</span>
-      </div>
-    )) ||
-    null
+    <div className="flex flex-col items-center w-full mb-4">
+      <img
+        src={typeof image === "string" ? image : ""}
+        alt="Thumbnail"
+        className="w-24 h-24 object-contain mb-2"
+      />
+      <span className="text-gray-700">{imageName || "No Image Name"}</span>
+      <span className="text-gray-700">
+        {width}x{height} ({formatSize(imageSize)})
+      </span>
+      <span className="text-gray-700">Aspect Ratio: {aspectRatio}</span>
+    </div>
   );
 };
 
