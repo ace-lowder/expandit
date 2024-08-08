@@ -9,18 +9,7 @@ import Display from "./Display";
 const ImageViewer: React.FC = () => {
   const { image } = useImage();
 
-  return (
-    <div className="w-full h-full bg-gray-100 flex justify-center items-center relative">
-      {!image ? (
-        <ImageUploader />
-      ) : (
-        <>
-          <DownloadButton />
-          <Display />
-        </>
-      )}
-    </div>
-  );
+  return <>{!image ? <ImageUploader /> : <Display />}</>;
 };
 
 export default ImageViewer;

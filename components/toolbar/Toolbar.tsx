@@ -6,7 +6,11 @@ import ImageInfo from "./ImageInfo";
 import GenerateButton from "./GenerateButton";
 import ResetButton from "./ResetButton";
 
-const Toolbar: React.FC = () => {
+interface ToolbarProps {
+  isCollapsed: boolean;
+}
+
+const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
   const { image } = useImage();
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
 
@@ -19,22 +23,28 @@ const Toolbar: React.FC = () => {
   };
 
   return (
-    <div className="min-w-80 max-w-80 bg-white p-4 shadow-lg text-black max-h-screen overflow-y-auto">
-      {image && (
-        <>
-          <ImageInfo />
-          <div className="flex flex-col gap-2">
-            <GenerateButton />
-            <ResetButton />
-          </div>
-        </>
-      )}
-      <CustomScaleSection />
-      <SocialPresetsSection
-        selectedPlatform={selectedPlatform}
-        onSelectPlatform={handlePlatformClick}
-        onBack={handleBackClick}
-      />
+    <div
+      className={`absolute left-0 flex w-[320px] h-[calc(100vh-65px)] overflow-visible z-50 transition-all ${
+        isCollapsed ? "-translate-x-full" : "translate-x-0"
+      }`}
+    >
+      <div className="bg-white p-4 shadow-lg text-black max-h-screen overflow-y-auto w-full">
+        {image && (
+          <>
+            <ImageInfo />
+            <div className="flex flex-col gap-2">
+              <GenerateButton />
+              <ResetButton />
+            </div>
+          </>
+        )}
+        <CustomScaleSection />
+        <SocialPresetsSection
+          selectedPlatform={selectedPlatform}
+          onSelectPlatform={handlePlatformClick}
+          onBack={handleBackClick}
+        />
+      </div>
     </div>
   );
 };

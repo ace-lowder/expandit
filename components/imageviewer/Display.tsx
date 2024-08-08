@@ -19,36 +19,43 @@ const Display: React.FC = () => {
   const [scaleFactor, setScaleFactor] = useState(1);
   const [startAnimation, setStartAnimation] = useState(false);
 
+  const updateScaleFactor = () => {
+    if (viewerRef.current) {
+      const viewerWidth = viewerRef.current.clientWidth;
+      const viewerHeight = viewerRef.current.clientHeight;
+
+      const scaleWidth = (viewerWidth - 100) / fillWidth;
+      const scaleHeight = (viewerHeight - 100) / fillHeight;
+      setScaleFactor(Math.min(scaleWidth, scaleHeight));
+    }
+  };
+
   useEffect(() => {
-    const updateScaleFactor = () => {
-      if (viewerRef.current) {
-        const viewerWidth = viewerRef.current.clientWidth;
-        const viewerHeight = viewerRef.current.clientHeight;
-
-        const scaleWidth = (viewerWidth - 100) / fillWidth;
-        const scaleHeight = (viewerHeight - 100) / fillHeight;
-        setScaleFactor(Math.min(scaleWidth, scaleHeight));
-      }
-    };
-
     updateScaleFactor();
     window.addEventListener("resize", updateScaleFactor);
+    const observer = new ResizeObserver(updateScaleFactor);
+    if (viewerRef.current) {
+      observer.observe(viewerRef.current);
+    }
 
     return () => {
       window.removeEventListener("resize", updateScaleFactor);
+      if (viewerRef.current) {
+        observer.unobserve(viewerRef.current);
+      }
     };
   }, [fillWidth, fillHeight]);
 
   useEffect(() => {
     if (fillWidth < width) {
       const scale = width / fillWidth;
-      setFillWidth(width);
-      setFillHeight(fillHeight * scale);
+      setFillWidth(Math.ceil(width));
+      setFillHeight(Math.ceil(fillHeight * scale));
     }
     if (fillHeight < height) {
       const scale = height / fillHeight;
-      setFillHeight(height);
-      setFillWidth(fillWidth * scale);
+      setFillHeight(Math.ceil(height));
+      setFillWidth(Math.ceil(fillWidth * scale));
     }
   }, [fillWidth, fillHeight, width, height, setFillWidth, setFillHeight]);
 
@@ -61,10 +68,10 @@ const Display: React.FC = () => {
   return (
     <div
       ref={viewerRef}
-      className="w-full h-full bg-gray-100 flex justify-center items-center relative"
+      className="w-full h-full flex justify-center items-center relative"
     >
       <div
-        className="absolute checkerboard transition-all"
+        className="absolute checkerboard"
         style={{
           width: `${fillWidth * scaleFactor}px`,
           height: `${fillHeight * scaleFactor}px`,
@@ -97,9 +104,7 @@ const Display: React.FC = () => {
       <img
         src={typeof image === "string" ? image : ""}
         alt="Uploaded Image"
-        className={`z-10 transition-all ${
-          startAnimation ? "fade-out-delay" : ""
-        }`}
+        className={`z-10 ${startAnimation ? "fade-out-delay" : ""}`}
         style={{
           width: `${width * scaleFactor}px`,
           height: `${height * scaleFactor}px`,

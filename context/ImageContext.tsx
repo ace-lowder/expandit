@@ -37,8 +37,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [imageSize, setImageSize] = useState(0);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [fillWidth, setFillWidth] = useState(0);
-  const [fillHeight, setFillHeight] = useState(0);
+  const [fillWidth, setFillWidthState] = useState(0);
+  const [fillHeight, setFillHeightState] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 
@@ -52,6 +52,14 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     setImageSize(size);
   };
 
+  const setClampedFillWidth = (width: number) => {
+    setFillWidthState(Math.ceil(width));
+  };
+
+  const setClampedFillHeight = (height: number) => {
+    setFillHeightState(Math.ceil(height));
+  };
+
   useEffect(() => {
     if (image) {
       const img = new Image();
@@ -59,8 +67,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       img.onload = () => {
         setWidth(img.width);
         setHeight(img.height);
-        setFillWidth(img.width);
-        setFillHeight(img.height);
+        setClampedFillWidth(img.width);
+        setClampedFillHeight(img.height);
       };
     }
   }, [image]);
@@ -76,8 +84,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         height,
         fillWidth,
         fillHeight,
-        setFillWidth,
-        setFillHeight,
+        setFillWidth: setClampedFillWidth,
+        setFillHeight: setClampedFillHeight,
         isGenerating,
         setIsGenerating,
         generatedImage,
