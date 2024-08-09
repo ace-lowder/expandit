@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { menuItems, renderMenuItem } from "@/constants/menuItems";
+import { menuItems, renderMenuItem } from "@/lib";
 
 const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);

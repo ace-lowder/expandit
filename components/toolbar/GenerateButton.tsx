@@ -1,6 +1,6 @@
 "use client";
 
-import { useImage } from "@/context/ImageContext";
+import { useImage } from "@/lib";
 
 const GenerateButton: React.FC = () => {
   const {

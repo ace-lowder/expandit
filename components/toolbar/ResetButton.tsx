@@ -1,6 +1,6 @@
 "use client";
 
-import { useImage } from "@/context/ImageContext";
+import { useImage } from "@/lib";
 
 const ResetButton: React.FC = () => {
   const { width, height, setFillWidth, setFillHeight } = useImage();

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Toolbar from "@/components/toolbar/Toolbar";
-import ImageViewer from "@/components/imageviewer/ImageViewer";
-import CollapseButton from "@/components/imageviewer/CollapseButton";
-import DownloadButton from "@/components/imageviewer/DownloadButton";
+import {
+  Toolbar,
+  ImageViewer,
+  CollapseButton,
+  DownloadButton,
+} from "@/components";
 
 const ExpandPage = () => {
   const [isToolbarCollapsed, setIsToolbarCollapsed] = useState(false);

@@ -1,10 +1,14 @@
+"use client";
+
 import { useState } from "react";
-import { useImage } from "@/context/ImageContext";
-import CustomScaleSection from "./CustomScaleSection";
-import SocialPresetsSection from "./SocialPresetsSection";
-import ImageInfo from "./ImageInfo";
-import GenerateButton from "./GenerateButton";
-import ResetButton from "./ResetButton";
+import { useImage } from "@/lib";
+import {
+  CustomScaleSection,
+  SocialPresetsSection,
+  ImageInfo,
+  GenerateButton,
+  ResetButton,
+} from "@/components";
 
 interface ToolbarProps {
   isCollapsed: boolean;

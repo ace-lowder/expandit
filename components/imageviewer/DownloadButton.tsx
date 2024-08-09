@@ -1,7 +1,8 @@
+"use client";
+
 import { useState } from "react";
 import { FaDownload } from "react-icons/fa";
-import DownloadPanel from "./DownloadPanel";
-import SquareButton from "@/components/common/SquareButton";
+import { SquareButton, DownloadPanel } from "@/components";
 
 const DownloadButton: React.FC = () => {
   const [showPanel, setShowPanel] = useState(false);

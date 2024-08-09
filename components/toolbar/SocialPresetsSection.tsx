@@ -1,8 +1,6 @@
-import React from "react";
-import { presetList } from "@/constants/presets";
-import SquareButton from "../common/SquareButton";
-import PresetButton from "./PresetButton";
 import { FaArrowLeft } from "react-icons/fa";
+import { presetList } from "@/lib";
+import { SquareButton, PresetButton } from "@/components";
 
 interface SocialPresetsProps {
   selectedPlatform: string | null;

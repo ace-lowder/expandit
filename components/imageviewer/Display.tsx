@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { useImage } from "@/context/ImageContext";
+import { useImage } from "@/lib";
 
 const Display: React.FC = () => {
   const {

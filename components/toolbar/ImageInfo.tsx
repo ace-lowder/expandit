@@ -1,5 +1,5 @@
-import { useImage } from "@/context/ImageContext";
-import { formatSize, formatAspectRatio } from "@/constants/utils";
+import { useImage } from "@/lib";
+import { formatSize, formatAspectRatio } from "@/lib";
 
 const ImageInfo: React.FC = () => {
   const { image, imageName, width, height, imageSize } = useImage();

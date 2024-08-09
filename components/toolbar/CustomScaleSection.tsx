@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useImage } from "@/context/ImageContext";
+"use client";
 
+import { useState, useEffect } from "react";
+import { useImage, formatAspectRatio } from "@/lib";
 import { FaDesktop, FaMobileAlt, FaUserCircle } from "react-icons/fa";
-import SquareButton from "../common/SquareButton";
-import { formatAspectRatio } from "@/constants/utils";
+import { SquareButton } from "@/components";
 
 const scales = [
   {

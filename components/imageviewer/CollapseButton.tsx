@@ -1,5 +1,5 @@
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import SquareButton from "@/components/common/SquareButton";
+import { SquareButton } from "@/components";
 
 interface CollapseButtonProps {
   isCollapsed: boolean;

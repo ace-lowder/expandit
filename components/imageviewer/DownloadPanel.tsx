@@ -1,11 +1,12 @@
+"use client";
+
 import { useState } from "react";
-import { useImage } from "@/context/ImageContext";
+import { useImage, formatSize } from "@/lib";
 import { saveAs } from "file-saver";
-import { formatSize } from "@/constants/utils";
 
 const DownloadPanel: React.FC = () => {
   const { image, width, height } = useImage();
-  const [selectedQuality, setSelectedQuality] = useState("HD");
+  const [selectedQuality, setSelectedQuality] = useState("SD");
 
   const handleDownload = () => {
     if (image) {

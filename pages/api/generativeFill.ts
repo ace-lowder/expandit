@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import cloudinary from "@/lib/cloudinary";
+import { default as cloudinary } from "@/lib/cloudinary";
 
 export default async function generativeFill(
   req: NextApiRequest,

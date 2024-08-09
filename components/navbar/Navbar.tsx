@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
-import { menuItems, renderMenuItem } from "@/constants/menuItems";
-import MobileNavbar from "./MobileNavbar";
+import { menuItems, renderMenuItem } from "@/lib";
+import { MobileNavbar } from "@/components";
 
 const Navbar = () => {
   return (

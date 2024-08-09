@@ -1,5 +1,7 @@
+"use client";
+
 import { useRef, useEffect } from "react";
-import { useImage } from "@/context/ImageContext";
+import { useImage } from "@/lib";
 
 const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
   onImageUpload,
