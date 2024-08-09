@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { useImage } from "@/context/ImageContext";
+
 import { FaDesktop, FaMobileAlt, FaUserCircle } from "react-icons/fa";
 import SquareButton from "../common/SquareButton";
-import { useState, useEffect } from "react";
+import { formatAspectRatio } from "@/constants/utils";
 
 const scales = [
   {
@@ -33,13 +35,6 @@ const CustomScaleSection: React.FC = () => {
 
     setAspectRatio(formatAspectRatio(fillWidth, fillHeight));
   }, [fillWidth, fillHeight]);
-
-  const formatAspectRatio = (width: number, height: number) => {
-    const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-    const divisor = gcd(width, height);
-    if (divisor === 0) return "N/A";
-    return `${width / divisor}:${height / divisor}`;
-  };
 
   const handleCustomScale = () => {
     if (customWidth && customHeight) {

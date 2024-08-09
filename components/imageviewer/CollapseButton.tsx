@@ -11,7 +11,7 @@ const CollapseButton: React.FC<CollapseButtonProps> = ({
   collapseToolbar,
 }) => {
   return (
-    <div className="absolute z-10 top-4 left-4">
+    <div className="absolute z-20 top-4 left-4">
       <SquareButton
         icon={
           isCollapsed ? (
