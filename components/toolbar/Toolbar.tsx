@@ -28,7 +28,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
 
   return (
     <div
-      className={`absolute left-0 flex w-[320px] h-[calc(100vh-65px)] overflow-visible z-50 transition-all ${
+      className={`absolute left-0 flex w-[320px] h-[calc(100vh-65px)] overflow-visible z-30 transition-all ${
         isCollapsed ? "-translate-x-full" : "translate-x-0"
       }`}
     >
