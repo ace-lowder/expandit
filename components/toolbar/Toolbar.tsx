@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useImage } from "@/lib";
 import {
   CustomScaleSection,
   SocialPresetsSection,
@@ -15,7 +14,6 @@ interface ToolbarProps {
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
-  const { image } = useImage();
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
 
   const handlePlatformClick = (platform: string) => {
@@ -33,15 +31,11 @@ const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
       }`}
     >
       <div className="bg-white p-4 shadow-lg text-black max-h-screen overflow-y-auto w-full">
-        {image && (
-          <>
-            <ImageInfo />
-            <div className="flex flex-col gap-2">
-              <GenerateButton />
-              <ResetButton />
-            </div>
-          </>
-        )}
+        <ImageInfo />
+        <div className="flex flex-col gap-2">
+          <GenerateButton />
+          <ResetButton />
+        </div>
         <CustomScaleSection />
         <SocialPresetsSection
           selectedPlatform={selectedPlatform}
