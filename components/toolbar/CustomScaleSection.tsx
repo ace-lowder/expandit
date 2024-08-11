@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useImage, formatAspectRatio } from "@/lib";
 import { FaDesktop, FaMobileAlt, FaUserCircle } from "react-icons/fa";
-import { SquareButton } from "@/components";
+import { Header, SquareButton } from "@/components";
 
 const scales = [
   {
@@ -56,7 +56,7 @@ const CustomScaleSection: React.FC = () => {
 
   return (
     <div className="flex flex-col items-start w-full gap-4 mb-6">
-      <h2 className="text-xl font-bold mb-2">Custom Scale</h2>
+      <Header>Custom Scale</Header>
       <div className="flex flex-col w-full px-8">
         <p>Width</p>
         <input

@@ -1,6 +1,6 @@
 import { FaArrowLeft } from "react-icons/fa";
 import { presetList } from "@/lib";
-import { SquareButton, PresetButton } from "@/components";
+import { SquareButton, PresetButton, Header } from "@/components";
 
 interface SocialPresetsProps {
   selectedPlatform: string | null;
@@ -32,7 +32,7 @@ const SocialPresetsSection: React.FC<SocialPresetsProps> = ({
     <div className="flex flex-col items-start w-full">
       {!selectedPlatform ? (
         <>
-          <h2 className="text-xl font-bold mb-6">Choose a Preset Size</h2>
+          <Header>Choose a Preset Size</Header>
           <div className="grid grid-cols-3 gap-4 justify-items-stretch w-full">
             {presetList.map((social) => (
               <div
@@ -60,7 +60,7 @@ const SocialPresetsSection: React.FC<SocialPresetsProps> = ({
           </button>
           {selectedSocial?.categories.map((category) => (
             <div key={category.category} className="w-full">
-              <h2 className="text-lg font-bold mb-2">{category.category}</h2>
+              <Header>{category.category}</Header>
               <div className="flex flex-col gap-2">
                 {category.presets.map((preset) => (
                   <PresetButton

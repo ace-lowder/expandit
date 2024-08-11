@@ -3,6 +3,7 @@ export { default as ImageUploader } from "./common/ImageUploader";
 export { default as SquareButton } from "./common/SquareButton";
 export { default as MenuButton } from "./common/MenuButton";
 export { default as RoundedMenuButton } from "./common/RoundedMenuButton";
+export { default as Header } from "./common/Header";
 
 export { default as CollapseButton } from "./imageviewer/CollapseButton";
 export { default as Display } from "./imageviewer/Display";
