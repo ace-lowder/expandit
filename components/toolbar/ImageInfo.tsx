@@ -8,7 +8,7 @@ const ImageInfo: React.FC = () => {
     width && height ? formatAspectRatio(width, height) : "N/A";
 
   return (
-    <div className="flex flex-col items-center w-full mb-4">
+    <div className="flex flex-col items-center w-full border rounded-2xl p-4">
       <img
         src={typeof image === "string" ? image : ""}
         alt="Thumbnail"

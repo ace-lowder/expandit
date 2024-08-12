@@ -1,7 +1,7 @@
 export { ImageProvider } from "../lib/ImageContext";
 export { useImage } from "../lib/ImageContext";
 
-export { presetList } from "./presets";
+export { presets } from "./presets";
 
 export { formatSize } from "./utils";
 export { formatAspectRatio } from "./utils";

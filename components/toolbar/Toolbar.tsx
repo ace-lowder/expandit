@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import {
-  CustomScaleSection,
-  SocialPresetsSection,
   ImageInfo,
-  GenerateButton,
-  ResetButton,
+  ActionPanel,
+  CustomScale,
+  CommonPresets,
+  SocialPresets,
+  PresetCategory,
 } from "@/components";
 
 interface ToolbarProps {
@@ -14,35 +15,39 @@ interface ToolbarProps {
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
-  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
-
-  const handlePlatformClick = (platform: string) => {
-    setSelectedPlatform(platform);
-  };
-
-  const handleBackClick = () => {
-    setSelectedPlatform(null);
-  };
+  const [selectedSocial, setSelectedSocial] = useState<string | null>(null);
 
   return (
     <div
-      className={`absolute left-0 flex w-[320px] h-[calc(100vh-65px)] overflow-visible z-30 transition-all ${
-        isCollapsed ? "-translate-x-full" : "translate-x-0"
-      }`}
+      className={`flex flex-col justify-between bg-white text-gray-700 
+        absolute left-0 w-[320px] h-[calc(100vh-67px)] overflow-visible z-30
+        transition-all ${isCollapsed ? "-translate-x-full" : "translate-x-0"}`}
     >
-      <div className="bg-white p-4 shadow-lg text-black max-h-screen overflow-y-auto w-full">
-        <ImageInfo />
-        <div className="flex flex-col gap-2">
-          <GenerateButton />
-          <ResetButton />
-        </div>
-        <CustomScaleSection />
-        <SocialPresetsSection
+      <div className="flex flex-col overflow-y-auto w-full p-4 gap-6">
+        {selectedSocial ? (
+          <PresetCategory
+            selectedSocial={selectedSocial}
+            onBack={() => {
+              setSelectedSocial(null);
+            }}
+          />
+        ) : (
+          <>
+            <ImageInfo />
+            <CustomScale />
+            <CommonPresets />
+            <SocialPresets setSelectedSocial={setSelectedSocial} />
+            {/*
+          <SocialPresetsSection
           selectedPlatform={selectedPlatform}
           onSelectPlatform={handlePlatformClick}
           onBack={handleBackClick}
-        />
+          /> */}
+          </>
+        )}
       </div>
+
+      <ActionPanel />
     </div>
   );
 };
