@@ -6,6 +6,7 @@ interface DefaultButtonProps {
   className?: string;
   disabled?: boolean;
   action?: boolean;
+  secondary?: boolean;
 }
 
 const DefaultButton: React.FC<DefaultButtonProps> = ({
@@ -16,6 +17,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
   className = "",
   disabled = false,
   action = false,
+  secondary = false,
 }) => {
   return (
     <button
@@ -25,7 +27,9 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
       ${
         action
           ? "bg-blue-500 hover:bg-blue-600"
-          : "bg-gray-600 hover:bg-gray-500 "
+          : secondary
+          ? "bg-purple-500 hover:bg-purple-600"
+          : "bg-gray-600 hover:bg-gray-500"
       }
         flex items-center justify-center gap-3
         text-white p-2 rounded transition-all

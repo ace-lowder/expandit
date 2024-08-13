@@ -24,7 +24,7 @@ interface ImageContextProps {
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
-  setGeneratedImage: (url: string) => void;
+  setGeneratedImage: (url: string | null) => void;
   imageName: string;
   imageSize: number;
 }

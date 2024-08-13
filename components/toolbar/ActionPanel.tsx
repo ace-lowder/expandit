@@ -8,10 +8,14 @@ import { DefaultButton } from "@/components";
 const ActionPanel: React.FC = () => {
   const {
     image,
+    imageName,
+    imageSize,
+    setImage,
     width,
     height,
     fillWidth,
     fillHeight,
+    generatedImage,
     setGeneratedImage,
     isGenerating,
     setIsGenerating,
@@ -23,6 +27,10 @@ const ActionPanel: React.FC = () => {
   }, [width, height, fillWidth, fillHeight]);
 
   const handleGenerativeFill = async () => {
+    if (generatedImage) {
+      setGeneratedImage(null);
+    }
+
     setIsGenerating(true);
     try {
       const response = await fetch("/api/generativeFill", {
@@ -77,9 +85,10 @@ const ActionPanel: React.FC = () => {
           )
         }
         disabled={!canGenerate}
-        action
+        action={!generatedImage}
+        secondary={generatedImage !== null}
       >
-        {isGenerating ? "Generating" : "Expand"}
+        {isGenerating ? "Generating" : generatedImage ? "Regenerate" : "Expand"}
       </DefaultButton>
     </div>
   );
