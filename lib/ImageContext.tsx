@@ -53,10 +53,20 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const setClampedFillWidth = (width: number) => {
+    if (generatedImage) {
+      setImageState(generatedImage);
+      setGeneratedImage(null);
+    }
+
     setFillWidthState(Math.ceil(width));
   };
 
   const setClampedFillHeight = (height: number) => {
+    if (generatedImage) {
+      setImageState(generatedImage);
+      setGeneratedImage(null);
+    }
+
     setFillHeightState(Math.ceil(height));
   };
 
