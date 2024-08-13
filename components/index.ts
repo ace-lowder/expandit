@@ -10,6 +10,7 @@ export { default as CollapseButton } from "./imageviewer/CollapseButton";
 export { default as Display } from "./imageviewer/Display";
 export { default as DownloadButton } from "./imageviewer/DownloadButton";
 export { default as DownloadPanel } from "./imageviewer/DownloadPanel";
+export { default as History } from "./imageviewer/History";
 export { default as ImageViewer } from "./imageviewer/ImageViewer";
 
 export { default as Logo } from "./navbar/Logo";

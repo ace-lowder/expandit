@@ -7,6 +7,7 @@ import {
   ImageViewer,
   CollapseButton,
   DownloadButton,
+  History,
 } from "@/components";
 
 const ExpandPage = () => {
@@ -32,6 +33,7 @@ const ExpandPage = () => {
           />
         )}
         <DownloadButton />
+        <History />
         <ImageViewer />
       </div>
     </div>
