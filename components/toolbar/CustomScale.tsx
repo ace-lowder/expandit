@@ -73,6 +73,7 @@ const CustomScale: React.FC = () => {
           className={`w-full`}
           onClick={handleCustomScale}
           disabled={isApplied}
+          tip={isReset ? "Change the image size above to apply" : ""}
         >
           {isApplied ? "Applied" : "Apply"}
         </DefaultButton>

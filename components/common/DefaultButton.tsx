@@ -2,6 +2,7 @@ interface DefaultButtonProps {
   children?: React.ReactNode;
   onClick: () => void;
   icon?: JSX.Element;
+  tip?: string;
   className?: string;
   disabled?: boolean;
   action?: boolean;
@@ -11,6 +12,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
   children,
   onClick,
   icon,
+  tip,
   className = "",
   disabled = false,
   action = false,
@@ -18,6 +20,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = ({
   return (
     <button
       onClick={onClick}
+      title={tip}
       className={`${className}
       ${
         action
