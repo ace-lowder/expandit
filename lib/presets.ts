@@ -384,17 +384,17 @@ export const presets = [
       {
         category: "Emotes",
         presets: [
-          { label: "Emote", size: "28 x 28" },
-          { label: "Emote", size: "56 x 56" },
-          { label: "Emote", size: "112 x 112" },
+          { label: "Emote Small", size: "28 x 28" },
+          { label: "Emote Medium", size: "56 x 56" },
+          { label: "Emote Large", size: "112 x 112" },
         ],
       },
       {
         category: "Badges",
         presets: [
-          { label: "Badge", size: "18 x 18" },
-          { label: "Badge", size: "36 x 36" },
-          { label: "Badge", size: "72 x 72" },
+          { label: "Badge Small", size: "18 x 18" },
+          { label: "Badge Medium", size: "36 x 36" },
+          { label: "Badge Large", size: "72 x 72" },
         ],
       },
     ],

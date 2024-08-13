@@ -17,7 +17,6 @@ const Display: React.FC = () => {
   } = useImage();
   const viewerRef = useRef<HTMLDivElement>(null);
   const [scaleFactor, setScaleFactor] = useState(1);
-  const [startAnimation, setStartAnimation] = useState(false);
 
   const updateScaleFactor = () => {
     if (viewerRef.current) {
@@ -59,52 +58,53 @@ const Display: React.FC = () => {
     }
   }, [fillWidth, fillHeight, width, height, setFillWidth, setFillHeight]);
 
-  useEffect(() => {
-    if (generatedImage) {
-      setStartAnimation(true);
-    }
-  }, [generatedImage]);
-
   return (
     <div
       ref={viewerRef}
       className="w-full h-full flex justify-center items-center relative"
     >
-      <div
-        className="absolute checkerboard"
-        style={{
-          width: `${fillWidth * scaleFactor}px`,
-          height: `${fillHeight * scaleFactor}px`,
-        }}
-      />
+      {/* Shimmer Effect*/}
       {(isGenerating || generatedImage) && (
         <div
-          className={`absolute ${isGenerating ? "fade-in" : "fade-out"}`}
+          className={`absolute z-10 ${isGenerating ? "fade-in" : "fade-out"}`}
           style={{
             width: `${fillWidth * scaleFactor}px`,
             height: `${fillHeight * scaleFactor}px`,
           }}
         >
-          <div className="shimmer"></div>
+          <div className="shimmer" />
         </div>
       )}
+
+      {/* Fill View */}
+      <div
+        className="absolute checkerboard transition-all"
+        style={{
+          width: `${fillWidth * scaleFactor}px`,
+          height: `${fillHeight * scaleFactor}px`,
+        }}
+      />
+
+      {/* Generated Image */}
       {generatedImage && (
         <img
           src={generatedImage}
           alt="Generated Image"
-          className={`absolute pointer-events-none ${
-            startAnimation ? "wipe-in" : ""
-          }`}
+          className="absolute pointer-events-none wipe-in"
           style={{
             width: `${fillWidth * scaleFactor}px`,
             height: `${fillHeight * scaleFactor}px`,
           }}
         />
       )}
+
+      {/* Original Image */}
       <img
         src={typeof image === "string" ? image : ""}
         alt="Uploaded Image"
-        className={`z-10 ${startAnimation ? "fade-out-delay" : ""}`}
+        className={`z-30 transition-all ${
+          generatedImage ? "fade-out-delay" : ""
+        }`}
         style={{
           width: `${width * scaleFactor}px`,
           height: `${height * scaleFactor}px`,

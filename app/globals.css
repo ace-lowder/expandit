@@ -88,7 +88,7 @@ body {
   background: linear-gradient(
     90deg,
     rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.04) 50%,
+    rgba(0, 0, 0, 0.05) 50%,
     rgba(0, 0, 0, 0) 100%
   );
   background-size: 200px 100%;
@@ -99,7 +99,7 @@ body {
 }
 
 .wipe-in {
-  animation: wipeIn 2s forwards 1s;
+  animation: wipeIn 2s forwards;
 }
 
 .fade-in {
@@ -111,5 +111,5 @@ body {
 }
 
 .fade-out-delay {
-  animation: fadeOut 1s forwards 3s;
+  animation: fadeOut 1s forwards 2s;
 }
