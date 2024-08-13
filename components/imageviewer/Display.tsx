@@ -83,7 +83,9 @@ const Display: React.FC = () => {
           width: `${fillWidth * scaleFactor}px`,
           height: `${fillHeight * scaleFactor}px`,
         }}
-      />
+      >
+        <span className="absolute -bottom-6 right-0 text-gray-700 text-sm">{`[${fillWidth}x${fillHeight}]`}</span>
+      </div>
 
       {/* Generated Image */}
       {generatedImage && (

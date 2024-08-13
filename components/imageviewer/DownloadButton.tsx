@@ -8,7 +8,7 @@ const DownloadButton: React.FC = () => {
   const [showPanel, setShowPanel] = useState(false);
 
   return (
-    <div className="absolute z-20 top-4 right-4 flex flex-col items-end">
+    <div className="absolute z-50 top-4 right-4 flex flex-col items-end">
       <SquareButton
         icon={<FaDownload className="w-7 h-7" />}
         onClick={() => setShowPanel(!showPanel)}
