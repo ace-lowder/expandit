@@ -57,18 +57,15 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
 
   const setFillSize = (width: number, height: number) => {
     if (isNaN(width) || isNaN(height)) {
-      console.error("Invalid width or height");
       return;
     }
 
     if (generatedImage) {
-      console.log("Setting image to generated image");
       setImageState(generatedImage);
       setIsReplacing(true);
       setGeneratedImage(null);
     }
 
-    console.log("Setting fill to", width, height);
     setFillWidthState(Math.ceil(width));
     setFillHeightState(Math.ceil(height));
   };
@@ -81,7 +78,6 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         setWidth(img.width);
         setHeight(img.height);
         if (!isReplacing) {
-          console.log("Resetting fill");
           setFillWidthState(img.width);
           setFillHeightState(img.height);
         } else {

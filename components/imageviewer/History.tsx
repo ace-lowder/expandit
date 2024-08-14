@@ -77,8 +77,8 @@ const History = () => {
                 : "border-gray-500"
             }`}
           onClick={() => {
-            setFillSize(pastImage.fillWidth, pastImage.fillHeight);
             setImage(pastImage.image, pastImage.imageName, pastImage.imageSize);
+            setFillSize(pastImage.fillWidth, pastImage.fillHeight);
             setGeneratedImage(pastImage.generatedImage);
           }}
         >

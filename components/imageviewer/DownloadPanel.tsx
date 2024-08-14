@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { useImage, formatSize } from "@/lib";
 import { saveAs } from "file-saver";
+import {
+  DefaultButton,
+  DownloadInfo,
+  Header,
+  QualitySelection,
+} from "@/components";
 
 const DownloadPanel: React.FC = () => {
   const { image, width, height } = useImage();
@@ -18,42 +24,15 @@ const DownloadPanel: React.FC = () => {
 
   return (
     <div className="mt-2 bg-white text-black p-4 rounded-2xl shadow-lg flex flex-col w-96">
-      <h2 className="text-xl font-bold mb-2">Download</h2>
-      <p className="mb-2">
-        {width}x{height} ({imageSize})
-      </p>
-      <div className="flex mb-4">
-        <button
-          className={`px-4 py-2 ${
-            selectedQuality === "SD" ? "bg-gray-300" : "bg-gray-100"
-          } rounded-l-lg`}
-          onClick={() => setSelectedQuality("SD")}
-        >
-          SD
-        </button>
-        <button
-          className={`px-4 py-2 ${
-            selectedQuality === "HD" ? "bg-gray-300" : "bg-gray-100"
-          }`}
-          onClick={() => setSelectedQuality("HD")}
-        >
-          HD
-        </button>
-        <button
-          className={`px-4 py-2 ${
-            selectedQuality === "HD+" ? "bg-gray-300" : "bg-gray-100"
-          } rounded-r-lg`}
-          onClick={() => setSelectedQuality("HD+")}
-        >
-          HD+
-        </button>
-      </div>
-      <button
-        onClick={handleDownload}
-        className="bg-gray-300 text-gray-700 px-4 py-2 rounded mb-2"
-      >
+      <Header>Download</Header>
+      <QualitySelection
+        selectedQuality={selectedQuality}
+        setSelectedQuality={setSelectedQuality}
+      />
+      <DownloadInfo />
+      <DefaultButton onClick={handleDownload} disabled={!image}>
         Download {width}x{height}
-      </button>
+      </DefaultButton>
     </div>
   );
 };

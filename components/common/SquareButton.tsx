@@ -3,6 +3,7 @@ interface SquareButtonProps {
   onClick: () => void;
   color?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 const SquareButton: React.FC<SquareButtonProps> = ({
@@ -10,11 +11,15 @@ const SquareButton: React.FC<SquareButtonProps> = ({
   onClick,
   color = "bg-gray-400",
   className = "",
+  disabled = false,
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`${color} text-white p-4 rounded-xl hover:bg-gray-500 ${className}`}
+      className={`${color} disabled:hidden
+      text-white p-4 rounded-xl hover:bg-gray-500
+      ${className}`}
+      disabled={disabled}
     >
       {icon}
     </button>
