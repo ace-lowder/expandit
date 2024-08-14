@@ -19,8 +19,7 @@ interface ImageContextProps {
   height: number;
   fillWidth: number;
   fillHeight: number;
-  setFillWidth: (width: number) => void;
-  setFillHeight: (height: number) => void;
+  setFillSize: (width: number, height: number) => void;
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
@@ -41,32 +40,36 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [fillHeight, setFillHeightState] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [isReplacing, setIsReplacing] = useState(false);
 
   const setImage = (
-    image: string | ArrayBuffer | null,
+    img: string | ArrayBuffer | null,
     name: string,
     size: number
   ) => {
-    setImageState(image);
+    if (image) {
+      setIsReplacing(true);
+    }
+    setImageState(img);
     setImageName(name);
     setImageSize(size);
   };
 
-  const setClampedFillWidth = (width: number) => {
+  const setFillSize = (width: number, height: number) => {
+    if (isNaN(width) || isNaN(height)) {
+      console.error("Invalid width or height");
+      return;
+    }
+
     if (generatedImage) {
+      console.log("Setting image to generated image");
       setImageState(generatedImage);
+      setIsReplacing(true);
       setGeneratedImage(null);
     }
 
+    console.log("Setting fill to", width, height);
     setFillWidthState(Math.ceil(width));
-  };
-
-  const setClampedFillHeight = (height: number) => {
-    if (generatedImage) {
-      setImageState(generatedImage);
-      setGeneratedImage(null);
-    }
-
     setFillHeightState(Math.ceil(height));
   };
 
@@ -77,8 +80,13 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       img.onload = () => {
         setWidth(img.width);
         setHeight(img.height);
-        setClampedFillWidth(img.width);
-        setClampedFillHeight(img.height);
+        if (!isReplacing) {
+          console.log("Resetting fill");
+          setFillWidthState(img.width);
+          setFillHeightState(img.height);
+        } else {
+          setIsReplacing(false);
+        }
       };
     }
   }, [image]);
@@ -94,8 +102,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         height,
         fillWidth,
         fillHeight,
-        setFillWidth: setClampedFillWidth,
-        setFillHeight: setClampedFillHeight,
+        setFillSize,
         isGenerating,
         setIsGenerating,
         generatedImage,

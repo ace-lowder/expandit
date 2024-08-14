@@ -15,7 +15,7 @@ const PresetButton: React.FC<PresetButtonProps> = ({
   maxWidth,
   maxHeight,
 }) => {
-  const { setFillWidth, setFillHeight } = useImage();
+  const { setFillSize } = useImage();
   const [width, height] = size.split("x").map(Number);
 
   const maxButtonSize = 200;
@@ -26,8 +26,7 @@ const PresetButton: React.FC<PresetButtonProps> = ({
   };
 
   const handleClick = () => {
-    setFillWidth(width);
-    setFillHeight(height);
+    setFillSize(width, height);
   };
 
   return (

@@ -3,28 +3,23 @@ import { FaDesktop, FaMobileAlt, FaUserCircle } from "react-icons/fa";
 import { Header } from "@/components";
 
 const CommonPresets: React.FC = () => {
-  const { setFillWidth, setFillHeight } = useImage();
-
-  const handlePresetClick = (width: number, height: number) => {
-    setFillWidth(width);
-    setFillHeight(height);
-  };
+  const { setFillSize } = useImage();
 
   const presets = [
     {
       label: "16 : 9",
       icon: FaDesktop,
-      onClick: () => handlePresetClick(16, 9),
+      onClick: () => setFillSize(16, 9),
     },
     {
       label: "9 : 16",
       icon: FaMobileAlt,
-      onClick: () => handlePresetClick(9, 16),
+      onClick: () => setFillSize(9, 16),
     },
     {
       label: "1 : 1",
       icon: FaUserCircle,
-      onClick: () => handlePresetClick(1, 1),
+      onClick: () => setFillSize(1, 1),
     },
   ];
 

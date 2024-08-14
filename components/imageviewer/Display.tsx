@@ -10,8 +10,7 @@ const Display: React.FC = () => {
     height,
     fillWidth,
     fillHeight,
-    setFillWidth,
-    setFillHeight,
+    setFillSize,
     generatedImage,
     isGenerating,
   } = useImage();
@@ -46,17 +45,15 @@ const Display: React.FC = () => {
   }, [fillWidth, fillHeight]);
 
   useEffect(() => {
-    if (fillWidth < width) {
+    if (fillWidth < width && fillWidth > 0) {
       const scale = width / fillWidth;
-      setFillWidth(Math.ceil(width));
-      setFillHeight(Math.ceil(fillHeight * scale));
+      setFillSize(Math.ceil(width), Math.ceil(fillHeight * scale));
     }
-    if (fillHeight < height) {
+    if (fillHeight < height && fillHeight > 0) {
       const scale = height / fillHeight;
-      setFillHeight(Math.ceil(height));
-      setFillWidth(Math.ceil(fillWidth * scale));
+      setFillSize(Math.ceil(fillWidth * scale), Math.ceil(height));
     }
-  }, [fillWidth, fillHeight, width, height, setFillWidth, setFillHeight]);
+  }, [fillWidth, fillHeight, width, height]);
 
   return (
     <div

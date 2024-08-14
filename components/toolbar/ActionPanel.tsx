@@ -27,6 +27,10 @@ const ActionPanel: React.FC = () => {
   }, [width, height, fillWidth, fillHeight]);
 
   const handleGenerativeFill = async () => {
+    if (isGenerating) {
+      return;
+    }
+
     if (generatedImage) {
       setGeneratedImage(null);
     }

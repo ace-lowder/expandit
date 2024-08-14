@@ -6,8 +6,7 @@ import { useImage, formatAspectRatio } from "@/lib";
 import { DefaultButton } from "@/components";
 
 const CustomScale: React.FC = () => {
-  const { width, height, fillWidth, fillHeight, setFillWidth, setFillHeight } =
-    useImage();
+  const { width, height, fillWidth, fillHeight, setFillSize } = useImage();
   const [customWidth, setCustomWidth] = useState<number | string>(0);
   const [customHeight, setCustomHeight] = useState<number | string>(0);
   const [aspectRatio, setAspectRatio] = useState<string>("");
@@ -24,15 +23,13 @@ const CustomScale: React.FC = () => {
       const width = Number(customWidth);
       const height = Number(customHeight);
       if (!isNaN(width) && !isNaN(height)) {
-        setFillWidth(width);
-        setFillHeight(height);
+        setFillSize(width, height);
       }
     }
   };
 
   const handleReset = () => {
-    setFillWidth(width);
-    setFillHeight(height);
+    setFillSize(width, height);
   };
 
   const isReset = fillWidth === width && fillHeight === height;
