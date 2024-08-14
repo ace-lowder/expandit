@@ -23,7 +23,10 @@ const DownloadPanel: React.FC = () => {
   const imageSize = formatSize(image ? width : 0);
 
   return (
-    <div className="mt-2 bg-white text-black p-4 rounded-2xl shadow-lg flex flex-col w-96">
+    <div
+      className="bg-white text-gray-700 rounded-2xl shadow-lg
+      flex flex-col gap-2 p-4 w-96"
+    >
       <Header>Download</Header>
       <QualitySelection
         selectedQuality={selectedQuality}

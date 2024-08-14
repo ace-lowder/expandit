@@ -8,30 +8,37 @@ const QualitySelection: React.FC<QualitySelectionProps> = ({
   setSelectedQuality,
 }) => {
   return (
-    <div className="flex mb-4">
+    <div className="flex w-full rounded border border-gray-200 overflow-hidden">
       <button
-        className={`px-4 py-2 ${
-          selectedQuality === "SD" ? "bg-gray-300" : "bg-gray-100"
-        } rounded-l-lg`}
+        className={`flex-grow px-4 py-2 font-semibold ${
+          selectedQuality === "SD"
+            ? "bg-gray-300"
+            : "bg-gray-100 hover:bg-gray-200"
+        }`}
         onClick={() => setSelectedQuality("SD")}
       >
         SD
       </button>
       <button
-        className={`px-4 py-2 ${
-          selectedQuality === "HD" ? "bg-gray-300" : "bg-gray-100"
-        }`}
+        className={`flex-grow px-4 py-2 font-semibold
+          border-l border-l-gray-200 border-r border-r-gray-200 ${
+            selectedQuality === "HD"
+              ? "bg-gray-300"
+              : "bg-gray-100 hover:bg-gray-200"
+          }`}
         onClick={() => setSelectedQuality("HD")}
       >
         HD
       </button>
       <button
-        className={`px-4 py-2 ${
-          selectedQuality === "HD+" ? "bg-gray-300" : "bg-gray-100"
-        } rounded-r-lg`}
-        onClick={() => setSelectedQuality("HD+")}
+        className={`flex-grow px-4 py-2 font-semibold ${
+          selectedQuality === "UHD"
+            ? "bg-gray-300"
+            : "bg-gray-100 hover:bg-gray-200"
+        }`}
+        onClick={() => setSelectedQuality("UHD")}
       >
-        HD+
+        UHD
       </button>
     </div>
   );
