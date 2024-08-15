@@ -13,6 +13,7 @@ const Display: React.FC = () => {
     setFillSize,
     generatedImage,
     isGenerating,
+    overrideResize,
   } = useImage();
   const viewerRef = useRef<HTMLDivElement>(null);
   const [scaleFactor, setScaleFactor] = useState(1);
@@ -45,15 +46,17 @@ const Display: React.FC = () => {
   }, [fillWidth, fillHeight]);
 
   useEffect(() => {
-    if (fillWidth < width && fillWidth > 0) {
-      const scale = width / fillWidth;
-      setFillSize(Math.ceil(width), Math.ceil(fillHeight * scale));
+    if (!overrideResize) {
+      if (fillWidth < width && fillWidth > 0) {
+        const scale = width / fillWidth;
+        setFillSize(Math.ceil(width), Math.ceil(fillHeight * scale), true);
+      }
+      if (fillHeight < height && fillHeight > 0) {
+        const scale = height / fillHeight;
+        setFillSize(Math.ceil(fillWidth * scale), Math.ceil(height), true);
+      }
     }
-    if (fillHeight < height && fillHeight > 0) {
-      const scale = height / fillHeight;
-      setFillSize(Math.ceil(fillWidth * scale), Math.ceil(height));
-    }
-  }, [fillWidth, fillHeight, width, height]);
+  }, [fillWidth, fillHeight, width, height, overrideResize]);
 
   return (
     <div

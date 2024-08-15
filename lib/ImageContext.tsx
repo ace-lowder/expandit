@@ -19,13 +19,14 @@ interface ImageContextProps {
   height: number;
   fillWidth: number;
   fillHeight: number;
-  setFillSize: (width: number, height: number, fromHistory?: boolean) => void;
+  setFillSize: (width: number, height: number, override?: boolean) => void;
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
   setGeneratedImage: (url: string | null) => void;
   imageName: string;
   imageSize: number;
+  overrideResize: boolean;
 }
 
 const ImageContext = createContext<ImageContextProps | undefined>(undefined);
@@ -40,7 +41,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [fillHeight, setFillHeight] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [overrideResize, setOverrideResize] = useState(false);
 
   const setImage = (
     img: string | ArrayBuffer | null,
@@ -55,14 +56,9 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const setFillSize = (
     newWidth: number,
     newHeight: number,
-    fromHistory: boolean = false
+    override = false
   ) => {
-    if (generatedImage && !fromHistory) {
-      setImageState(generatedImage);
-      setGeneratedImage(null);
-      setIsInitialLoad(false);
-    }
-
+    setOverrideResize(override);
     setFillWidth(Math.ceil(newWidth));
     setFillHeight(Math.ceil(newHeight));
   };
@@ -76,10 +72,9 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         setHeight(img.height);
 
         // Only update fillWidth and fillHeight on initial image load
-        if (isInitialLoad) {
+        if (!generatedImage) {
           setFillWidth(img.width);
           setFillHeight(img.height);
-          setIsInitialLoad(false);
         }
       };
     }
@@ -101,6 +96,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         setIsGenerating,
         generatedImage,
         setGeneratedImage,
+        overrideResize,
       }}
     >
       {children}
