@@ -11,13 +11,13 @@ const DownloadButton: React.FC = () => {
   const { image } = useImage();
 
   return (
-    <div className="absolute z-50 top-4 right-4 flex flex-col items-end">
+    <div className="absolute z-50 top-4 right-4 flex flex-col items-end gap-4">
       <SquareButton
         icon={<FaDownload className="w-7 h-7" />}
         onClick={() => setShowPanel(!showPanel)}
         disabled={!image}
       />
-      {showPanel && <DownloadPanel />}
+      <DownloadPanel hidden={!showPanel} />
     </div>
   );
 };

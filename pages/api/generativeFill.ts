@@ -9,19 +9,15 @@ export default async function generativeFill(
     const { imageUrl, dimensions } = req.body;
 
     try {
-      // Upload the image to Cloudinary
       const uploadResponse = await cloudinary.uploader.upload(imageUrl);
-
-      // Get the public ID and version of the uploaded image
       const publicId = uploadResponse.public_id;
 
-      // Apply the generative fill transformation with versioning
       const transformationUrl = cloudinary.url(publicId, {
         transformation: [
           {
             width: dimensions.width,
             height: dimensions.height,
-            crop: "pad",
+            crop: "mpad",
             background: `gen_fill:seed_${Date.now()}`,
           },
         ],
