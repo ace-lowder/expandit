@@ -19,7 +19,7 @@ interface ImageContextProps {
   height: number;
   fillWidth: number;
   fillHeight: number;
-  setFillSize: (width: number, height: number) => void;
+  setFillSize: (width: number, height: number, fromHistory?: boolean) => void;
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
@@ -36,38 +36,35 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [imageSize, setImageSize] = useState(0);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [fillWidth, setFillWidthState] = useState(0);
-  const [fillHeight, setFillHeightState] = useState(0);
+  const [fillWidth, setFillWidth] = useState(0);
+  const [fillHeight, setFillHeight] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [isReplacing, setIsReplacing] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const setImage = (
     img: string | ArrayBuffer | null,
     name: string,
     size: number
   ) => {
-    if (image) {
-      setIsReplacing(true);
-    }
     setImageState(img);
     setImageName(name);
     setImageSize(size);
   };
 
-  const setFillSize = (width: number, height: number) => {
-    if (isNaN(width) || isNaN(height)) {
-      return;
-    }
-
-    if (generatedImage) {
+  const setFillSize = (
+    newWidth: number,
+    newHeight: number,
+    fromHistory: boolean = false
+  ) => {
+    if (generatedImage && !fromHistory) {
       setImageState(generatedImage);
-      setIsReplacing(true);
       setGeneratedImage(null);
+      setIsInitialLoad(false);
     }
 
-    setFillWidthState(Math.ceil(width));
-    setFillHeightState(Math.ceil(height));
+    setFillWidth(Math.ceil(newWidth));
+    setFillHeight(Math.ceil(newHeight));
   };
 
   useEffect(() => {
@@ -77,11 +74,12 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       img.onload = () => {
         setWidth(img.width);
         setHeight(img.height);
-        if (!isReplacing) {
-          setFillWidthState(img.width);
-          setFillHeightState(img.height);
-        } else {
-          setIsReplacing(false);
+
+        // Only update fillWidth and fillHeight on initial image load
+        if (isInitialLoad) {
+          setFillWidth(img.width);
+          setFillHeight(img.height);
+          setIsInitialLoad(false);
         }
       };
     }

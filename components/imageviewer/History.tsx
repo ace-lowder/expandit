@@ -78,7 +78,7 @@ const History = () => {
             }`}
           onClick={() => {
             setImage(pastImage.image, pastImage.imageName, pastImage.imageSize);
-            setFillSize(pastImage.fillWidth, pastImage.fillHeight);
+            setFillSize(pastImage.fillWidth, pastImage.fillHeight, true);
             setGeneratedImage(pastImage.generatedImage);
           }}
         >
