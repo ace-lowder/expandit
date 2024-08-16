@@ -19,7 +19,7 @@ const History = () => {
     height,
     fillWidth,
     fillHeight,
-    setFillSize,
+    overrideFillSize,
     generatedImage,
     setGeneratedImage,
   } = useImage();
@@ -60,26 +60,23 @@ const History = () => {
       return;
     }
 
-    if (pastImages.some((pastImage) => isMatch(pastImage))) {
-      setImage(null, "", 0);
-      setGeneratedImage(null);
-      return;
+    if (!pastImages.some((pastImage) => isMatch(pastImage))) {
+      const imageInfo = {
+        image: image,
+        imageName: imageName,
+        imageSize: imageSize,
+        width: width,
+        height: height,
+        fillWidth: fillWidth,
+        fillHeight: fillHeight,
+        generatedImage: generatedImage,
+      };
+
+      setPastImages([imageInfo, ...pastImages]);
     }
 
-    const imageInfo = {
-      image: image,
-      imageName: imageName,
-      imageSize: imageSize,
-      width: width,
-      height: height,
-      fillWidth: fillWidth,
-      fillHeight: fillHeight,
-      generatedImage: generatedImage,
-    };
-
-    setPastImages([imageInfo, ...pastImages]);
-
     setImage(null, "", 0);
+    overrideFillSize(0, 0);
     setGeneratedImage(null);
   };
 
@@ -133,11 +130,8 @@ const History = () => {
                 pastImage.imageName,
                 pastImage.imageSize
               );
+              overrideFillSize(pastImage.fillWidth, pastImage.fillHeight);
               setGeneratedImage(pastImage.generatedImage);
-              setTimeout(
-                () => setFillSize(pastImage.fillWidth, pastImage.fillHeight),
-                50
-              );
             }}
           >
             <img

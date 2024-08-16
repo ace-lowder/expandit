@@ -10,7 +10,6 @@ const Display: React.FC = () => {
     height,
     fillWidth,
     fillHeight,
-    setFillSize,
     generatedImage,
     isGenerating,
   } = useImage();
@@ -42,7 +41,7 @@ const Display: React.FC = () => {
         observer.unobserve(viewerRef.current);
       }
     };
-  }, [fillWidth, fillHeight]);
+  }, [width, height, fillWidth, fillHeight]);
 
   return (
     <div

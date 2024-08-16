@@ -20,6 +20,7 @@ interface ImageContextProps {
   fillWidth: number;
   fillHeight: number;
   setFillSize: (newWidth: number, newHeight: number, replace?: boolean) => void;
+  overrideFillSize: (newWidth: number, newHeight: number) => void;
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
@@ -46,16 +47,36 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     name: string,
     size: number
   ) => {
-    setImageState(img);
-    setImageName(name);
-    setImageSize(size);
+    if (img === null) {
+      setImageState(img);
+      setImageName(name);
+      setImageSize(size);
+      return;
+    }
+
+    const imgElement = new Image();
+    imgElement.src = img as string;
+
+    imgElement.onload = () => {
+      const newWidth = imgElement.width;
+      const newHeight = imgElement.height;
+
+      setWidth(newWidth);
+      setHeight(newHeight);
+
+      setImageState(img);
+      setImageName(name);
+      setImageSize(size);
+    };
   };
 
   const setFillSize = (
-    newWidth: number,
-    newHeight: number,
+    newWidth: number | undefined,
+    newHeight: number | undefined,
     replace = false
   ) => {
+    if (newWidth === undefined || newHeight === undefined) return;
+
     console.error("Trying:", newWidth, newHeight);
 
     if (generatedImage && replace) {
@@ -82,17 +103,14 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         targetHeight = height;
         targetWidth = Math.floor(height * fillAspectRatio);
 
-        // Ensure the width does not reduce below the original width
         if (targetWidth < width) {
           targetWidth = width;
           targetHeight = Math.floor(width / fillAspectRatio);
         }
       } else {
-        // Adjust based on width to maintain aspect ratio without reducing height
         targetWidth = width;
         targetHeight = Math.floor(width / fillAspectRatio);
 
-        // Ensure the height does not reduce below the original height
         if (targetHeight < height) {
           targetHeight = height;
           targetWidth = Math.floor(height * fillAspectRatio);
@@ -100,13 +118,17 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    // Set the calculated size only if it doesn't scale down unnecessarily
     if (targetWidth >= newWidth && targetHeight >= newHeight) {
       setFillWidth(targetWidth);
       setFillHeight(targetHeight);
       console.error("Setting Target:", targetWidth, targetHeight);
       console.error("Reason:", width, height);
     }
+  };
+
+  const overrideFillSize = (newWidth: number, newHeight: number) => {
+    setFillWidth(newWidth);
+    setFillHeight(newHeight);
   };
 
   useEffect(() => {
@@ -138,6 +160,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         fillWidth,
         fillHeight,
         setFillSize,
+        overrideFillSize,
         isGenerating,
         setIsGenerating,
         generatedImage,

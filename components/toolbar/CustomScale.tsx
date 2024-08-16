@@ -6,7 +6,8 @@ import { useImage, formatAspectRatio } from "@/lib";
 import { DefaultButton } from "@/components";
 
 const CustomScale: React.FC = () => {
-  const { width, height, fillWidth, fillHeight, setFillSize } = useImage();
+  const { width, height, fillWidth, fillHeight, setFillSize, generatedImage } =
+    useImage();
   const [customWidth, setCustomWidth] = useState<number | string>(0);
   const [customHeight, setCustomHeight] = useState<number | string>(0);
   const [aspectRatio, setAspectRatio] = useState<string>("");
@@ -78,7 +79,7 @@ const CustomScale: React.FC = () => {
           className="px-3"
           onClick={handleReset}
           icon={<FaRedo />}
-          disabled={isReset}
+          disabled={isReset || generatedImage !== null}
         />
       </div>
     </div>
