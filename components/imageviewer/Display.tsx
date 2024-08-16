@@ -47,14 +47,33 @@ const Display: React.FC = () => {
 
   useEffect(() => {
     if (!overrideResize) {
-      if (fillWidth < width && fillWidth > 0) {
-        const scale = width / fillWidth;
-        setFillSize(Math.ceil(width), Math.ceil(fillHeight * scale), true);
+      if (fillWidth <= 0 || fillHeight <= 0) return;
+
+      const fillAspectRatio = fillWidth / fillHeight;
+
+      let targetWidth, targetHeight;
+
+      if (fillAspectRatio === 1) {
+        // Special case for 1x1 aspect ratio: Choose the smaller dimension
+        if (width < height) {
+          targetWidth = height;
+          targetHeight = height; // Make it square
+        } else {
+          targetHeight = width;
+          targetWidth = width; // Make it square
+        }
+      } else if (fillWidth < fillHeight) {
+        // Width should be the limiting factor
+        targetWidth = width;
+        targetHeight = Math.ceil(width / fillAspectRatio);
+      } else {
+        // Height should be the limiting factor
+        targetHeight = height;
+        targetWidth = Math.ceil(height * fillAspectRatio);
       }
-      if (fillHeight < height && fillHeight > 0) {
-        const scale = height / fillHeight;
-        setFillSize(Math.ceil(fillWidth * scale), Math.ceil(height), true);
-      }
+
+      // Set the fill size based on the calculated dimensions
+      setFillSize(targetWidth, targetHeight, true);
     }
   }, [fillWidth, fillHeight, width, height, overrideResize]);
 

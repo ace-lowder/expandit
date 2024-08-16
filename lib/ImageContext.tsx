@@ -58,6 +58,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     newHeight: number,
     override = false
   ) => {
+    console.error("setFillSize", newWidth, newHeight);
+
     setOverrideResize(override);
     setFillWidth(Math.ceil(newWidth));
     setFillHeight(Math.ceil(newHeight));

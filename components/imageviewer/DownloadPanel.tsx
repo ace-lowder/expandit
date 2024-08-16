@@ -69,13 +69,11 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
     maxWidth: number,
     maxHeight: number
   ) => {
-    if (w < maxWidth && h < maxHeight) {
+    if (w <= maxWidth && h <= maxHeight) {
       return { width: w, height: h };
     }
 
-    const scaleWidth = maxWidth / w;
-    const scaleHeight = maxHeight / h;
-    const scaleFactor = Math.min(scaleWidth, scaleHeight);
+    const scaleFactor = Math.min(maxWidth / w, maxHeight / h);
 
     return {
       width: Math.ceil(w * scaleFactor),
@@ -83,51 +81,67 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
     };
   };
 
-  const createDownloadImage = (quality: string): DownloadImage | null => {
+  const createDownloadImage = (
+    quality: "SD" | "HD" | "UHD"
+  ): DownloadImage | null => {
     if (!image) return null;
 
     const baseImage = generatedImage || image;
     const baseWidth = generatedImage ? fillWidth : width;
     const baseHeight = generatedImage ? fillHeight : height;
 
-    if (quality === "SD") {
-      const { width, height } = calculateDownloadScale(
-        baseWidth,
-        baseHeight,
-        1280,
-        1280
-      );
-      return { image: baseImage, imageName: `${imageName}_SD`, width, height };
-    } else if (quality === "HD") {
-      if (baseWidth < 1280 && baseHeight < 1280) return null;
-      const { width, height } = calculateDownloadScale(
-        baseWidth,
-        baseHeight,
-        1920,
-        1920
-      );
-      return { image: baseImage, imageName: `${imageName}_HD`, width, height };
-    } else if (quality === "UHD") {
-      if (baseWidth < 1920 && baseHeight < 1920) return null;
-      return {
-        image: baseImage,
-        imageName: `${imageName}_UHD`,
-        width: baseWidth,
-        height: baseHeight,
-      };
+    switch (quality) {
+      case "SD": {
+        const { width, height } = calculateDownloadScale(
+          baseWidth,
+          baseHeight,
+          1280,
+          1280
+        );
+        return {
+          image: baseImage,
+          imageName: `${imageName}_SD`,
+          width,
+          height,
+        };
+      }
+      case "HD": {
+        if (baseWidth < 1280 && baseHeight < 1280) return null;
+        const { width, height } = calculateDownloadScale(
+          baseWidth,
+          baseHeight,
+          1920,
+          1920
+        );
+        return {
+          image: baseImage,
+          imageName: `${imageName}_HD`,
+          width,
+          height,
+        };
+      }
+      case "UHD": {
+        if (baseWidth < 1920 && baseHeight < 1920) return null;
+        return {
+          image: baseImage,
+          imageName: `${imageName}_UHD`,
+          width: baseWidth,
+          height: baseHeight,
+        };
+      }
+      default:
+        return null;
     }
-
-    return null;
   };
 
   useEffect(() => {
-    if (!image) return;
-
-    setDownloadImages({
-      SD: createDownloadImage("SD"),
-      HD: createDownloadImage("HD"),
-      UHD: createDownloadImage("UHD"),
-    });
+    if (image) {
+      setDownloadImages({
+        SD: createDownloadImage("SD"),
+        HD: createDownloadImage("HD"),
+        UHD: createDownloadImage("UHD"),
+      });
+    }
   }, [image, generatedImage, imageName]);
 
   return (
