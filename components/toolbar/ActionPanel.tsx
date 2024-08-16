@@ -8,9 +8,6 @@ import { DefaultButton } from "@/components";
 const ActionPanel: React.FC = () => {
   const {
     image,
-    imageName,
-    imageSize,
-    setImage,
     width,
     height,
     fillWidth,
@@ -40,7 +37,7 @@ const ActionPanel: React.FC = () => {
     setIsGenerating(true);
 
     try {
-      const response = await fetch("/api/generativeFill", {
+      const response = await fetch("/api/cloudinary", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,9 @@
+import { UserButton, useUser } from "@clerk/nextjs";
 import { MenuButton, RoundedMenuButton } from "@/components";
 
 const DesktopMenu: React.FC = () => {
+  const { isSignedIn } = useUser();
+
   return (
     <div className="hidden md:flex flex-grow items-center justify-between">
       <div className="flex flex-grow items-center gap-4">
@@ -10,21 +13,28 @@ const DesktopMenu: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <RoundedMenuButton label="Log In" href="/login" />
-        <RoundedMenuButton label="Sign Up" href="/signup" outline />
+        {isSignedIn ? (
+          <UserButton
+            appearance={{
+              elements: {
+                userButtonAvatarBox: {
+                  width: "36px",
+                  height: "36px",
+                },
+                userButtonAvatarImage: {
+                  width: "36px",
+                  height: "36px",
+                },
+              },
+            }}
+          />
+        ) : (
+          <>
+            <RoundedMenuButton label="Log In" href="/login" />
+            <RoundedMenuButton label="Sign Up" href="/signup" outline />
+          </>
+        )}
       </div>
-
-      {/* <div className="flex flex-grow items-center gap-4">
-        {menuItems
-          .filter(({ position }) => position === "left")
-          .map(renderMenuItem)}
-      </div>
-
-      <div className="flex items-center gap-4">
-        {menuItems
-          .filter(({ position }) => position === "right")
-          .map(renderMenuItem)}
-      </div> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { ImageProvider, ErrorProvider } from "@/lib";
 import { Navbar } from "@/components";
 
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ImageProvider>
-          <ErrorProvider>
-            <Navbar />
-            {children}
-          </ErrorProvider>
-        </ImageProvider>
+        <ClerkProvider>
+          <ImageProvider>
+            <ErrorProvider>
+              <Navbar />
+              {children}
+            </ErrorProvider>
+          </ImageProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

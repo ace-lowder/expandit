@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { FaBars, FaTimes } from "react-icons/fa";
-import MenuButton from "../common/MenuButton";
-import RoundedMenuButton from "../common/RoundedMenuButton";
-import IconButton from "../common/IconButton";
+import { MenuButton, RoundedMenuButton, IconButton } from "@/components";
 
 const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isSignedIn, user } = useUser();
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -29,7 +29,7 @@ const MobileMenu: React.FC = () => {
         <IconButton
           className="absolute top-5 right-4"
           icon={<FaTimes className="w-6 h-6" />}
-          onClick={() => setIsOpen(false)}
+          onClick={closeMenu}
         />
 
         <div className="flex flex-col h-full items-start justify-between px-4 py-4">
@@ -39,17 +39,41 @@ const MobileMenu: React.FC = () => {
             <MenuButton label="Pricing" href="/pricing" onClick={closeMenu} />
           </div>
           <div className="flex flex-col gap-4 text-center w-full">
-            <RoundedMenuButton
-              label="Log In"
-              href="/login"
-              onClick={closeMenu}
-            />
-            <RoundedMenuButton
-              label="Sign Up"
-              href="/signup"
-              outline
-              onClick={closeMenu}
-            />
+            {isSignedIn ? (
+              <div className="flex items-center gap-4">
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: {
+                        width: "36px",
+                        height: "36px",
+                      },
+                      userButtonAvatarImage: {
+                        width: "36px",
+                        height: "36px",
+                      },
+                    },
+                  }}
+                />
+                <span className="text-gray-700 text-lg font-medium">
+                  {user?.fullName || user?.username}
+                </span>
+              </div>
+            ) : (
+              <>
+                <RoundedMenuButton
+                  label="Log In"
+                  href="/login"
+                  onClick={closeMenu}
+                />
+                <RoundedMenuButton
+                  label="Sign Up"
+                  href="/signup"
+                  outline
+                  onClick={closeMenu}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
