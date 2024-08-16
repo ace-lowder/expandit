@@ -1,3 +1,4 @@
+export { default as ErrorMessage } from "./common/ErrorMessage";
 export { default as IconButton } from "./common/IconButton";
 export { default as ImageUploader } from "./common/ImageUploader";
 export { default as SquareButton } from "./common/SquareButton";

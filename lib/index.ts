@@ -1,6 +1,9 @@
 export { ImageProvider } from "../lib/ImageContext";
 export { useImage } from "../lib/ImageContext";
 
+export { DownloadProvider } from "./downloadContext";
+export { useDownload } from "./downloadContext";
+
 export { presets } from "./presets";
 
 export { formatSize } from "./utils";

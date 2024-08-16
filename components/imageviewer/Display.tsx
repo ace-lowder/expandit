@@ -56,22 +56,22 @@ const Display: React.FC = () => {
     if (fillAspectRatio > originalAspectRatio) {
       // Adjust based on height to maintain aspect ratio without reducing width
       targetHeight = height;
-      targetWidth = Math.ceil(height * fillAspectRatio);
+      targetWidth = Math.floor(height * fillAspectRatio);
 
       // Ensure the width does not reduce below the original width
       if (targetWidth < width) {
         targetWidth = width;
-        targetHeight = Math.ceil(width / fillAspectRatio);
+        targetHeight = Math.floor(width / fillAspectRatio);
       }
     } else {
       // Adjust based on width to maintain aspect ratio without reducing height
       targetWidth = width;
-      targetHeight = Math.ceil(width / fillAspectRatio);
+      targetHeight = Math.floor(width / fillAspectRatio);
 
       // Ensure the height does not reduce below the original height
       if (targetHeight < height) {
         targetHeight = height;
-        targetWidth = Math.ceil(height * fillAspectRatio);
+        targetWidth = Math.floor(height * fillAspectRatio);
       }
     }
 
