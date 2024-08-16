@@ -19,7 +19,7 @@ interface ImageContextProps {
   height: number;
   fillWidth: number;
   fillHeight: number;
-  setFillSize: (width: number, height: number, override?: boolean) => void;
+  setFillSize: (newWidth: number, newHeight: number, replace?: boolean) => void;
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
   generatedImage: string | null;
@@ -56,15 +56,57 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     newHeight: number,
     replace = false
   ) => {
-    console.error("setFillSize:", newWidth, newHeight);
+    console.error("Trying:", newWidth, newHeight);
 
     if (generatedImage && replace) {
       setImageState(generatedImage);
       setGeneratedImage(null);
     }
 
-    setFillWidth(Math.ceil(newWidth));
-    setFillHeight(Math.ceil(newHeight));
+    if (newWidth > width && newHeight > height) {
+      setFillWidth(newWidth);
+      setFillHeight(newHeight);
+      console.error("Setting New:", newWidth, newHeight);
+      return;
+    }
+
+    const originalAspectRatio = width / height;
+    const fillAspectRatio = newWidth / newHeight;
+
+    let targetWidth = newWidth;
+    let targetHeight = newHeight;
+
+    if (newWidth <= width || newHeight <= height) {
+      if (fillAspectRatio > originalAspectRatio) {
+        // Adjust based on height to maintain aspect ratio without reducing width
+        targetHeight = height;
+        targetWidth = Math.floor(height * fillAspectRatio);
+
+        // Ensure the width does not reduce below the original width
+        if (targetWidth < width) {
+          targetWidth = width;
+          targetHeight = Math.floor(width / fillAspectRatio);
+        }
+      } else {
+        // Adjust based on width to maintain aspect ratio without reducing height
+        targetWidth = width;
+        targetHeight = Math.floor(width / fillAspectRatio);
+
+        // Ensure the height does not reduce below the original height
+        if (targetHeight < height) {
+          targetHeight = height;
+          targetWidth = Math.floor(height * fillAspectRatio);
+        }
+      }
+    }
+
+    // Set the calculated size only if it doesn't scale down unnecessarily
+    if (targetWidth >= newWidth && targetHeight >= newHeight) {
+      setFillWidth(targetWidth);
+      setFillHeight(targetHeight);
+      console.error("Setting Target:", targetWidth, targetHeight);
+      console.error("Reason:", width, height);
+    }
   };
 
   useEffect(() => {

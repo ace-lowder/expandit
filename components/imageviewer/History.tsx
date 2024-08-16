@@ -133,8 +133,11 @@ const History = () => {
                 pastImage.imageName,
                 pastImage.imageSize
               );
-              setFillSize(pastImage.fillWidth, pastImage.fillHeight);
               setGeneratedImage(pastImage.generatedImage);
+              setTimeout(
+                () => setFillSize(pastImage.fillWidth, pastImage.fillHeight),
+                50
+              );
             }}
           >
             <img
