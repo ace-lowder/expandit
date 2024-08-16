@@ -18,7 +18,7 @@ const DownloadButton: React.FC = () => {
         disabled={!image}
         className="pointer-events-auto"
       />
-      <DownloadPanel hidden={!showPanel} />
+      <DownloadPanel hidden={!showPanel || !image} />
     </div>
   );
 };

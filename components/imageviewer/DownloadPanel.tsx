@@ -52,14 +52,54 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
     generatedImage,
   } = useImage();
 
+  const getFileNameWithQuality = (
+    originalName: string,
+    quality: "SD" | "HD" | "UHD"
+  ): string => {
+    const defaultExtension = ".png"; // Default extension if none exists
+
+    // Extract file extension if it exists
+    const lastDotIndex = originalName.lastIndexOf(".");
+    const name =
+      lastDotIndex !== -1 ? originalName.slice(0, lastDotIndex) : originalName;
+    const extension =
+      lastDotIndex !== -1 ? originalName.slice(lastDotIndex) : defaultExtension;
+
+    return `${name}_${quality}${extension}`;
+  };
+
   const handleDownload = () => {
     const downloadImage = downloadImages[selectedQuality];
 
     if (downloadImage?.image) {
-      saveAs(
-        downloadImage.image as string,
-        `${downloadImage.imageName}_${downloadImage.width}x${downloadImage.height}.png`
+      const fileName = getFileNameWithQuality(
+        imageName || "image",
+        selectedQuality
       );
+
+      const img = new Image();
+      img.src = downloadImage.image as string;
+      img.crossOrigin = "Anonymous"; // Handle CORS if necessary
+
+      img.onload = () => {
+        // Create a canvas to resize the image
+        const canvas = document.createElement("canvas");
+        canvas.width = downloadImage.width;
+        canvas.height = downloadImage.height;
+        const ctx = canvas.getContext("2d");
+
+        if (ctx) {
+          // Draw the resized image onto the canvas
+          ctx.drawImage(img, 0, 0, downloadImage.width, downloadImage.height);
+
+          // Convert the canvas to a blob and trigger the download
+          canvas.toBlob((blob) => {
+            if (blob) {
+              saveAs(blob, fileName);
+            }
+          }, "image/png");
+        }
+      };
     }
   };
 
@@ -95,18 +135,18 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
         const { width, height } = calculateDownloadScale(
           baseWidth,
           baseHeight,
-          1280,
-          1280
+          1024,
+          1024
         );
         return {
           image: baseImage,
-          imageName: `${imageName}_SD`,
+          imageName: getFileNameWithQuality(imageName || "image", "SD"),
           width,
           height,
         };
       }
       case "HD": {
-        if (baseWidth < 1280 && baseHeight < 1280) return null;
+        if (baseWidth <= 1024 && baseHeight <= 1024) return null;
         const { width, height } = calculateDownloadScale(
           baseWidth,
           baseHeight,
@@ -115,16 +155,16 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
         );
         return {
           image: baseImage,
-          imageName: `${imageName}_HD`,
+          imageName: getFileNameWithQuality(imageName || "image", "HD"),
           width,
           height,
         };
       }
       case "UHD": {
-        if (baseWidth < 1920 && baseHeight < 1920) return null;
+        if (baseWidth <= 1920 && baseHeight <= 1920) return null;
         return {
           image: baseImage,
-          imageName: `${imageName}_UHD`,
+          imageName: getFileNameWithQuality(imageName || "image", "UHD"),
           width: baseWidth,
           height: baseHeight,
         };
@@ -142,7 +182,7 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
         UHD: createDownloadImage("UHD"),
       });
     }
-  }, [image, generatedImage, imageName]);
+  }, [image, generatedImage, imageName, width, height, fillWidth, fillHeight]);
 
   return (
     <div
