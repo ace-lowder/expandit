@@ -36,6 +36,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
         if (item.type.startsWith("image")) {
+          // Handle pasted image data
           const file = item.getAsFile();
           if (file) {
             const reader = new FileReader();
@@ -45,7 +46,10 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
             };
             reader.readAsDataURL(file);
           }
+          // Break the loop after handling the image, to avoid processing as a URL
+          break;
         } else if (item.type === "text/plain") {
+          // Handle pasted URL
           item.getAsString((url) => {
             if (isValidImageUrl(url)) {
               setImage(url, "", 0);

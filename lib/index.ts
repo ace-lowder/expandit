@@ -4,6 +4,9 @@ export { useImage } from "../lib/ImageContext";
 export { DownloadProvider } from "./downloadContext";
 export { useDownload } from "./downloadContext";
 
+export { ErrorProvider } from "./ErrorContext";
+export { useError } from "./ErrorContext";
+
 export { presets } from "./presets";
 
 export { formatSize } from "./utils";

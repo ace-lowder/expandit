@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useImage } from "@/lib";
+import { useImage, useError } from "@/lib";
 import { FaWandMagicSparkles, FaSpinner } from "react-icons/fa6";
 import { DefaultButton } from "@/components";
 
@@ -20,6 +20,8 @@ const ActionPanel: React.FC = () => {
     isGenerating,
     setIsGenerating,
   } = useImage();
+
+  const { showError } = useError(); // Use the useError hook to access the showError function
   const [canGenerate, setCanGenerate] = useState(false);
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const ActionPanel: React.FC = () => {
     }
 
     setIsGenerating(true);
+
     try {
       const response = await fetch("/api/generativeFill", {
         method: "POST",
@@ -53,7 +56,6 @@ const ActionPanel: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.url);
 
         const img = new Image();
         img.src = data.url;
@@ -62,22 +64,40 @@ const ActionPanel: React.FC = () => {
           setIsGenerating(false);
         };
         img.onerror = () => {
-          console.error("Image failed to load.");
+          showError("Failed to load the generated image. Please try again.");
           setIsGenerating(false);
         };
+      } else if (response.status === 413) {
+        // Trigger an error message if the image is too large
+        showError(
+          "The image is too large to process. Please select an image under 1MB."
+        );
+        setIsGenerating(false);
+      } else if (response.status === 400) {
+        // Handle 400 Bad Request error
+        showError("Invalid request. Please check the image and try again.");
+        setIsGenerating(false);
+      } else if (response.status === 500) {
+        // Handle 500 Internal Server Error
+        showError("Server error occurred. Please try again later.");
+        setIsGenerating(false);
       } else {
         const errorData = await response.json();
         console.error("Generative fill error:", errorData);
+        showError("An unexpected error occurred. Please try again.");
         setIsGenerating(false);
       }
     } catch (error) {
       console.error("Fetch error:", error);
+      showError(
+        "Network error occurred. Please check your connection and try again."
+      );
       setIsGenerating(false);
     }
   };
 
   return (
-    <div className="bg-white p-4 shadow-lg  text-black w-full border-t">
+    <div className="bg-white p-4 shadow-lg text-black w-full border-t">
       <DefaultButton
         className="w-full"
         onClick={handleGenerativeFill}
