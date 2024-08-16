@@ -56,6 +56,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     newHeight: number,
     replace = false
   ) => {
+    console.error("setFillSize:", newWidth, newHeight);
+
     if (generatedImage && replace) {
       setImageState(generatedImage);
       setGeneratedImage(null);

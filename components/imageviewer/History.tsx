@@ -39,7 +39,9 @@ const History = () => {
         localStorage.setItem("pastImages", JSON.stringify(pastImages));
       } catch (e) {
         if (e instanceof DOMException && e.name === "QuotaExceededError") {
-          showError("Storage space limit reached");
+          showError(
+            "Storage space limit reached (5mb). Delete some images to save more on refresh."
+          );
         } else {
           throw e;
         }

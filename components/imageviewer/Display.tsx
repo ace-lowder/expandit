@@ -53,29 +53,35 @@ const Display: React.FC = () => {
     let targetWidth = fillWidth;
     let targetHeight = fillHeight;
 
-    if (fillAspectRatio > originalAspectRatio) {
-      // Adjust based on height to maintain aspect ratio without reducing width
-      targetHeight = height;
-      targetWidth = Math.floor(height * fillAspectRatio);
-
-      // Ensure the width does not reduce below the original width
-      if (targetWidth < width) {
-        targetWidth = width;
-        targetHeight = Math.floor(width / fillAspectRatio);
-      }
-    } else {
-      // Adjust based on width to maintain aspect ratio without reducing height
-      targetWidth = width;
-      targetHeight = Math.floor(width / fillAspectRatio);
-
-      // Ensure the height does not reduce below the original height
-      if (targetHeight < height) {
+    // Only scale down if both fillWidth and fillHeight are less than or equal to the original dimensions
+    if (fillWidth <= width || fillHeight <= height) {
+      if (fillAspectRatio > originalAspectRatio) {
+        // Adjust based on height to maintain aspect ratio without reducing width
         targetHeight = height;
         targetWidth = Math.floor(height * fillAspectRatio);
+
+        // Ensure the width does not reduce below the original width
+        if (targetWidth < width) {
+          targetWidth = width;
+          targetHeight = Math.floor(width / fillAspectRatio);
+        }
+      } else {
+        // Adjust based on width to maintain aspect ratio without reducing height
+        targetWidth = width;
+        targetHeight = Math.floor(width / fillAspectRatio);
+
+        // Ensure the height does not reduce below the original height
+        if (targetHeight < height) {
+          targetHeight = height;
+          targetWidth = Math.floor(height * fillAspectRatio);
+        }
       }
     }
 
-    setFillSize(targetWidth, targetHeight);
+    // Set the calculated size only if it doesn't scale down unnecessarily
+    if (targetWidth >= fillWidth && targetHeight >= fillHeight) {
+      setFillSize(targetWidth, targetHeight);
+    }
   }, [fillWidth, fillHeight, width, height]);
 
   return (
