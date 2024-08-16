@@ -13,7 +13,6 @@ const Display: React.FC = () => {
     setFillSize,
     generatedImage,
     isGenerating,
-    overrideResize,
   } = useImage();
   const viewerRef = useRef<HTMLDivElement>(null);
   const [scaleFactor, setScaleFactor] = useState(1);
@@ -46,36 +45,38 @@ const Display: React.FC = () => {
   }, [fillWidth, fillHeight]);
 
   useEffect(() => {
-    if (!overrideResize) {
-      if (fillWidth <= 0 || fillHeight <= 0) return;
+    if (fillWidth <= 0 || fillHeight <= 0 || width <= 0 || height <= 0) return;
 
-      const fillAspectRatio = fillWidth / fillHeight;
+    const originalAspectRatio = width / height;
+    const fillAspectRatio = fillWidth / fillHeight;
 
-      let targetWidth, targetHeight;
+    let targetWidth = fillWidth;
+    let targetHeight = fillHeight;
 
-      if (fillAspectRatio === 1) {
-        // Special case for 1x1 aspect ratio: Choose the smaller dimension
-        if (width < height) {
-          targetWidth = height;
-          targetHeight = height; // Make it square
-        } else {
-          targetHeight = width;
-          targetWidth = width; // Make it square
-        }
-      } else if (fillWidth < fillHeight) {
-        // Width should be the limiting factor
+    if (fillAspectRatio > originalAspectRatio) {
+      // Adjust based on height to maintain aspect ratio without reducing width
+      targetHeight = height;
+      targetWidth = Math.ceil(height * fillAspectRatio);
+
+      // Ensure the width does not reduce below the original width
+      if (targetWidth < width) {
         targetWidth = width;
         targetHeight = Math.ceil(width / fillAspectRatio);
-      } else {
-        // Height should be the limiting factor
+      }
+    } else {
+      // Adjust based on width to maintain aspect ratio without reducing height
+      targetWidth = width;
+      targetHeight = Math.ceil(width / fillAspectRatio);
+
+      // Ensure the height does not reduce below the original height
+      if (targetHeight < height) {
         targetHeight = height;
         targetWidth = Math.ceil(height * fillAspectRatio);
       }
-
-      // Set the fill size based on the calculated dimensions
-      setFillSize(targetWidth, targetHeight, true);
     }
-  }, [fillWidth, fillHeight, width, height, overrideResize]);
+
+    setFillSize(targetWidth, targetHeight);
+  }, [fillWidth, fillHeight, width, height]);
 
   return (
     <div

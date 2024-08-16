@@ -121,7 +121,7 @@ const History = () => {
                 pastImage.imageName,
                 pastImage.imageSize
               );
-              setFillSize(pastImage.fillWidth, pastImage.fillHeight, true);
+              setFillSize(pastImage.fillWidth, pastImage.fillHeight);
               setGeneratedImage(pastImage.generatedImage);
             }}
           >

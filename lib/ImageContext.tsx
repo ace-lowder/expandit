@@ -26,7 +26,6 @@ interface ImageContextProps {
   setGeneratedImage: (url: string | null) => void;
   imageName: string;
   imageSize: number;
-  overrideResize: boolean;
 }
 
 const ImageContext = createContext<ImageContextProps | undefined>(undefined);
@@ -41,7 +40,6 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [fillHeight, setFillHeight] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [overrideResize, setOverrideResize] = useState(false);
 
   const setImage = (
     img: string | ArrayBuffer | null,
@@ -56,11 +54,15 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const setFillSize = (
     newWidth: number,
     newHeight: number,
-    override = false
+    replace = false
   ) => {
     console.error("setFillSize", newWidth, newHeight);
 
-    setOverrideResize(override);
+    if (generatedImage && replace) {
+      setImageState(generatedImage);
+      setGeneratedImage(null);
+    }
+
     setFillWidth(Math.ceil(newWidth));
     setFillHeight(Math.ceil(newHeight));
   };
@@ -74,7 +76,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         setHeight(img.height);
 
         // Only update fillWidth and fillHeight on initial image load
-        if (!generatedImage) {
+        if (!generatedImage && fillWidth === 0 && fillHeight === 0) {
           setFillWidth(img.width);
           setFillHeight(img.height);
         }
@@ -98,7 +100,6 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         setIsGenerating,
         generatedImage,
         setGeneratedImage,
-        overrideResize,
       }}
     >
       {children}

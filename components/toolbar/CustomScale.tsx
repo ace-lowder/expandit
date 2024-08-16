@@ -23,7 +23,7 @@ const CustomScale: React.FC = () => {
       const width = Number(customWidth);
       const height = Number(customHeight);
       if (!isNaN(width) && !isNaN(height)) {
-        setFillSize(width, height);
+        setFillSize(width, height, true);
       }
     }
   };

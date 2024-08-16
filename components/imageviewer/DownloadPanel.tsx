@@ -149,7 +149,7 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ hidden }) => {
       className={`bg-white text-gray-700 rounded-2xl shadow-lg
       flex flex-col gap-2 p-4 w-96 ${
         hidden ? "opacity-0 pointer-events-none" : "opacity-100"
-      } transition-all`}
+      } transition-all pointer-events-auto`}
     >
       <Header>Download</Header>
       <QualitySelection

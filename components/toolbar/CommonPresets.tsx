@@ -9,17 +9,17 @@ const CommonPresets: React.FC = () => {
     {
       label: "16 : 9",
       icon: FaDesktop,
-      onClick: () => setFillSize(16, 9),
+      onClick: () => setFillSize(16, 9, true),
     },
     {
       label: "9 : 16",
       icon: FaMobileAlt,
-      onClick: () => setFillSize(9, 16),
+      onClick: () => setFillSize(9, 16, true),
     },
     {
       label: "1 : 1",
       icon: FaUserCircle,
-      onClick: () => setFillSize(1, 1),
+      onClick: () => setFillSize(1, 1, true),
     },
   ];
 

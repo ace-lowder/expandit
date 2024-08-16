@@ -26,7 +26,7 @@ const PresetButton: React.FC<PresetButtonProps> = ({
   };
 
   const handleClick = () => {
-    setFillSize(width, height);
+    setFillSize(width, height, true);
   };
 
   return (

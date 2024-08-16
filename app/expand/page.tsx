@@ -19,7 +19,7 @@ const ExpandPage = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-67px)] min-w-[490px] bg-gray-100">
+    <div className="flex h-[calc(100vh-67px)] min-w-[480px] bg-gray-100">
       <Toolbar isCollapsed={!image || isToolbarCollapsed} />
       <div
         className={`w-full h-full flex justify-center items-center relative transition-all ${
