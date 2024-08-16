@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { useImage } from "@/lib";
+import DefaultButton from "./DefaultButton";
 
 const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
   onImageUpload,
@@ -106,7 +107,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
 
   return (
     <div
-      className="w-1/2 p-8 bg-white rounded-3xl shadow-md flex flex-col items-center max-w-sm"
+      className="w-1/2 p-8 bg-white rounded-3xl shadow-md flex flex-col items-center max-w-sm min-w-[232px]"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
@@ -117,12 +118,13 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
         ref={fileInputRef}
         className="hidden"
       />
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600"
+      <DefaultButton
         onClick={() => fileInputRef.current?.click()}
+        className="w-3/4 rounded-2xl"
+        action
       >
         Upload Image
-      </button>
+      </DefaultButton>
       <p className="mt-4 text-gray-700">or drop a file</p>
       <p className="mt-2 text-sm text-gray-500">
         paste image or{" "}

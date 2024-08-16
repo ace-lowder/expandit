@@ -9,21 +9,26 @@ const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
 
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const closeMenu = () => setIsOpen(false);
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+
+  const menuItems = [
+    { label: "Home", href: "/" },
+    { label: "Expand", href: "/expand" },
+    { label: "Pricing", href: "/pricing" },
+  ];
 
   return (
     <>
       <IconButton
         className="md:hidden"
         icon={<FaBars className="w-6 h-6" />}
-        onClick={() => setIsOpen(true)}
+        onClick={toggleMenu}
       />
 
       <div
-        className={`bg-white md:hidden shadow-lg fixed w-96 h-full z-50 right-0 top-0 transition-all ${
-          isOpen ? "-translate-x-0" : "translate-x-full"
+        className={`bg-white md:hidden shadow-lg fixed w-3/4 max-w-xs h-full z-50 right-0 top-0 transition-transform ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <IconButton
@@ -32,26 +37,26 @@ const MobileMenu: React.FC = () => {
           onClick={closeMenu}
         />
 
-        <div className="flex flex-col h-full items-start justify-between px-4 py-4">
-          <div className="flex flex-col text-left gap-2 mt-16 w-full">
-            <MenuButton label="Home" href="/" onClick={closeMenu} />
-            <MenuButton label="Expand" href="/expand" onClick={closeMenu} />
-            <MenuButton label="Pricing" href="/pricing" onClick={closeMenu} />
+        <div className="flex flex-col h-full px-4 py-4">
+          <div className="flex flex-col gap-2 mt-16">
+            {menuItems.map(({ label, href }) => (
+              <MenuButton
+                key={label}
+                label={label}
+                href={href}
+                onClick={closeMenu}
+              />
+            ))}
           </div>
-          <div className="flex flex-col gap-4 text-center w-full">
+
+          <div className="mt-auto flex flex-col gap-4 text-center">
             {isSignedIn ? (
               <div className="flex items-center gap-4">
                 <UserButton
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: {
-                        width: "36px",
-                        height: "36px",
-                      },
-                      userButtonAvatarImage: {
-                        width: "36px",
-                        height: "36px",
-                      },
+                      userButtonAvatarBox: { width: "36px", height: "36px" },
+                      userButtonAvatarImage: { width: "36px", height: "36px" },
                     },
                   }}
                 />
@@ -79,7 +84,7 @@ const MobileMenu: React.FC = () => {
       </div>
 
       <div
-        className={`fixed w-full h-full top-0 left-0 z-40 bg-black transition-opacity transition duration-500 ${
+        className={`fixed w-full h-full top-0 left-0 z-40 bg-black transition-opacity ${
           isOpen ? "opacity-20 block" : "opacity-0 hidden"
         }`}
         onClick={closeMenu}
