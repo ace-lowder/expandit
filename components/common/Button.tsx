@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   hoverColor = "hover:bg-gray-500",
 }) => {
   const baseClasses = `
-    flex items-center justify-center transition-all rounded
+    flex items-center justify-center transition-all rounded gap-x-2
     ${disabled ? "disabled:bg-gray-200 disabled:text-gray-500" : ""}
   `;
 

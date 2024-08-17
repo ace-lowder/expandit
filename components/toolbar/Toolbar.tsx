@@ -24,7 +24,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
         ${
           isCollapsed
             ? "-translate-y-full md:translate-y-0 md:-translate-x-full h-0 md:h-auto w-full md:w-0"
-            : "transition-all duration-300 translate-y-0 md:translate-x-0 h-1/2 md:h-auto w-full md:w-auto"
+            : "transition-all duration-300 translate-y-0 md:translate-x-0 h-1/2 md:h-auto w-full md:w-auto min-w-80"
         }`}
     >
       <div className="flex flex-col overflow-y-auto w-full p-4 gap-6">

@@ -76,22 +76,26 @@ const GenerateButton: React.FC = () => {
   };
 
   return (
-    <Button
-      className="w-full p-4 border-t bg-white shadow-lg text-black"
-      onClick={handleGenerativeFill}
-      icon={
-        isGenerating ? (
-          <FaSpinner className="animate-spin" />
-        ) : (
-          <FaWandMagicSparkles />
-        )
-      }
-      disabled={!canGenerate}
-      color={generatedImage ? "bg-purple-500" : "bg-blue-500"}
-      hoverColor={generatedImage ? "hover:bg-purple-600" : "hover:bg-blue-600"}
-    >
-      {isGenerating ? "Generating" : generatedImage ? "Regenerate" : "Expand"}
-    </Button>
+    <div className="w-full p-4 border-t bg-white shadow-lg">
+      <Button
+        className="w-full"
+        onClick={handleGenerativeFill}
+        icon={
+          isGenerating ? (
+            <FaSpinner className="animate-spin" />
+          ) : (
+            <FaWandMagicSparkles />
+          )
+        }
+        disabled={!canGenerate}
+        color={generatedImage ? "bg-purple-500" : "bg-blue-500"}
+        hoverColor={
+          generatedImage ? "hover:bg-purple-600" : "hover:bg-blue-600"
+        }
+      >
+        {isGenerating ? "Generating" : generatedImage ? "Regenerate" : "Expand"}
+      </Button>
+    </div>
   );
 };
 
