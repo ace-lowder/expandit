@@ -1,5 +1,5 @@
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { SquareButton } from "@/components";
+import { PiSidebar, PiSidebarFill } from "react-icons/pi";
 
 interface CollapseButtonProps {
   isCollapsed: boolean;
@@ -11,13 +11,13 @@ const CollapseButton: React.FC<CollapseButtonProps> = ({
   collapseToolbar,
 }) => {
   return (
-    <div className="absolute z-50 top-4 left-4">
+    <div className="absolute z-30 top-4 left-4">
       <SquareButton
         icon={
           isCollapsed ? (
-            <FaArrowRight className="w-7 h-7" />
+            <PiSidebar className="w-8 h-8" />
           ) : (
-            <FaArrowLeft className="w-7 h-7" />
+            <PiSidebarFill className="w-8 h-8" />
           )
         }
         onClick={collapseToolbar}

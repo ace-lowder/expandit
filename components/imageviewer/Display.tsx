@@ -89,7 +89,7 @@ const Display: React.FC = () => {
       <img
         src={typeof image === "string" ? image : ""}
         alt="Uploaded Image"
-        className={`z-30 transition-all ${
+        className={`z-20 transition-all ${
           generatedImage ? "fade-out-delay" : ""
         }`}
         style={{

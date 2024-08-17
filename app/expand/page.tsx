@@ -19,21 +19,18 @@ const ExpandPage = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-67px)] min-w-[480px] bg-gray-100 overflow-hidden">
+    <div
+      className={`flex flex-col-reverse md:flex-row h-[calc(100vh-66px)] w-full bg-gray-100 overflow-hidden`}
+    >
       <Toolbar isCollapsed={!image || isToolbarCollapsed} />
-      <div
-        className={`w-full h-full flex justify-center items-center relative transition-all ${
-          !image || isToolbarCollapsed ? "ml-0" : "ml-80"
-        }`}
-      >
+
+      <div className={`flex-grow flex justify-center items-center relative`}>
         {image && (
           <CollapseButton
             isCollapsed={isToolbarCollapsed}
             collapseToolbar={toggleToolbar}
           />
         )}
-        <DownloadButton />
-        <History />
         <ImageViewer />
       </div>
     </div>

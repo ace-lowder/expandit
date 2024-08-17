@@ -7,7 +7,7 @@ export { default as RoundedMenuButton } from "./common/RoundedMenuButton";
 export { default as Header } from "./common/Header";
 export { default as DefaultButton } from "./common/DefaultButton";
 
-export { default as CollapseButton } from "./imageviewer/CollapseButton";
+export { default as CollapseButton } from "./toolbar/CollapseButton";
 export { default as Display } from "./imageviewer/Display";
 export { default as DownloadButton } from "./imageviewer/DownloadButton";
 export { default as DownloadPanel } from "./imageviewer/DownloadPanel";
