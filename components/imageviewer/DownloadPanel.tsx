@@ -1,14 +1,9 @@
 "use client";
 
 import { useDownload } from "@/lib";
-import {
-  DefaultButton,
-  DownloadInfo,
-  Header,
-  QualitySelection,
-} from "@/components";
+import { Button, DownloadInfo, Header, QualitySelector } from "@/components";
 
-const DownloadPanel: React.FC<> = () => {
+const DownloadPanel: React.FC = () => {
   const {
     downloadImages,
     selectedQuality,
@@ -17,13 +12,9 @@ const DownloadPanel: React.FC<> = () => {
   } = useDownload();
 
   return (
-    <div
-      className={
-        "bg-white text-gray-700 rounded-2xl shadow-lg flex flex-col gap-2 p-4 w-96 transition-all pointer-events-auto"
-      }
-    >
+    <div className="bg-white text-gray-700 rounded-2xl shadow-lg flex flex-col gap-2 p-4 w-96 transition-all pointer-events-auto">
       <Header>Download</Header>
-      <QualitySelection
+      <QualitySelector
         selectedQuality={selectedQuality}
         setSelectedQuality={setSelectedQuality}
         downloadImages={downloadImages}
@@ -36,13 +27,14 @@ const DownloadPanel: React.FC<> = () => {
           height: 0,
         })}
       />
-      <DefaultButton
+      <Button
         onClick={handleDownload}
         disabled={!downloadImages[selectedQuality]}
+        className="w-full"
       >
         Download {downloadImages[selectedQuality]?.width}x
         {downloadImages[selectedQuality]?.height}
-      </DefaultButton>
+      </Button>
     </div>
   );
 };

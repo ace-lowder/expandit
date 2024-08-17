@@ -1,4 +1,4 @@
-import { SquareButton } from "@/components";
+import { Button } from "@/components";
 import { PiSidebar, PiSidebarFill } from "react-icons/pi";
 
 interface CollapseButtonProps {
@@ -12,7 +12,7 @@ const CollapseButton: React.FC<CollapseButtonProps> = ({
 }) => {
   return (
     <div className="absolute z-30 top-4 left-4">
-      <SquareButton
+      <Button
         icon={
           isCollapsed ? (
             <PiSidebar className="w-8 h-8" />
@@ -21,6 +21,8 @@ const CollapseButton: React.FC<CollapseButtonProps> = ({
           )
         }
         onClick={collapseToolbar}
+        variant="square"
+        color="bg-gray-400"
       />
     </div>
   );

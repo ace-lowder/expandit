@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { useImage } from "@/lib";
-import DefaultButton from "./DefaultButton";
+import { Button } from "@/components";
 
 const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
   onImageUpload,
@@ -37,7 +37,6 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
         if (item.type.startsWith("image")) {
-          // Handle pasted image data
           const file = item.getAsFile();
           if (file) {
             const reader = new FileReader();
@@ -47,10 +46,8 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
             };
             reader.readAsDataURL(file);
           }
-          // Break the loop after handling the image, to avoid processing as a URL
           break;
         } else if (item.type === "text/plain") {
-          // Handle pasted URL
           item.getAsString((url) => {
             if (isValidImageUrl(url)) {
               setImage(url, "", 0);
@@ -118,13 +115,14 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
         ref={fileInputRef}
         className="hidden"
       />
-      <DefaultButton
+      <Button
         onClick={() => fileInputRef.current?.click()}
         className="w-3/4 rounded-2xl"
-        action
+        color="bg-blue-500"
+        hoverColor="hover:bg-blue-600"
       >
         Upload Image
-      </DefaultButton>
+      </Button>
       <p className="mt-4 text-gray-700">or drop a file</p>
       <p className="mt-2 text-sm text-gray-500">
         paste image or{" "}

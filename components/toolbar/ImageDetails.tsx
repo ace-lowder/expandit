@@ -1,7 +1,7 @@
 import { useImage } from "@/lib";
 import { formatSize, formatAspectRatio } from "@/lib";
 
-const ImageInfo: React.FC = () => {
+const ImageDetails: React.FC = () => {
   const { image, imageName, width, height, imageSize } = useImage();
 
   const aspectRatio =
@@ -23,4 +23,4 @@ const ImageInfo: React.FC = () => {
   );
 };
 
-export default ImageInfo;
+export default ImageDetails;

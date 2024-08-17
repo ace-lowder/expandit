@@ -2,7 +2,6 @@ import { useImage } from "@/lib";
 
 interface PresetButtonProps {
   label: string;
-  color: string;
   size: string;
   maxWidth: number;
   maxHeight: number;
@@ -10,7 +9,6 @@ interface PresetButtonProps {
 
 const PresetButton: React.FC<PresetButtonProps> = ({
   label,
-  color,
   size,
   maxWidth,
   maxHeight,

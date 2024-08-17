@@ -1,4 +1,4 @@
-import { DefaultButton, Header, PresetButton } from "@/components";
+import { Button, Header, PresetButton } from "@/components";
 import { presets } from "@/lib";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -26,9 +26,15 @@ const PresetCategory: React.FC<PresetCategoryProps> = ({
 
   return (
     <>
-      <DefaultButton icon={<FaArrowLeft />} onClick={onBack}>
+      <Button
+        icon={<FaArrowLeft />}
+        onClick={onBack}
+        color="bg-gray-600"
+        hoverColor="hover:bg-gray-500"
+        className="text-white p-2 rounded"
+      >
         Back
-      </DefaultButton>
+      </Button>
       <div
         className={`${selected?.color} text-white
         rounded-2xl py-8
@@ -47,7 +53,6 @@ const PresetCategory: React.FC<PresetCategoryProps> = ({
               <PresetButton
                 key={preset.label}
                 label={preset.label}
-                color={selected?.color}
                 size={preset.size}
                 maxWidth={maxWidth}
                 maxHeight={maxHeight}

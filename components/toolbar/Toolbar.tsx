@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import {
-  ImageInfo,
-  ActionPanel,
+  ImageDetails,
+  GenerateButton,
   CustomScale,
   CommonPresets,
   SocialPresets,
@@ -37,14 +37,14 @@ const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
           />
         ) : (
           <>
-            <ImageInfo />
+            <ImageDetails />
             <CustomScale />
             <CommonPresets />
             <SocialPresets setSelectedSocial={setSelectedSocial} />
           </>
         )}
       </div>
-      <ActionPanel />
+      <GenerateButton />
     </div>
   );
 };

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useImage, DownloadProvider } from "@/lib";
 import { FaDownload } from "react-icons/fa";
-import { SquareButton, DownloadPanel } from "@/components";
+import { Button, DownloadPanel } from "@/components";
 
 const DownloadButton: React.FC = () => {
   const [showPanel, setShowPanel] = useState(false);
@@ -13,7 +13,8 @@ const DownloadButton: React.FC = () => {
   return (
     <DownloadProvider>
       <div className="absolute z-50 top-4 right-4 flex flex-col items-end gap-4 pointer-events-none">
-        <SquareButton
+        <Button
+          variant="square"
           icon={<FaDownload className="w-7 h-7" />}
           onClick={() => setShowPanel(!showPanel)}
           disabled={!image}

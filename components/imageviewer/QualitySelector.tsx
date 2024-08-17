@@ -7,7 +7,7 @@ interface DownloadImage {
   height: number;
 }
 
-interface QualitySelectionProps {
+interface QualitySelectorProps {
   selectedQuality: "SD" | "HD" | "UHD";
   setSelectedQuality: Dispatch<SetStateAction<"SD" | "HD" | "UHD">>;
   downloadImages: {
@@ -17,7 +17,7 @@ interface QualitySelectionProps {
   };
 }
 
-const QualitySelection: React.FC<QualitySelectionProps> = ({
+const QualitySelector: React.FC<QualitySelectorProps> = ({
   selectedQuality,
   setSelectedQuality,
   downloadImages,
@@ -61,4 +61,4 @@ const QualitySelection: React.FC<QualitySelectionProps> = ({
   );
 };
 
-export default QualitySelection;
+export default QualitySelector;

@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { MenuButton, IconButton } from "@/components";
+import { Button, MenuButton } from "@/components";
 
 const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
+
+  const userButtonSize = 36;
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -17,10 +19,11 @@ const MobileMenu: React.FC = () => {
 
   return (
     <>
-      <IconButton
+      <Button
         className="md:hidden"
         icon={<FaBars className="w-6 h-6" />}
         onClick={() => setIsOpen(true)}
+        variant="icon"
       />
 
       {isOpen && (
@@ -30,10 +33,11 @@ const MobileMenu: React.FC = () => {
             onClick={() => setIsOpen(false)}
           />
           <div className="fixed top-0 right-0 w-3/4 max-w-xs h-full bg-white shadow-lg z-50 transition-transform">
-            <IconButton
-              className="absolute top-5 right-4"
+            <Button
+              className="absolute top-[13px] right-4"
               icon={<FaTimes className="w-6 h-6" />}
               onClick={() => setIsOpen(false)}
+              variant="icon"
             />
             <div className="flex flex-col h-full px-4 py-4">
               <div className="mt-16 flex flex-col gap-2">
@@ -52,12 +56,12 @@ const MobileMenu: React.FC = () => {
                       appearance={{
                         elements: {
                           userButtonAvatarBox: {
-                            width: "36px",
-                            height: "36px",
+                            width: `${userButtonSize}px`,
+                            height: `${userButtonSize}px`,
                           },
                           userButtonAvatarImage: {
-                            width: "36px",
-                            height: "36px",
+                            width: `${userButtonSize}px`,
+                            height: `${userButtonSize}px`,
                           },
                         },
                       }}

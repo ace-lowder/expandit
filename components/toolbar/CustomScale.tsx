@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { FaRedo } from "react-icons/fa";
 import { useImage, formatAspectRatio } from "@/lib";
-import { DefaultButton } from "@/components";
+import { Button } from "@/components";
 
 const CustomScale: React.FC = () => {
   const { width, height, fillWidth, fillHeight, setFillSize, generatedImage } =
@@ -15,7 +15,6 @@ const CustomScale: React.FC = () => {
   useEffect(() => {
     setCustomWidth(fillWidth);
     setCustomHeight(fillHeight);
-
     setAspectRatio(formatAspectRatio(fillWidth, fillHeight));
   }, [fillWidth, fillHeight]);
 
@@ -67,19 +66,23 @@ const CustomScale: React.FC = () => {
       <p className="mx-auto">Aspect Ratio: {aspectRatio}</p>
 
       <div className="flex gap-1">
-        <DefaultButton
-          className={`w-full`}
+        <Button
+          className="w-full"
           onClick={handleCustomScale}
           disabled={isApplied}
           tip={isReset ? "Change the image size above to apply" : ""}
+          color={isApplied ? "bg-gray-400" : "bg-blue-500"}
+          hoverColor={isApplied ? "" : "hover:bg-blue-600"}
         >
           {isApplied ? "Applied" : "Apply"}
-        </DefaultButton>
-        <DefaultButton
+        </Button>
+        <Button
           className="px-3"
           onClick={handleReset}
           icon={<FaRedo />}
           disabled={isReset || generatedImage !== null}
+          color="bg-gray-600"
+          hoverColor="hover:bg-gray-500"
         />
       </div>
     </div>

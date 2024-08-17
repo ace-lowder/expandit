@@ -32,6 +32,8 @@ const ExpandPage = () => {
           />
         )}
         <ImageViewer />
+        <DownloadButton />
+        <History />
       </div>
     </div>
   );
