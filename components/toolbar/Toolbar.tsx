@@ -16,7 +16,6 @@ interface ToolbarProps {
 
 const Toolbar: React.FC<ToolbarProps> = ({ isCollapsed }) => {
   const [selectedSocial, setSelectedSocial] = useState<string | null>(null);
-  console.log(isCollapsed);
 
   return (
     <div

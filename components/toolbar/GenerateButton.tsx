@@ -27,7 +27,6 @@ const GenerateButton: React.FC = () => {
 
   const handleGenerativeFill = async () => {
     if (isGenerating) return;
-
     if (generatedImage) setGeneratedImage(null);
 
     setIsGenerating(true);
@@ -49,28 +48,37 @@ const GenerateButton: React.FC = () => {
         const data = await response.json();
         const img = new Image();
         img.src = data.url;
-        img.onload = () => setGeneratedImage(data.url);
-        img.onerror = () =>
+
+        img.onload = () => {
+          setGeneratedImage(data.url);
+          setIsGenerating(false);
+        };
+        img.onerror = () => {
           showError("Failed to load the generated image. Please try again.");
-      } else if (response.status === 413) {
-        showError(
-          "The image is too large to process. Please select an image under 1MB."
-        );
-      } else if (response.status === 400) {
-        showError("Invalid request. Please check the image and try again.");
-      } else if (response.status === 500) {
-        showError("Server error occurred. Please try again later.");
+          setIsGenerating(false);
+        };
       } else {
-        const errorData = await response.json();
-        console.error("Generative fill error:", errorData);
-        showError("An unexpected error occurred. Please try again.");
+        if (response.status === 413) {
+          showError(
+            "The image is too large to process. Please select an image under 1MB."
+          );
+        } else if (response.status === 400) {
+          showError("Invalid request. Please check the image and try again.");
+        } else if (response.status === 500) {
+          showError("Server error occurred. Please try again later.");
+        } else {
+          const errorData = await response.json();
+          console.error("Generative fill error:", errorData);
+          showError("An unexpected error occurred. Please try again.");
+        }
+
+        setIsGenerating(false);
       }
     } catch (error) {
       console.error("Fetch error:", error);
       showError(
         "Network error occurred. Please check your connection and try again."
       );
-    } finally {
       setIsGenerating(false);
     }
   };

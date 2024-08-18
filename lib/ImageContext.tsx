@@ -99,7 +99,6 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
 
     if (newWidth <= width || newHeight <= height) {
       if (fillAspectRatio > originalAspectRatio) {
-        // Adjust based on height to maintain aspect ratio without reducing width
         targetHeight = height;
         targetWidth = Math.floor(height * fillAspectRatio);
 
