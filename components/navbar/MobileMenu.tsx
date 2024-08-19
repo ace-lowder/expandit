@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaSpinner, FaTimes } from "react-icons/fa";
+import { RiCopperCoinLine } from "react-icons/ri";
 import { Button, MenuButton } from "@/components";
+import { useSyncUser } from "@/hooks";
+import Link from "next/link";
 
 const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
+  const credits = useSyncUser();
 
   const userButtonSize = 36;
 
@@ -49,29 +53,40 @@ const MobileMenu: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className="mt-auto text-center">
+              <div className="mt-auto flex flex-col items-start gap-4">
                 {isSignedIn ? (
-                  <div className="flex items-center gap-4 justify-center">
-                    <UserButton
-                      appearance={{
-                        elements: {
-                          userButtonAvatarBox: {
-                            width: `${userButtonSize}px`,
-                            height: `${userButtonSize}px`,
+                  <div className="flex justify-between items-center w-full">
+                    <div className="flex items-center gap-3 text-gray-700 font-semibold text-lg">
+                      <UserButton
+                        appearance={{
+                          elements: {
+                            userButtonAvatarBox: {
+                              width: `${userButtonSize}px`,
+                              height: `${userButtonSize}px`,
+                            },
+                            userButtonAvatarImage: {
+                              width: `${userButtonSize}px`,
+                              height: `${userButtonSize}px`,
+                            },
                           },
-                          userButtonAvatarImage: {
-                            width: `${userButtonSize}px`,
-                            height: `${userButtonSize}px`,
-                          },
-                        },
-                      }}
-                    />
-                    <span className="text-gray-700 text-lg font-medium">
-                      {user?.fullName || user?.username}
-                    </span>
+                        }}
+                      />
+                      <span className="cursor-default">{user.fullName}</span>
+                    </div>
+                    <Link
+                      className="flex items-center gap-2 transition-all pl-3 pr-4 py-1.5 text-gray-700 rounded-lg hover:bg-gray-200"
+                      href="/pricing"
+                    >
+                      <RiCopperCoinLine className="w-6 h-6" />{" "}
+                      {credits ? (
+                        credits
+                      ) : (
+                        <FaSpinner className="animate-spin" />
+                      )}
+                    </Link>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 w-full">
                     <MenuButton
                       label="Log In"
                       href="/login"
