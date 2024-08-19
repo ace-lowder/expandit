@@ -10,7 +10,7 @@ import {
   History,
 } from "@/components";
 
-const ExpandPage = () => {
+const EditorPage = () => {
   const [isToolbarCollapsed, setIsToolbarCollapsed] = useState(false);
   const { image } = useImage();
 
@@ -39,4 +39,4 @@ const ExpandPage = () => {
   );
 };
 
-export default ExpandPage;
+export default EditorPage;

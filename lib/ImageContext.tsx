@@ -77,42 +77,39 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     if (newWidth === undefined || newHeight === undefined) return;
 
-    console.error("Trying:", newWidth, newHeight);
+    let checkWidth = width;
+    let checkHeight = height;
 
     if (generatedImage && replace) {
       setImageState(generatedImage);
       setGeneratedImage(null);
+
+      checkWidth = fillWidth;
+      checkHeight = fillHeight;
     }
 
-    if (newWidth > width && newHeight > height) {
-      setFillWidth(newWidth);
-      setFillHeight(newHeight);
-      console.error("Setting New:", newWidth, newHeight);
-      return;
-    }
-
-    const originalAspectRatio = width / height;
+    const originalAspectRatio = checkWidth / checkHeight;
     const fillAspectRatio = newWidth / newHeight;
 
     let targetWidth = newWidth;
     let targetHeight = newHeight;
 
-    if (newWidth <= width || newHeight <= height) {
+    if (newWidth <= checkWidth || newHeight <= checkHeight) {
       if (fillAspectRatio > originalAspectRatio) {
-        targetHeight = height;
-        targetWidth = Math.floor(height * fillAspectRatio);
+        targetHeight = checkHeight;
+        targetWidth = Math.floor(checkHeight * fillAspectRatio);
 
-        if (targetWidth < width) {
-          targetWidth = width;
-          targetHeight = Math.floor(width / fillAspectRatio);
+        if (targetWidth < checkWidth) {
+          targetWidth = checkWidth;
+          targetHeight = Math.floor(checkWidth / fillAspectRatio);
         }
       } else {
-        targetWidth = width;
-        targetHeight = Math.floor(width / fillAspectRatio);
+        targetWidth = checkWidth;
+        targetHeight = Math.floor(checkWidth / fillAspectRatio);
 
-        if (targetHeight < height) {
-          targetHeight = height;
-          targetWidth = Math.floor(height * fillAspectRatio);
+        if (targetHeight < checkHeight) {
+          targetHeight = checkHeight;
+          targetWidth = Math.floor(checkHeight * fillAspectRatio);
         }
       }
     }
@@ -120,8 +117,6 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     if (targetWidth >= newWidth && targetHeight >= newHeight) {
       setFillWidth(targetWidth);
       setFillHeight(targetHeight);
-      console.error("Setting Target:", targetWidth, targetHeight);
-      console.error("Reason:", width, height);
     }
   };
 
