@@ -1,12 +1,13 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { useImage } from "@/lib";
+import { useError, useImage } from "@/lib";
 import { Button } from "@/components";
 
 const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
   onImageUpload,
 }) => {
+  const { showError } = useError();
   const { setImage } = useImage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -33,28 +34,47 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
 
   const handlePaste = (event: ClipboardEvent) => {
     const items = event.clipboardData?.items;
+    let imageLoaded = false;
+
     if (items) {
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
+
         if (item.type.startsWith("image")) {
           const file = item.getAsFile();
           if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-              setImage(reader.result, file.name, file.size);
-              if (onImageUpload) onImageUpload();
+              const img = new Image();
+              img.onload = () => {
+                imageLoaded = true;
+                setImage(reader.result, file.name, file.size);
+                if (onImageUpload) onImageUpload();
+              };
+              img.onerror = () => {
+                if (i === items.length - 1 && !imageLoaded) {
+                  showError("Invalid image.");
+                }
+              };
+              img.src = reader.result as string;
             };
             reader.readAsDataURL(file);
           }
           break;
         } else if (item.type === "text/plain") {
           item.getAsString((url) => {
-            if (isValidImageUrl(url)) {
+            const img = new Image();
+            img.onload = () => {
+              imageLoaded = true;
               setImage(url, "", 0);
               if (onImageUpload) onImageUpload();
-            } else {
-              alert("The URL provided is not a valid image URL.");
-            }
+            };
+            img.onerror = () => {
+              if (i === items.length - 1 && !imageLoaded) {
+                showError("The URL provided is not a valid image URL.");
+              }
+            };
+            img.src = url;
           });
         }
       }
