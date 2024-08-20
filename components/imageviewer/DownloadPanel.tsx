@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useDownload } from "@/lib";
+import { useEffect, useState } from "react";
 import {
   Button,
   DownloadInfo,
@@ -10,23 +9,28 @@ import {
   ConfirmUnlock,
 } from "@/components";
 import { FaUnlock } from "react-icons/fa";
+import { useDownload } from "@/lib";
 
 const DownloadPanel: React.FC = () => {
   const [isConfirming, setIsConfirming] = useState(false);
-  const [unlocked, setUnlocked] = useState<{ [key: string]: boolean }>({
-    HD: false,
-    UHD: false,
-  });
 
   const {
     downloadImages,
     selectedQuality,
     setSelectedQuality,
     handleDownload,
+    unlocked,
+    checkUnlockStatus,
+    confirmUnlock,
   } = useDownload();
 
-  const handleConfirmUnlock = () => {
-    setUnlocked((prev) => ({ ...prev, [selectedQuality]: true }));
+  useEffect(() => {
+    checkUnlockStatus();
+  }, [selectedQuality]);
+
+  const handleConfirmUnlock = async () => {
+    await confirmUnlock();
+    await checkUnlockStatus();
     setIsConfirming(false);
   };
 

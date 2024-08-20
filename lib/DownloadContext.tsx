@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useImage } from "@/lib";
 import { saveAs } from "file-saver";
+import { useUser } from "@clerk/nextjs";
 
 interface DownloadImage {
   image: string | ArrayBuffer | null;
@@ -10,13 +11,6 @@ interface DownloadImage {
   width: number;
   height: number;
 }
-
-const emptyImage: DownloadImage = {
-  image: null,
-  imageName: "",
-  width: 0,
-  height: 0,
-};
 
 interface DownloadContextProps {
   downloadImages: {
@@ -27,6 +21,9 @@ interface DownloadContextProps {
   selectedQuality: "SD" | "HD" | "UHD";
   setSelectedQuality: React.Dispatch<React.SetStateAction<"SD" | "HD" | "UHD">>;
   handleDownload: () => void;
+  unlocked: { [key: string]: boolean };
+  checkUnlockStatus: () => Promise<void>;
+  confirmUnlock: () => Promise<void>;
 }
 
 const DownloadContext = createContext<DownloadContextProps | undefined>(
@@ -49,6 +46,12 @@ export const DownloadProvider: React.FC<{ children: React.ReactNode }> = ({
     UHD: null,
   });
 
+  const [unlocked, setUnlocked] = useState<{ [key: string]: boolean }>({
+    HD: false,
+    UHD: false,
+  });
+
+  const { user } = useUser();
   const {
     image,
     imageName,
@@ -58,6 +61,58 @@ export const DownloadProvider: React.FC<{ children: React.ReactNode }> = ({
     fillHeight,
     generatedImage,
   } = useImage();
+
+  const imagePrefix =
+    typeof downloadImages[selectedQuality]?.image === "string"
+      ? downloadImages[selectedQuality]?.image.slice(0, 50)
+      : null;
+
+  const checkUnlockStatus = async () => {
+    if (!user || !imagePrefix) return;
+
+    try {
+      const response = await fetch(
+        `/api/mongodb/unlock?clerkId=${
+          user.id
+        }&imagePrefix=${encodeURIComponent(imagePrefix)}`
+      );
+      const data = await response.json();
+      const unlockedQualities = data.unlockedQualities || [];
+
+      setUnlocked({
+        HD: unlockedQualities.includes("HD"),
+        UHD: unlockedQualities.includes("UHD"),
+      });
+    } catch (error) {
+      console.error("Error fetching unlock status:", error);
+    }
+  };
+
+  const confirmUnlock = async () => {
+    if (!user || !imagePrefix) return;
+
+    try {
+      const response = await fetch("/api/mongodb/unlock", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clerkId: user.id,
+          imagePrefix,
+          quality: selectedQuality,
+        }),
+      });
+
+      if (response.ok) {
+        setUnlocked((prev) => ({ ...prev, [selectedQuality]: true }));
+      } else {
+        console.error("Error unlocking image", await response.text());
+      }
+    } catch (error) {
+      console.error("Error unlocking image:", error);
+    }
+  };
 
   const getFileNameWithQuality = (
     originalName: string,
@@ -193,6 +248,9 @@ export const DownloadProvider: React.FC<{ children: React.ReactNode }> = ({
         selectedQuality,
         setSelectedQuality,
         handleDownload,
+        unlocked,
+        checkUnlockStatus,
+        confirmUnlock,
       }}
     >
       {children}
