@@ -1,16 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import { useDownload } from "@/lib";
-import { Button, DownloadInfo, Header, QualitySelector } from "@/components";
+import {
+  Button,
+  DownloadInfo,
+  Header,
+  QualitySelector,
+  ConfirmUnlock,
+} from "@/components";
 import { FaUnlock } from "react-icons/fa";
 
 const DownloadPanel: React.FC = () => {
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [unlocked, setUnlocked] = useState<{ [key: string]: boolean }>({
+    HD: false,
+    UHD: false,
+  });
+
   const {
     downloadImages,
     selectedQuality,
     setSelectedQuality,
     handleDownload,
   } = useDownload();
+
+  const handleConfirmUnlock = () => {
+    setUnlocked((prev) => ({ ...prev, [selectedQuality]: true }));
+    setIsConfirming(false);
+  };
 
   const getDownloadButtonProps = (quality: string, isLocked: boolean) => {
     if (isLocked) {
@@ -20,6 +38,7 @@ const DownloadPanel: React.FC = () => {
         text: `Unlock ${quality}`,
         color: "bg-blue-500",
         hoverColor: "bg-blue-600",
+        onClick: () => setIsConfirming(true),
       };
     } else {
       return {
@@ -29,11 +48,14 @@ const DownloadPanel: React.FC = () => {
         ${downloadImages[selectedQuality]?.height}`,
         color: "bg-gray-400",
         hoverColor: "hover:bg-gray-500",
+        onClick: handleDownload,
       };
     }
   };
 
-  const isLocked = selectedQuality === "HD" || selectedQuality === "UHD";
+  const isLocked =
+    !unlocked[selectedQuality] &&
+    (selectedQuality === "HD" || selectedQuality === "UHD");
   const buttonProps = getDownloadButtonProps(selectedQuality, isLocked);
 
   return (
@@ -53,7 +75,7 @@ const DownloadPanel: React.FC = () => {
         })}
       />
       <Button
-        onClick={handleDownload}
+        onClick={buttonProps.onClick}
         disabled={!downloadImages[selectedQuality]}
         className={buttonProps.className}
         color={buttonProps.color}
@@ -62,6 +84,12 @@ const DownloadPanel: React.FC = () => {
         {buttonProps.icon}
         {buttonProps.text}
       </Button>
+      <ConfirmUnlock
+        quality={selectedQuality}
+        onConfirm={handleConfirmUnlock}
+        onCancel={() => setIsConfirming(false)}
+        visible={isConfirming}
+      />
     </div>
   );
 };

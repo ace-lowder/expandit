@@ -4,6 +4,7 @@ export { default as ImageUploader } from "./common/ImageUploader";
 export { default as MenuButton } from "./common/MenuButton";
 export { default as Header } from "./common/Header";
 
+export { default as ConfirmUnlock } from "./imageviewer/ConfirmUnlock";
 export { default as CollapseButton } from "./toolbar/CollapseButton";
 export { default as DownloadButton } from "./imageviewer/DownloadButton";
 export { default as DownloadPanel } from "./imageviewer/DownloadPanel";
