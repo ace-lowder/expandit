@@ -7,7 +7,7 @@ const HomePage = () => {
   const router = useRouter();
 
   const handleImageUpload = () => {
-    router.push("/expand");
+    router.push("/editor");
   };
 
   return (

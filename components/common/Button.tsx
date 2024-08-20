@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
       break;
     default:
       variantClasses = `
-        ${color} ${hoverColor} text-white p-2 rounded 
+        ${color} hover:${hoverColor} text-white p-2 rounded 
         ${className ? "" : "bg-gray-600 hover:bg-gray-500"}
       `;
       break;
