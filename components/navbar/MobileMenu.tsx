@@ -2,16 +2,12 @@
 
 import { useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { FaBars, FaSpinner, FaTimes } from "react-icons/fa";
-import { RiCopperCoinLine } from "react-icons/ri";
-import { Button, MenuButton } from "@/components";
-import { useSyncUser } from "@/hooks";
-import Link from "next/link";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { Button, MenuButton, CreditsDisplay } from "@/components";
 
 const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
-  const credits = useSyncUser();
 
   const userButtonSize = 36;
 
@@ -73,17 +69,7 @@ const MobileMenu: React.FC = () => {
                       />
                       <span className="cursor-default">{user.fullName}</span>
                     </div>
-                    <Link
-                      className="flex items-center gap-2 transition-all pl-3 pr-4 py-1.5 text-gray-700 rounded-lg hover:bg-gray-200"
-                      href="/pricing"
-                    >
-                      <RiCopperCoinLine className="w-6 h-6" />{" "}
-                      {credits ? (
-                        credits
-                      ) : (
-                        <FaSpinner className="animate-spin" />
-                      )}
-                    </Link>
+                    <CreditsDisplay />
                   </div>
                 ) : (
                   <div className="flex flex-col gap-4 w-full">

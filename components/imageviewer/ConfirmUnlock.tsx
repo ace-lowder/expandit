@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSyncUser } from "@/hooks";
+import { useError, useCredits } from "@/lib";
 import { RiCopperCoinLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
 import { Header, Button } from "@/components";
@@ -20,15 +19,19 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
   onCancel,
   visible,
 }) => {
-  const [credits, setCredits] = useState<number | null>(null);
   const router = useRouter();
+  const { showError } = useError();
+  const { credits, payCredits } = useCredits();
   const cost = quality === "HD" ? 1 : 2;
 
-  const currentCredits = useSyncUser();
-
-  useEffect(() => {
-    setCredits(currentCredits);
-  }, [currentCredits]);
+  const handleConfirm = async () => {
+    const success = await payCredits(cost);
+    if (success) {
+      onConfirm();
+    } else {
+      showError("Failed to unlock image. Please try again.");
+    }
+  };
 
   if (!visible) return null;
 
@@ -56,13 +59,13 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
             </p>
             <div className="flex gap-2">
               <Button
-                onClick={onConfirm}
+                onClick={handleConfirm}
                 className="flex-grow"
                 color="bg-blue-500"
                 hoverColor="bg-blue-600"
               >
                 <RiCopperCoinLine className="w-5 h-5" />
-                {`Use ${cost} ${cost > 1 ? "Credits" : "Credit"} `}
+                {`Use ${cost} ${cost > 1 ? "Credits" : "Credit"}`}
               </Button>
               <Button
                 onClick={onCancel}
@@ -76,7 +79,7 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
         ) : (
           <>
             <p className="mb-4">
-              <span className="mb-4 text-red-600">
+              <span className="text-red-600">
                 You don&apos;t have enough credits.
               </span>{" "}
               Please upgrade your plan to earn more credits.

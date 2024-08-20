@@ -1,11 +1,14 @@
 export { ImageProvider } from "../lib/ImageContext";
 export { useImage } from "../lib/ImageContext";
 
-export { DownloadProvider } from "./downloadContext";
-export { useDownload } from "./downloadContext";
+export { DownloadProvider } from "./DownloadContext";
+export { useDownload } from "./DownloadContext";
 
 export { ErrorProvider } from "./ErrorContext";
 export { useError } from "./ErrorContext";
+
+export { CreditsProvider } from "./CreditsContext";
+export { useCredits } from "./CreditsContext";
 
 export { presets } from "./presets";
 

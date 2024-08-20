@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 
 const useSyncUser = () => {
   const { user } = useUser();
-  const [credits, setCredits] = useState<number | null>(null);
 
   useEffect(() => {
     const syncUser = async () => {
@@ -22,10 +21,7 @@ const useSyncUser = () => {
           }),
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          setCredits(data.user.credits);
-        } else {
+        if (!response.ok) {
           throw new Error("Failed to sync user with MongoDB");
         }
       } catch (error) {
@@ -35,8 +31,6 @@ const useSyncUser = () => {
 
     syncUser();
   }, [user]);
-
-  return credits;
 };
 
 export default useSyncUser;

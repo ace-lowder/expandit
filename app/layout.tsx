@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ImageProvider, ErrorProvider } from "@/lib";
+import { ImageProvider, ErrorProvider, CreditsProvider } from "@/lib";
 import { Navbar } from "@/components";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,8 +25,10 @@ export default function RootLayout({
         <ClerkProvider>
           <ImageProvider>
             <ErrorProvider>
-              <Navbar />
-              <main className="flex-grow">{children}</main>
+              <CreditsProvider>
+                <Navbar />
+                <main className="flex-grow">{children}</main>
+              </CreditsProvider>
             </ErrorProvider>
           </ImageProvider>
         </ClerkProvider>

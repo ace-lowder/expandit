@@ -13,6 +13,7 @@ export { default as DownloadInfo } from "./imageviewer/DownloadInfo";
 export { default as History } from "./imageviewer/History";
 export { default as ImageViewer } from "./imageviewer/ImageViewer";
 
+export { default as CreditsDisplay } from "./navbar/CreditsDisplay";
 export { default as Logo } from "./navbar/Logo";
 export { default as DesktopMenu } from "./navbar/DesktopMenu";
 export { default as MobileMenu } from "./navbar/MobileMenu";
