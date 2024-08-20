@@ -1,9 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSyncUser } from "@/hooks";
 import { RiCopperCoinLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
-import Header from "../common/Header";
-import Button from "../common/Button";
+import { Header, Button } from "@/components";
 
 interface ConfirmUnlockProps {
   quality: string;
@@ -18,9 +20,21 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
   onCancel,
   visible,
 }) => {
+  const [credits, setCredits] = useState<number | null>(null);
+  const router = useRouter();
   const cost = quality === "HD" ? 1 : 2;
 
+  const currentCredits = useSyncUser();
+
+  useEffect(() => {
+    setCredits(currentCredits);
+  }, [currentCredits]);
+
   if (!visible) return null;
+
+  const handleViewPlans = () => {
+    router.push("/pricing");
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -34,28 +48,50 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
             variant="icon"
           />
         </div>
-        <p className="mb-4">
-          Once you unlock the {quality} quality version of this image, you will
-          be able to download it.
-        </p>
-        <div className="flex gap-2">
-          <Button
-            onClick={onConfirm}
-            className="flex-grow"
-            color="bg-blue-500"
-            hoverColor="bg-blue-600"
-          >
-            <RiCopperCoinLine className="w-5 h-5" />
-            {`Use ${cost} ${cost > 1 ? "Credits" : "Credit"} `}
-          </Button>
-          <Button
-            onClick={onCancel}
-            color="bg-gray-400"
-            hoverColor="bg-gray-500"
-          >
-            Cancel
-          </Button>
-        </div>
+        {credits !== null && credits >= cost ? (
+          <>
+            <p className="mb-4">
+              Once you unlock the {quality} quality version of this image, you
+              will be able to download it.
+            </p>
+            <div className="flex gap-2">
+              <Button
+                onClick={onConfirm}
+                className="flex-grow"
+                color="bg-blue-500"
+                hoverColor="bg-blue-600"
+              >
+                <RiCopperCoinLine className="w-5 h-5" />
+                {`Use ${cost} ${cost > 1 ? "Credits" : "Credit"} `}
+              </Button>
+              <Button
+                onClick={onCancel}
+                color="bg-gray-400"
+                hoverColor="bg-gray-500"
+              >
+                Cancel
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="mb-4">
+              <span className="mb-4 text-red-600">
+                You don&apos;t have enough credits.
+              </span>{" "}
+              Please upgrade your plan to earn more credits.
+            </p>
+
+            <Button
+              onClick={handleViewPlans}
+              className="w-full"
+              color="bg-blue-500"
+              hoverColor="bg-blue-600"
+            >
+              View Plans
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
