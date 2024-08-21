@@ -7,8 +7,8 @@ export { useDownload } from "./DownloadContext";
 export { ErrorProvider } from "./ErrorContext";
 export { useError } from "./ErrorContext";
 
-export { CreditsProvider } from "./CreditsContext";
-export { useCredits } from "./CreditsContext";
+export { PlanProvider } from "./PlanContext";
+export { usePlan } from "./PlanContext";
 
 export { presets } from "./presets";
 

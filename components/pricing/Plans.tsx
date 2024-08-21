@@ -1,10 +1,10 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { usePlan } from "@/lib";
 import { PlanCard } from "@/components";
 
 const Plans: React.FC = () => {
-  const userPlan = "Free"; // Replace this with the actual user's plan
+  const { plan: currentPlan } = usePlan();
 
   const plans = [
     {
@@ -63,7 +63,7 @@ const Plans: React.FC = () => {
           credits={plan.credits}
           features={plan.features}
           crownColor={plan.crownColor}
-          isCurrentPlan={plan.name === userPlan}
+          isCurrentPlan={plan.name.toLowerCase() === currentPlan}
           onSelect={() => handleSelectPlan(plan.name)}
         />
       ))}

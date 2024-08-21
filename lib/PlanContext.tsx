@@ -3,21 +3,23 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 
-interface CreditsContextType {
+interface PlanContextType {
   credits: number | null;
+  plan: string | null;
   payCredits: (cost: number) => Promise<boolean>;
-  refreshCredits: () => void;
+  refreshUserData: () => void;
 }
 
-const CreditsContext = createContext<CreditsContextType | undefined>(undefined);
+const PlanContext = createContext<PlanContextType | undefined>(undefined);
 
-export const CreditsProvider: React.FC<{ children: React.ReactNode }> = ({
+export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { user } = useUser();
   const [credits, setCredits] = useState<number | null>(null);
+  const [plan, setPlan] = useState<string | null>(null);
 
-  const refreshCredits = async () => {
+  const refreshUserData = async () => {
     if (!user) return;
 
     try {
@@ -34,6 +36,7 @@ export const CreditsProvider: React.FC<{ children: React.ReactNode }> = ({
       if (response.ok) {
         const data = await response.json();
         setCredits(data.user.credits);
+        setPlan(data.user.plan);
       } else {
         throw new Error("Failed to sync user with MongoDB");
       }
@@ -43,7 +46,7 @@ export const CreditsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    refreshCredits();
+    refreshUserData();
   }, [user]);
 
   const payCredits = async (cost: number): Promise<boolean> => {
@@ -75,16 +78,18 @@ export const CreditsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <CreditsContext.Provider value={{ credits, payCredits, refreshCredits }}>
+    <PlanContext.Provider
+      value={{ credits, plan, payCredits, refreshUserData }}
+    >
       {children}
-    </CreditsContext.Provider>
+    </PlanContext.Provider>
   );
 };
 
-export const useCredits = (): CreditsContextType => {
-  const context = useContext(CreditsContext);
+export const usePlan = (): PlanContextType => {
+  const context = useContext(PlanContext);
   if (!context) {
-    throw new Error("useCredits must be used within a CreditsProvider");
+    throw new Error("usePlan must be used within a PlanProvider");
   }
   return context;
 };

@@ -14,6 +14,7 @@ export { default as History } from "./imageviewer/History";
 export { default as ImageViewer } from "./imageviewer/ImageViewer";
 
 export { default as CreditsDisplay } from "./navbar/CreditsDisplay";
+export { default as PlanDisplay } from "./navbar/PlanDisplay";
 export { default as Logo } from "./navbar/Logo";
 export { default as DesktopMenu } from "./navbar/DesktopMenu";
 export { default as MobileMenu } from "./navbar/MobileMenu";

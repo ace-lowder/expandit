@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Button, MenuButton, CreditsDisplay } from "@/components";
+import { Button, MenuButton, CreditsDisplay, PlanDisplay } from "@/components";
 
 const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,26 +51,29 @@ const MobileMenu: React.FC = () => {
               </div>
               <div className="mt-auto flex flex-col items-start gap-4">
                 {isSignedIn ? (
-                  <div className="flex justify-between items-center w-full">
-                    <div className="flex items-center gap-3 text-gray-700 font-semibold text-lg">
-                      <UserButton
-                        appearance={{
-                          elements: {
-                            userButtonAvatarBox: {
-                              width: `${userButtonSize}px`,
-                              height: `${userButtonSize}px`,
+                  <>
+                    <PlanDisplay />
+                    <div className="flex justify-between items-center w-full">
+                      <div className="flex items-center gap-3 text-gray-700 font-semibold text-lg">
+                        <UserButton
+                          appearance={{
+                            elements: {
+                              userButtonAvatarBox: {
+                                width: `${userButtonSize}px`,
+                                height: `${userButtonSize}px`,
+                              },
+                              userButtonAvatarImage: {
+                                width: `${userButtonSize}px`,
+                                height: `${userButtonSize}px`,
+                              },
                             },
-                            userButtonAvatarImage: {
-                              width: `${userButtonSize}px`,
-                              height: `${userButtonSize}px`,
-                            },
-                          },
-                        }}
-                      />
-                      <span className="cursor-default">{user.fullName}</span>
+                          }}
+                        />
+                        <span className="cursor-default">{user.fullName}</span>
+                      </div>
+                      <CreditsDisplay />
                     </div>
-                    <CreditsDisplay />
-                  </div>
+                  </>
                 ) : (
                   <div className="flex flex-col gap-4 w-full">
                     <MenuButton

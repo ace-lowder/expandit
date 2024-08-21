@@ -1,7 +1,7 @@
 "use client";
 
 import { UserButton, useUser } from "@clerk/nextjs";
-import { MenuButton, CreditsDisplay } from "@/components";
+import { MenuButton, CreditsDisplay, PlanDisplay } from "@/components";
 
 const DesktopMenu: React.FC = () => {
   const { isSignedIn } = useUser();
@@ -20,8 +20,10 @@ const DesktopMenu: React.FC = () => {
         ))}
       </div>
       {isSignedIn ? (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
+          <PlanDisplay />
           <CreditsDisplay />
+          <div className="w-2" />
           <UserButton
             appearance={{
               elements: {
