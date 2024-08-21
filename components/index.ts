@@ -27,3 +27,6 @@ export { default as PresetButton } from "./toolbar/PresetButton";
 export { default as PresetCategory } from "./toolbar/PresetCategory";
 export { default as SocialPresets } from "./toolbar/SocialPresets";
 export { default as Toolbar } from "./toolbar/Toolbar";
+
+export { default as Plans } from "./pricing/Plans";
+export { default as PlanCard } from "./pricing/PlanCard";

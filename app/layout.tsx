@@ -27,7 +27,7 @@ export default function RootLayout({
             <ErrorProvider>
               <CreditsProvider>
                 <Navbar />
-                <main className="flex-grow">{children}</main>
+                <main className="flex-grow text-gray-700">{children}</main>
               </CreditsProvider>
             </ErrorProvider>
           </ImageProvider>
