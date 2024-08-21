@@ -4,13 +4,13 @@ import { usePlan } from "@/lib";
 import { PlanCard } from "@/components";
 
 const Plans: React.FC = () => {
-  const { plan: currentPlan } = usePlan();
+  const { plan: currentPlan, changePlan } = usePlan();
 
   const plans = [
     {
       name: "Free",
       price: "$0",
-      credits: "0",
+      credits: "3",
       features: [
         { label: "Standard Definition Downloads", available: true },
         { label: "High Definition Downloads", available: false },
@@ -48,9 +48,15 @@ const Plans: React.FC = () => {
     },
   ];
 
-  const handleSelectPlan = (planName: string) => {
-    // Handle plan change logic here
-    console.log(`Changing to ${planName} plan`);
+  const handleSelectPlan = async (planName: string) => {
+    if (planName.toLowerCase() !== currentPlan?.toLowerCase()) {
+      const success = await changePlan(planName);
+      if (success) {
+        console.log(`Successfully changed to ${planName} plan`);
+      } else {
+        console.error(`Failed to change to ${planName} plan`);
+      }
+    }
   };
 
   return (
@@ -63,7 +69,7 @@ const Plans: React.FC = () => {
           credits={plan.credits}
           features={plan.features}
           crownColor={plan.crownColor}
-          isCurrentPlan={plan.name.toLowerCase() === currentPlan}
+          isCurrentPlan={plan.name.toLowerCase() === currentPlan?.toLowerCase()}
           onSelect={() => handleSelectPlan(plan.name)}
         />
       ))}

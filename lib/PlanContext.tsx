@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 
 interface PlanContextType {
@@ -8,6 +8,7 @@ interface PlanContextType {
   plan: string | null;
   payCredits: (cost: number) => Promise<boolean>;
   refreshUserData: () => void;
+  changePlan: (newPlan: string) => Promise<boolean>;
 }
 
 const PlanContext = createContext<PlanContextType | undefined>(undefined);
@@ -77,9 +78,37 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const changePlan = async (newPlan: string): Promise<boolean> => {
+    if (!user) return false;
+
+    try {
+      const response = await fetch("/api/mongodb/changeplan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clerkId: user.id,
+          newPlan,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setPlan(data.plan);
+        return true;
+      } else {
+        throw new Error("Failed to change plan");
+      }
+    } catch (error) {
+      console.error("Error changing plan:", error);
+      return false;
+    }
+  };
+
   return (
     <PlanContext.Provider
-      value={{ credits, plan, payCredits, refreshUserData }}
+      value={{ credits, plan, payCredits, refreshUserData, changePlan }}
     >
       {children}
     </PlanContext.Provider>
