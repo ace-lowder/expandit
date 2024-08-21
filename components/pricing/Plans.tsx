@@ -50,11 +50,27 @@ const Plans: React.FC = () => {
 
   const handleSelectPlan = async (planName: string) => {
     if (planName.toLowerCase() !== currentPlan?.toLowerCase()) {
-      const success = await changePlan(planName);
-      if (success) {
-        console.log(`Successfully changed to ${planName} plan`);
-      } else {
-        console.error(`Failed to change to ${planName} plan`);
+      try {
+        const response = await fetch("/api/stripe/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ planType: planName.toLowerCase() }),
+        });
+
+        const data = await response.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error(
+            "Failed to create Stripe Checkout session:",
+            data.error
+          );
+        }
+      } catch (error) {
+        console.error("Error during Stripe Checkout:", error);
       }
     }
   };
