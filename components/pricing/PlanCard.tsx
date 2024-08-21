@@ -1,6 +1,7 @@
 "use client";
 
-import { FaCheck, FaCrown, FaCircle } from "react-icons/fa";
+import { usePlan } from "@/lib";
+import { FaCheck, FaCrown, FaCircle, FaSpinner } from "react-icons/fa";
 import { Button } from "@/components";
 
 interface PlanCardProps {
@@ -22,6 +23,8 @@ const PlanCard: React.FC<PlanCardProps> = ({
   isCurrentPlan,
   onSelect,
 }) => {
+  const { loadingPlan } = usePlan();
+
   return (
     <div className="bg-white shadow-md rounded-lg w-80 p-6 text-center transition-all flex flex-col gap-4 justify-between">
       <div>
@@ -61,13 +64,19 @@ const PlanCard: React.FC<PlanCardProps> = ({
         ))}
       </ul>
       <Button
-        onClick={isCurrentPlan ? () => {} : onSelect}
-        disabled={isCurrentPlan}
+        onClick={isCurrentPlan || loadingPlan ? () => {} : onSelect}
+        disabled={isCurrentPlan || loadingPlan}
         className={`w-full`}
         color="bg-blue-500"
         hoverColor="bg-blue-600"
       >
-        {isCurrentPlan ? "Current Plan" : "Change Plan"}
+        {loadingPlan ? (
+          <FaSpinner className="animate-spin mx-auto my-1" />
+        ) : isCurrentPlan ? (
+          "Current Plan"
+        ) : (
+          "Change Plan"
+        )}
       </Button>
     </div>
   );

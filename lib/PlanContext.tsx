@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 interface PlanContextType {
   credits: number | null;
   plan: string | null;
+  loadingPlan: boolean;
   payCredits: (cost: number) => Promise<boolean>;
   refreshUserData: () => void;
   changePlan: (newPlan: string) => Promise<boolean>;
@@ -19,11 +20,16 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
   const { user } = useUser();
   const [credits, setCredits] = useState<number | null>(null);
   const [plan, setPlan] = useState<string | null>(null);
+  const [loadingPlan, setLoadingPlan] = useState<boolean>(true);
 
   const refreshUserData = async () => {
-    if (!user) return;
+    if (!user) {
+      setTimeout(() => setLoadingPlan(false), 300);
+      return;
+    }
 
     try {
+      setLoadingPlan(true);
       const response = await fetch("/api/mongodb", {
         method: "POST",
         headers: {
@@ -43,6 +49,8 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } catch (error) {
       console.error("Error syncing user with MongoDB:", error);
+    } finally {
+      setTimeout(() => setLoadingPlan(false), 300);
     }
   };
 
@@ -108,7 +116,14 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <PlanContext.Provider
-      value={{ credits, plan, payCredits, refreshUserData, changePlan }}
+      value={{
+        credits,
+        plan,
+        loadingPlan,
+        payCredits,
+        refreshUserData,
+        changePlan,
+      }}
     >
       {children}
     </PlanContext.Provider>

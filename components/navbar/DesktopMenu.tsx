@@ -2,9 +2,12 @@
 
 import { UserButton, useUser } from "@clerk/nextjs";
 import { MenuButton, CreditsDisplay, PlanDisplay } from "@/components";
+import { usePlan } from "@/lib";
+import { FaSpinner } from "react-icons/fa";
 
 const DesktopMenu: React.FC = () => {
   const { isSignedIn } = useUser();
+  const { loadingPlan } = usePlan();
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -19,7 +22,9 @@ const DesktopMenu: React.FC = () => {
           <MenuButton key={item.label} {...item} />
         ))}
       </div>
-      {isSignedIn ? (
+      {loadingPlan ? (
+        <FaSpinner className="animate-spin text-gray-500" />
+      ) : isSignedIn ? (
         <div className="flex items-center">
           <PlanDisplay />
           <CreditsDisplay />
