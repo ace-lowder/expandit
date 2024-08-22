@@ -4,9 +4,10 @@ export { default as ImageUploader } from "./common/ImageUploader";
 export { default as MenuButton } from "./common/MenuButton";
 export { default as Header } from "./common/Header";
 
-export { default as Hero } from "./hero/Hero";
-export { default as LeftHero } from "./hero/LeftHero";
-export { default as RightHero } from "./hero/RightHero";
+export { default as Hero } from "./home/Hero";
+export { default as LeftHero } from "./home/LeftHero";
+export { default as RightHero } from "./home/RightHero";
+export { default as Examples } from "./home/Examples";
 
 export { default as ConfirmUnlock } from "./imageviewer/ConfirmUnlock";
 export { default as CollapseButton } from "./toolbar/CollapseButton";

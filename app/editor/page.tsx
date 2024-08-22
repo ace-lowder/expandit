@@ -20,7 +20,7 @@ const EditorPage = () => {
 
   return (
     <div
-      className={`flex flex-col-reverse md:flex-row h-[calc(100vh-66px)] w-full bg-gray-100 overflow-hidden`}
+      className={`flex flex-col-reverse md:flex-row h-[calc(100vh-66px)] w-full bg-gray-100 overflow-hidden overflow-y-hidden`}
     >
       <Toolbar isCollapsed={!image || isToolbarCollapsed} />
 
