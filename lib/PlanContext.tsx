@@ -10,6 +10,16 @@ interface PlanContextType {
   payCredits: (cost: number) => Promise<boolean>;
   refreshUserData: () => void;
   changePlan: (newPlan: string) => Promise<boolean>;
+  availablePlans: Plan[];
+}
+
+interface Plan {
+  name: string;
+  price: string;
+  credits: string;
+  features: string[];
+  available: boolean[];
+  crownColor: string;
 }
 
 const PlanContext = createContext<PlanContextType | undefined>(undefined);
@@ -21,6 +31,51 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
   const [credits, setCredits] = useState<number | null>(null);
   const [plan, setPlan] = useState<string | null>(null);
   const [loadingPlan, setLoadingPlan] = useState<boolean>(true);
+
+  const availablePlans: Plan[] = [
+    {
+      name: "Free",
+      price: "$0",
+      credits: "3",
+      features: [
+        "Standard Definition Downloads",
+        "High Definition Downloads",
+        "Ultra High Definition Downloads",
+        "Remove Background",
+        "Enhance Image Quality",
+      ],
+      available: [true, false, false, false, false],
+      crownColor: "text-yellow-700",
+    },
+    {
+      name: "Silver",
+      price: "$7.99",
+      credits: "100",
+      features: [
+        "Standard Definition Downloads",
+        "High Definition Downloads",
+        "Ultra High Definition Downloads",
+        "Remove Background",
+        "Enhance Image Quality",
+      ],
+      available: [true, true, false, false, false],
+      crownColor: "text-gray-500",
+    },
+    {
+      name: "Gold",
+      price: "$24.99",
+      credits: "Unlimited",
+      features: [
+        "Standard Definition Downloads",
+        "High Definition Downloads",
+        "Ultra High Definition Downloads",
+        "Remove Background",
+        "Enhance Image Quality",
+      ],
+      available: [true, true, true, true, true],
+      crownColor: "text-yellow-500",
+    },
+  ];
 
   const refreshUserData = async () => {
     if (!user) {
@@ -90,26 +145,21 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!user) return false;
 
     try {
-      const response = await fetch("/api/mongodb/changeplan", {
+      const response = await fetch("/api/stripe/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          clerkId: user.id,
-          newPlan,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planType: newPlan.toLowerCase() }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setPlan(data.plan);
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
         return true;
       } else {
-        throw new Error("Failed to change plan");
+        throw new Error("Failed to create Stripe Checkout session");
       }
     } catch (error) {
-      console.error("Error changing plan:", error);
+      console.error("Error during Stripe Checkout:", error);
       return false;
     }
   };
@@ -123,6 +173,7 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
         payCredits,
         refreshUserData,
         changePlan,
+        availablePlans,
       }}
     >
       {children}
