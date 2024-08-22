@@ -1,13 +1,11 @@
 <h1 align="center">
   Expandit
 </h1>
-Expandit is a fully functioning web app that allows users to expand images using AI generative fill powered by Cloudinary's API. Users can log in securely through Clerk's API, and choose between three monthly subscription plans managed via Stripe's API.
+Expandit is a fully functioning web app that allows users to expand images using AI generative fill powered by Cloudinary's API. Users can log in securely through Clerk's API, and choose between three monthly subscription plans managed via Stripe's API.<br/><br/>
 
-All images are stored locally in the user's browser to minimize storage space and ensure privacy. Expandit also features a versatile toolbar with social media presets, enabling users to quickly resize any image for profiles and banners.
+All images are stored locally in the user's browser to minimize storage space and ensure privacy. Expandit also features a versatile toolbar with social media presets, enabling users to quickly resize any image for profiles and banners.<br/><br/>
 
 You can view the deployed build at https://acelowder-expandit.netlify.app/
-
-
 
 <a href="https://acelowder-expandit.netlify.app/"><img src="example.gif" width="1280"></a>
 
@@ -26,8 +24,6 @@ You can view the deployed build at https://acelowder-expandit.netlify.app/
 - **Local Image Storage**: All images are stored in the user's local storage for privacy and space efficiency.
 - **Social Media Presets**: A handy toolbar with presets to quickly resize images for various social media platforms.
 
-
-
 ## Future Plans
 
 If I have the opportunity to enhance this project further, I plan to add the following features:
@@ -35,8 +31,6 @@ If I have the opportunity to enhance this project further, I plan to add the fol
 - **Enhanced Image Editing**: Introduce advanced editing tools like cropping, rotating, and filters.
 - **Image Gravity**: Allow users to move the original image within the generative fill space.
 - **Remove Development Mode**: Adjust the pricing and remove development mode to make a functioning SaaS.
-
-
 
 ## Reflections
 
