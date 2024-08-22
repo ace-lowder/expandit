@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
+  Expandit
+</h1>
+Expandit is a fully functioning web app that allows users to expand images using AI generative fill powered by Cloudinary's API. Users can log in securely through Clerk's API, and choose between three monthly subscription plans managed via Stripe's API.
 
-## Getting Started
+All images are stored locally in the user's browser to minimize storage space and ensure privacy. Expandit also features a versatile toolbar with social media presets, enabling users to quickly resize any image for profiles and banners.
 
-First, run the development server:
+You can view the deployed build at https://acelowder-expandit.netlify.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<a href="https://acelowder-expandit.netlify.app/"><img src="example.gif" width="1280"></a>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<div align="right">
 
-## Learn More
+[![Netlify Status](https://api.netlify.com/api/v1/badges/857da5bb-0f99-485f-b855-2b951cfdedc4/deploy-status)](https://acelowder-expandit.netlify.app/)
 
-To learn more about Next.js, take a look at the following resources:
+</div>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Drag and Drop Upload**: A simple upload component with drag and drop, copy/paste, and file upload options.
+- **AI Image Expansion**: Use Cloudinary's AI generative fill to seamlessly expand images.
+- **User Authentication**: Secure login and account management through Clerk's API.
+- **Subscription Plans**: Choose between three different monthly plans with payment processing via Stripe.
+- **Local Image Storage**: All images are stored in the user's local storage for privacy and space efficiency.
+- **Social Media Presets**: A handy toolbar with presets to quickly resize images for various social media platforms.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Future Plans
+
+If I have the opportunity to enhance this project further, I plan to add the following features:
+
+- **Enhanced Image Editing**: Introduce advanced editing tools like cropping, rotating, and filters.
+- **Image Gravity**: Allow users to move the original image within the generative fill space.
+- **Remove Development Mode**: Adjust the pricing and remove development mode to make a functioning SaaS.
+
+
+
+## Reflections
+
+Working on Expandit was an exciting challenge, especially integrating multiple APIs like Cloudinary, Clerk, and Stripe. Managing image storage locally to ensure privacy while keeping the app responsive and user-friendly was a rewarding experience. If I were to revisit this project, I would focus on optimizing the user interface further and potentially explore additional AI-powered image editing features.
