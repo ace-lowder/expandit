@@ -15,6 +15,11 @@ interface ImageContextProps {
     imageName: string,
     imageSize: number
   ) => void;
+  setImageDownscaled: (
+    image: string | ArrayBuffer | null,
+    imageName: string,
+    imageSize: number
+  ) => void;
   width: number;
   height: number;
   fillWidth: number;
@@ -67,6 +72,73 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       setImageState(img);
       setImageName(name);
       setImageSize(size);
+    };
+  };
+
+  const setImageDownscaled = (
+    img: string | ArrayBuffer | null,
+    name: string,
+    size: number
+  ) => {
+    if (img === null) {
+      setImageState(img);
+      setImageName(name);
+      setImageSize(size);
+      return;
+    }
+
+    const imgElement = new Image();
+    imgElement.crossOrigin = "anonymous"; // Attempt to load the image with CORS
+    imgElement.src = img as string;
+
+    imgElement.onload = () => {
+      let newWidth = imgElement.width;
+      let newHeight = imgElement.height;
+
+      if (newWidth > 1024 || newHeight > 1024) {
+        const aspectRatio = newWidth / newHeight;
+        if (newWidth > newHeight) {
+          newWidth = 1024;
+          newHeight = Math.floor(1024 / aspectRatio);
+        } else {
+          newHeight = 1024;
+          newWidth = Math.floor(1024 * aspectRatio);
+        }
+      }
+
+      // Resize the canvas to the new dimensions and draw the image on it
+      const canvas = document.createElement("canvas");
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      const ctx = canvas.getContext("2d");
+
+      if (ctx) {
+        ctx.drawImage(imgElement, 0, 0, newWidth, newHeight);
+        try {
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setImageState(reader.result);
+              };
+              reader.readAsDataURL(blob);
+            }
+          }, "image/png");
+        } catch (e) {
+          console.error("Error exporting image from canvas:", e);
+          // Handle the error
+        }
+      }
+
+      setWidth(newWidth);
+      setHeight(newHeight);
+      setImageName(name);
+      setImageSize(size);
+    };
+
+    imgElement.onerror = () => {
+      console.error("Failed to load image.");
+      // Handle the error
     };
   };
 
@@ -149,6 +221,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         imageName,
         imageSize,
         setImage,
+        setImageDownscaled,
         width,
         height,
         fillWidth,

@@ -20,11 +20,11 @@ const imageList = [
 ];
 
 const RightHero = () => {
-  const { setImage } = useImage();
+  const { setImageDownscaled } = useImage();
   const router = useRouter();
 
   const handleImageSelect = (url: string) => {
-    setImage(url, "", 0);
+    setImageDownscaled(url, "", 0);
     router.push("/editor");
   };
 

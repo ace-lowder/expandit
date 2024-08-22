@@ -14,7 +14,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   className,
 }) => {
   const { showError } = useError();
-  const { setImage } = useImage();
+  const { setImageDownscaled } = useImage();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result, file.name, file.size);
+        setImageDownscaled(reader.result, file.name, file.size);
         if (onImageUpload) onImageUpload();
       };
       reader.readAsDataURL(file);
@@ -54,7 +54,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               const img = new Image();
               img.onload = () => {
                 imageLoaded = true;
-                setImage(reader.result, file.name, file.size);
+                setImageDownscaled(reader.result, file.name, file.size);
                 if (onImageUpload) onImageUpload();
               };
               img.onerror = () => {
@@ -72,7 +72,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             const img = new Image();
             img.onload = () => {
               imageLoaded = true;
-              setImage(url, "", 0);
+              setImageDownscaled(url, "", 0);
               if (onImageUpload) onImageUpload();
             };
             img.onerror = () => {
@@ -91,7 +91,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     const url = prompt("Please enter the image URL");
     if (url) {
       if (isValidImageUrl(url)) {
-        setImage(url, "", 0);
+        setImageDownscaled(url, "", 0);
         if (onImageUpload) onImageUpload();
       } else {
         alert("The URL provided is not a valid image URL.");
@@ -110,7 +110,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result, file.name, file.size);
+        setImageDownscaled(reader.result, file.name, file.size);
         if (onImageUpload) onImageUpload();
       };
       reader.readAsDataURL(file);
