@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useImage } from "@/lib";
+import { useImage, usePlan } from "@/lib"; // Import usePlan
 import { saveAs } from "file-saver";
 import { useUser } from "@clerk/nextjs";
 
@@ -52,6 +52,7 @@ export const DownloadProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const { user } = useUser();
+  const { plan } = usePlan(); // Use the usePlan hook to get the user's plan
   const {
     image,
     imageName,
@@ -240,6 +241,18 @@ export const DownloadProvider: React.FC<{ children: React.ReactNode }> = ({
       });
     }
   }, [image, generatedImage, imageName, width, height, fillWidth, fillHeight]);
+
+  useEffect(() => {
+    // Automatically unlock HD and UHD if the user is on the gold plan
+    if (plan === "gold") {
+      setUnlocked({
+        HD: true,
+        UHD: true,
+      });
+    } else {
+      checkUnlockStatus();
+    }
+  }, [plan, imagePrefix]); // Re-run if the plan or image changes
 
   return (
     <DownloadContext.Provider

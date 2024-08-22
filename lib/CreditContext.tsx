@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 interface CreditContextType {
   credits: number | null;
   loadingCredits: boolean;
+  payCredits: (cost: number) => Promise<boolean>;
   refreshCreditData: () => void;
   setCredits: (newCredits: number) => Promise<boolean>;
 }
@@ -18,6 +19,32 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
   const { user } = useUser();
   const [credits, setCreditsState] = useState<number | null>(null);
   const [loadingCredits, setLoadingCredits] = useState<boolean>(true);
+
+  const payCredits = async (cost: number): Promise<boolean> => {
+    if (!user || credits === null || credits < cost) return false;
+    try {
+      const response = await fetch("/api/mongodb/paycredits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clerkId: user.id,
+          cost,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCredits(data.credits);
+        return true;
+      } else {
+        throw new Error("Failed to deduct credits");
+      }
+    } catch (error) {
+      console.error("Error deducting credits:", error);
+      return false;
+    }
+  };
 
   const refreshCreditData = async () => {
     if (!user) {
@@ -79,7 +106,13 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CreditContext.Provider
-      value={{ credits, loadingCredits, refreshCreditData, setCredits }}
+      value={{
+        credits,
+        loadingCredits,
+        payCredits,
+        refreshCreditData,
+        setCredits,
+      }}
     >
       {children}
     </CreditContext.Provider>

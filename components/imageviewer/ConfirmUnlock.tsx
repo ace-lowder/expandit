@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useError, usePlan } from "@/lib";
+import { useError, useCredit } from "@/lib";
 import { RiCopperCoinLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
 import { Header, Button } from "@/components";
@@ -21,7 +21,7 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
 }) => {
   const router = useRouter();
   const { showError } = useError();
-  const { credits, payCredits } = usePlan();
+  const { credits, payCredits } = useCredit();
   const cost = quality === "HD" ? 1 : 2;
 
   const handleConfirm = async () => {

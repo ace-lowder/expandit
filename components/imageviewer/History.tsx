@@ -92,7 +92,7 @@ const History = () => {
   }
 
   return (
-    <div className="absolute z-50 bottom-4 left-4 flex gap-4">
+    <div className="absolute z-40 bottom-4 left-4 flex gap-4">
       <button
         className="bg-gray-100 border-2 border-gray-700 text-gray-700 
             hover:outline hover:outline-1 hover:outline-gray-700
