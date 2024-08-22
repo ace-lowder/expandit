@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Header } from "@/components";
-import Image from "next/image";
 
 const LeftHero = () => {
   const [isShimmering, setIsShimmering] = useState(true);
@@ -33,7 +32,7 @@ const LeftHero = () => {
           </div>
         )}
 
-        {/* Fill View */}
+        {/* Checkerboard */}
         <div className="absolute checkerboard transition-all w-full h-full" />
 
         {/* Generated Image */}
@@ -41,7 +40,7 @@ const LeftHero = () => {
           <img
             src="/hero/hero-expanded.png"
             alt="Hero Expanded Image"
-            className="absolute pointer-events-none wipe-in w-full h-fuuull"
+            className="absolute pointer-events-none wipe-in w-full h-full"
           />
         )}
 
