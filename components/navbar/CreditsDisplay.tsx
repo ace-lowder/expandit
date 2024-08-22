@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { RiCopperCoinLine } from "react-icons/ri";
-import { usePlan } from "@/lib";
+import { useCredit } from "@/lib";
 import Link from "next/link";
 
 const CreditsDisplay: React.FC = () => {
-  const { credits } = usePlan();
+  const { credits } = useCredit();
   const [highlightCredits, setHighlightCredits] = useState(false);
 
   useEffect(() => {

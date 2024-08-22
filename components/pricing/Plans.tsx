@@ -1,19 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePlan } from "@/lib";
+import { usePlan, availablePlans } from "@/lib";
 import { PlanCard } from "@/components";
 
 const Plans: React.FC = () => {
-  const {
-    plan: currentPlan,
-    availablePlans,
-    changePlan,
-    refreshUserData,
-  } = usePlan();
+  const { plan: currentPlan, changePlan, refreshPlanData } = usePlan();
 
   useEffect(() => {
-    refreshUserData();
+    refreshPlanData();
   }, []);
 
   return (

@@ -6,13 +6,11 @@ import User from "@/models/User";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-// Function to extract the session ID from the query parameters
 function extractSessionId(req: NextRequest): string | null {
   const { searchParams } = new URL(req.url);
   return searchParams.get("session_id");
 }
 
-// Function to fetch the Stripe session
 async function fetchStripeSession(sessionId: string) {
   try {
     return await stripe.checkout.sessions.retrieve(sessionId, {
@@ -24,7 +22,6 @@ async function fetchStripeSession(sessionId: string) {
   }
 }
 
-// Function to verify the user from Clerk
 async function verifyUserFromClerk(req: NextRequest) {
   const auth = getAuth(req);
   const clerkId = auth.userId;
@@ -34,10 +31,8 @@ async function verifyUserFromClerk(req: NextRequest) {
     return null;
   }
 
-  // Connect to MongoDB
   await dbConnect();
 
-  // Find user in MongoDB
   try {
     const user = await User.findOne({ clerkId });
     if (!user) {
@@ -45,7 +40,6 @@ async function verifyUserFromClerk(req: NextRequest) {
       return null;
     }
 
-    console.log("User verified from Clerk:", user);
     return user;
   } catch (error) {
     console.error("Error finding user in MongoDB:", error);
@@ -53,35 +47,35 @@ async function verifyUserFromClerk(req: NextRequest) {
   }
 }
 
-// Function to update the user's subscription in MongoDB
 async function updateUserSubscription(
   user: any,
   session: Stripe.Checkout.Session
 ) {
   try {
-    // Determine the plan based on the product ID
     const productId = session.line_items?.data[0].price?.product as string;
 
     if (productId === "prod_QhikHKcMbNua3h") {
       user.plan = "gold";
+      user.credits = -1;
     } else if (productId === "prod_Qhij4t6d7uaw32") {
       user.plan = "silver";
+      user.credits = 100;
     } else if (productId === "prod_QhipUWWg9kROqN") {
       user.plan = "gold";
+      user.credits = -1;
     }
 
     user.stripeCustomerId = session.customer;
     user.subscriptionId = session.subscription;
 
-    // Update the payment history with required fields
     user.paymentHistory.push({
       amount: session.amount_total,
       currency: session.currency,
       status: session.payment_status,
       created: session.created,
       invoiceId: session.invoice,
-      paymentMethod: session.payment_method_types[0], // Assuming first payment method
-      paymentDate: new Date(session.created * 1000), // Convert UNIX timestamp to Date
+      paymentMethod: session.payment_method_types[0],
+      paymentDate: new Date(session.created * 1000),
     });
 
     await user.save({ validateBeforeSave: true });
@@ -94,10 +88,8 @@ async function updateUserSubscription(
   }
 }
 
-// Main handler function that processes the payment confirmation
 export async function GET(req: NextRequest) {
   try {
-    // Step 1: Extract the session ID
     const sessionId = extractSessionId(req);
     if (!sessionId) {
       return NextResponse.json(
@@ -106,7 +98,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Step 2: Fetch the Stripe session
     const session = await fetchStripeSession(sessionId);
     if (!session) {
       return NextResponse.json(
@@ -115,7 +106,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Step 3: Verify the user from Clerk
     const user = await verifyUserFromClerk(req);
     if (!user) {
       return NextResponse.json(
@@ -124,7 +114,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Step 4: Update the user's subscription in MongoDB
     const updateSuccess = await updateUserSubscription(user, session);
     if (!updateSuccess) {
       return NextResponse.json(
