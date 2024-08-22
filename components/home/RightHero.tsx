@@ -25,11 +25,11 @@ const RightHero = () => {
 
   const handleImageSelect = (url: string) => {
     setImage(url, "", 0);
-    router.push("/editor"); // Navigate to the editor page
+    router.push("/editor");
   };
 
   return (
-    <div className="flex flex-col items-center lg:items-start justify-center min-w-96 gap-4">
+    <div className="flex flex-col items-center lg:items-start justify-center min-w-80 lg:min-w-96 gap-4">
       <div className="w-full max-w-lg">
         <ImageUploader
           className="h-72"

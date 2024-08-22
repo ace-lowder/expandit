@@ -53,7 +53,7 @@ const LeftHero = () => {
           }`}
         />
       </div>
-      <Header className="text-center lg:text-left text-6xl" size="6xl">
+      <Header className="text-center lg:text-left text-4xl md:text-6xl">
         Expand Your Perspective
       </Header>
       <p className="text-2xl text-blue-500 font-semibold text-center lg:text-left">

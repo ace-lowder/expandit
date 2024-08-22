@@ -39,10 +39,12 @@ const Examples = () => {
   }, [selectedCategory]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full py-24 px-4 bg-gray-100 gap-8">
+    <div className="flex flex-col items-center justify-center w-full py-24 px-4 bg-gray-100 gap-8 overflow-hidden">
       <div className="flex flex-col justify-center items-center gap-2">
         <Header size="3xl">Examples</Header>
-        <p>Each of these examples were generated using Expandit</p>
+        <p className="text-center">
+          Each of these examples were generated using Expandit
+        </p>
       </div>
       <div className="flex justify-center flex-wrap gap-4">
         {categories.map((category) => (
@@ -62,7 +64,7 @@ const Examples = () => {
         ))}
       </div>
 
-      <div className="relative w-[896px] h-96 flex items-center justify-center bg-gray-200 overflow-hidden rounded-2xl">
+      <div className="relative w-[448px] md:w-[896px] h-48 md:h-96 flex items-center justify-center bg-gray-200 overflow-hidden rounded-2xl">
         {/* Shimmer Effect */}
         {isShimmering && (
           <div
@@ -90,7 +92,7 @@ const Examples = () => {
         <img
           src={exampleImages[selectedCategory].initial}
           alt="Exmample Image"
-          className={`z-20 transition-all w-96 h-96 ${
+          className={`z-20 transition-all w-48 h-48 md:w-96 md:h-96 ${
             isWiping ? "fade-out-delay" : ""
           }`}
         />
