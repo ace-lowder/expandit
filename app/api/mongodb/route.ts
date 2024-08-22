@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
     if (!existingUser) {
       const newUser = await User.create({
         clerkId,
-        credits: 0,
-        plan: "free",
+        credits: 100,
+        plan: "silver",
       });
       existingUser = newUser.toObject() as IUser;
     }

@@ -15,7 +15,7 @@ export const availablePlans = [
   {
     name: "Free",
     price: "$0",
-    credits: "3",
+    credits: "0",
     features: [
       "Standard Definition Downloads",
       "High Definition Downloads",
@@ -37,7 +37,7 @@ export const availablePlans = [
       "Remove Background",
       "Enhance Image Quality",
     ],
-    available: [true, true, false, false, false],
+    available: [true, true, true, false, false],
     crownColor: "text-gray-500",
   },
   {

@@ -78,21 +78,48 @@ export const PlanProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!user) return false;
 
     try {
-      const response = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planType: newPlan.toLowerCase() }),
-      });
+      if (newPlan.toLowerCase() === "free") {
+        const planResponse = await fetch("/api/mongodb/changeplan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ clerkId: user.id, newPlan }),
+        });
 
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
+        const planData = await planResponse.json();
+        if (!planData.success) {
+          throw new Error("Failed to change plan to Free");
+        }
+
+        const creditsResponse = await fetch("/api/mongodb/setcredits", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ clerkId: user.id, credits: 0 }),
+        });
+
+        const creditsData = await creditsResponse.json();
+        if (!creditsData.success) {
+          throw new Error("Failed to set credits to 0");
+        }
+
+        setPlanState(newPlan);
         return true;
       } else {
-        throw new Error("Failed to create Stripe Checkout session");
+        const response = await fetch("/api/stripe/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ planType: newPlan.toLowerCase() }),
+        });
+
+        const data = await response.json();
+        if (data.url) {
+          window.location.href = data.url;
+          return true;
+        } else {
+          throw new Error("Failed to create Stripe Checkout session");
+        }
       }
     } catch (error) {
-      console.error("Error during Stripe Checkout:", error);
+      console.error("Error changing plan:", error);
       return false;
     }
   };
