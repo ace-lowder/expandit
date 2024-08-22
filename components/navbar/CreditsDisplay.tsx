@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { RiCopperCoinLine } from "react-icons/ri";
+import { IoIosInfinite } from "react-icons/io";
 import { useCredit } from "@/lib";
 import Link from "next/link";
 
@@ -26,7 +27,13 @@ const CreditsDisplay: React.FC = () => {
       href="/pricing"
     >
       <RiCopperCoinLine className="w-6 h-6" />{" "}
-      {credits !== null ? credits : <FaSpinner className="animate-spin" />}
+      {credits === -1 ? (
+        <IoIosInfinite className="w-5 h-5" />
+      ) : credits !== null ? (
+        credits
+      ) : (
+        <FaSpinner className="animate-spin" />
+      )}
     </Link>
   );
 };

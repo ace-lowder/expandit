@@ -4,8 +4,14 @@ import { useRef, useEffect } from "react";
 import { useError, useImage } from "@/lib";
 import { Button } from "@/components";
 
-const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
+interface ImageUploaderProps {
+  onImageUpload?: () => void;
+  className?: string;
+}
+
+const ImageUploader: React.FC<ImageUploaderProps> = ({
   onImageUpload,
+  className,
 }) => {
   const { showError } = useError();
   const { setImage } = useImage();
@@ -124,7 +130,7 @@ const ImageUploader: React.FC<{ onImageUpload?: () => void }> = ({
 
   return (
     <div
-      className="w-1/2 p-8 bg-white rounded-3xl shadow-md flex flex-col items-center max-w-sm min-w-[232px]"
+      className={`${className} p-8 bg-white rounded-3xl shadow-md flex flex-col items-center justify-center max-w-sm min-w-[232px]`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >

@@ -47,7 +47,7 @@ const ImageViewer: React.FC = () => {
   return (
     <>
       {!image ? (
-        <ImageUploader />
+        <ImageUploader className="w-1/2" />
       ) : (
         <div
           ref={viewerRef}
