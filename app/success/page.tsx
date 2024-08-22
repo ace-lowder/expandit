@@ -3,50 +3,50 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { usePlan } from "@/lib";
+import { FaSpinner } from "react-icons/fa";
 
 const SuccessPage: React.FC = () => {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const { refreshUserData } = usePlan();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("Verifying Payment...");
 
   useEffect(() => {
-    if (sessionId) {
-      fetch(`/api/stripe/confirm?session_id=${sessionId}`)
-        .then((res) => res.json())
-        .then(async (data) => {
-          if (data.success) {
-            await refreshUserData(); // Refresh the user data to reflect the new plan
-            setLoading(false);
-          } else {
-            console.error("Payment confirmation failed:", data.error);
-            setLoading(false);
+    const confirmPayment = async () => {
+      if (sessionId) {
+        try {
+          const response = await fetch(
+            "/api/stripe/confirm?session_id=" + sessionId
+          );
+          if (!response.ok) {
+            throw new Error("Payment confirmation failed");
           }
-        })
-        .catch((err) => {
-          console.error("Error confirming payment:", err);
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, [sessionId]);
+          const data = await response.json();
+          console.log("Payment confirmation successful:", data);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+          setLoadingMessage("Payment Successful: Redirecting...");
+
+          await refreshUserData();
+
+          // Adding a brief delay to ensure user data is updated
+          setTimeout(() => {
+            router.push("/pricing");
+          }, 500); // 500ms delay to allow user data to refresh
+        } catch (error: any) {
+          console.error("Payment confirmation failed:", error.message);
+          router.push("/pricing");
+        }
+      }
+    };
+
+    confirmPayment();
+  }, [sessionId, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-4">Payment Successful!</h1>
-      <p>Your plan has been updated.</p>
-      <button
-        onClick={() => router.push("/")}
-        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Go to Dashboard
-      </button>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
+      <FaSpinner className="w-12 h-12 mb-4 animate-spin" />
+      <h1 className="text-2xl font-bold">{loadingMessage}</h1>
     </div>
   );
 };

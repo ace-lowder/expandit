@@ -1,104 +1,143 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import Stripe from "stripe";
+import { getAuth } from "@clerk/nextjs/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-export async function GET(req: NextRequest) {
-  const sessionId = req.nextUrl.searchParams.get("session_id");
+// Function to extract the session ID from the query parameters
+function extractSessionId(req: NextRequest): string | null {
+  const { searchParams } = new URL(req.url);
+  return searchParams.get("session_id");
+}
 
-  if (!sessionId) {
-    console.log("Missing session_id");
-    return NextResponse.json({ error: "Missing session_id" }, { status: 400 });
+// Function to fetch the Stripe session
+async function fetchStripeSession(sessionId: string) {
+  try {
+    return await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ["line_items"],
+    });
+  } catch (error) {
+    console.error("Failed to fetch Stripe session:", error);
+    return null;
+  }
+}
+
+// Function to verify the user from Clerk
+async function verifyUserFromClerk(req: NextRequest) {
+  const auth = getAuth(req);
+  const clerkId = auth.userId;
+
+  if (!clerkId) {
+    console.error("Clerk user not authenticated");
+    return null;
   }
 
+  // Connect to MongoDB
+  await dbConnect();
+
+  // Find user in MongoDB
   try {
-    await dbConnect();
-    console.log("Connected to MongoDB");
-
-    // Retrieve the session from Stripe
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    console.log("Session retrieved:", session);
-
-    if (!session) {
-      console.log("Invalid session");
-      return NextResponse.json({ error: "Invalid session" }, { status: 404 });
-    }
-
-    // Check if customer_email is null and try to retrieve the customer
-    if (!session.customer_email && session.customer) {
-      console.log(
-        "Customer email is null, trying to retrieve customer object..."
-      );
-      const customer = await stripe.customers.retrieve(
-        session.customer as string
-      );
-      console.log("Customer retrieved:", customer);
-
-      if ((customer as Stripe.Customer).email) {
-        const customerEmail = (customer as Stripe.Customer).email;
-        console.log("Customer email:", customerEmail);
-      } else {
-        console.log("Customer email still not found");
-        return NextResponse.json(
-          { error: "Customer email not found" },
-          { status: 404 }
-        );
-      }
-    } else if (session.customer_email) {
-      console.log("Customer email found in session:", session.customer_email);
-    } else {
-      console.log("No customer email and no customer ID available");
-      return NextResponse.json(
-        { error: "Customer email not found" },
-        { status: 404 }
-      );
-    }
-
-    // Assuming you have the email now, proceed to find the user and update the plan
-    const customerEmail = session.customer_email;
-    const user = await User.findOne({ email: customerEmail });
-
+    const user = await User.findOne({ clerkId });
     if (!user) {
-      console.log("User not found");
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      console.error("User not found in MongoDB");
+      return null;
     }
 
-    let newPlan: string | undefined;
-
-    if (typeof session.subscription === "string") {
-      // If session.subscription is a string (ID), retrieve the subscription
-      const subscription = await stripe.subscriptions.retrieve(
-        session.subscription
-      );
-      const priceId = subscription.items.data[0].price.id;
-
-      if (priceId === "price_1PqJHhEL4JOyeCUh7WULVHy7") newPlan = "silver";
-      if (priceId === "price_1PqJJCEL4JOyeCUhL2KGcfSd") newPlan = "gold";
-    } else if (
-      session.subscription &&
-      typeof session.subscription === "object"
-    ) {
-      // If session.subscription is already a Subscription object
-      const priceId = session.subscription.items.data[0].price.id;
-
-      if (priceId === "price_1PqJHhEL4JOyeCUh7WULVHy7") newPlan = "silver";
-      if (priceId === "price_1PqJJCEL4JOyeCUhL2KGcfSd") newPlan = "gold";
-    }
-
-    if (newPlan) {
-      user.plan = newPlan;
-      await user.save();
-      console.log("User plan updated to:", newPlan);
-    } else {
-      console.log("Plan not found for the session");
-      return NextResponse.json({ error: "Plan not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ success: true });
+    console.log("User verified from Clerk:", user);
+    return user;
   } catch (error) {
-    console.error("Error confirming payment:", error);
+    console.error("Error finding user in MongoDB:", error);
+    return null;
+  }
+}
+
+// Function to update the user's subscription in MongoDB
+async function updateUserSubscription(
+  user: any,
+  session: Stripe.Checkout.Session
+) {
+  try {
+    // Determine the plan based on the product ID
+    const productId = session.line_items?.data[0].price?.product as string;
+
+    if (productId === "prod_QhikHKcMbNua3h") {
+      user.plan = "gold";
+    } else if (productId === "prod_Qhij4t6d7uaw32") {
+      user.plan = "silver";
+    } else if (productId === "prod_QhipUWWg9kROqN") {
+      user.plan = "gold";
+    }
+
+    user.stripeCustomerId = session.customer;
+    user.subscriptionId = session.subscription;
+
+    // Update the payment history with required fields
+    user.paymentHistory.push({
+      amount: session.amount_total,
+      currency: session.currency,
+      status: session.payment_status,
+      created: session.created,
+      invoiceId: session.invoice,
+      paymentMethod: session.payment_method_types[0], // Assuming first payment method
+      paymentDate: new Date(session.created * 1000), // Convert UNIX timestamp to Date
+    });
+
+    await user.save({ validateBeforeSave: true });
+
+    console.log("User subscription updated:", user);
+    return true;
+  } catch (error) {
+    console.error("Failed to update user subscription:", error);
+    return false;
+  }
+}
+
+// Main handler function that processes the payment confirmation
+export async function GET(req: NextRequest) {
+  try {
+    // Step 1: Extract the session ID
+    const sessionId = extractSessionId(req);
+    if (!sessionId) {
+      return NextResponse.json(
+        { error: "Session ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Step 2: Fetch the Stripe session
+    const session = await fetchStripeSession(sessionId);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Failed to retrieve Stripe session" },
+        { status: 500 }
+      );
+    }
+
+    // Step 3: Verify the user from Clerk
+    const user = await verifyUserFromClerk(req);
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not authenticated or not found" },
+        { status: 401 }
+      );
+    }
+
+    // Step 4: Update the user's subscription in MongoDB
+    const updateSuccess = await updateUserSubscription(user, session);
+    if (!updateSuccess) {
+      return NextResponse.json(
+        { error: "Failed to update user subscription" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "Payment confirmed and user updated successfully",
+    });
+  } catch (error) {
+    console.error("Error in payment confirmation:", error);
     return NextResponse.json(
       { error: "Failed to confirm payment" },
       { status: 500 }

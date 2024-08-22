@@ -4,7 +4,8 @@ import { usePlan } from "@/lib";
 import { PlanCard } from "@/components";
 
 const Plans: React.FC = () => {
-  const { plan: currentPlan, changePlan } = usePlan();
+  const { plan: currentPlan, refreshUserData } = usePlan();
+  refreshUserData();
 
   const plans = [
     {
@@ -12,12 +13,13 @@ const Plans: React.FC = () => {
       price: "$0",
       credits: "3",
       features: [
-        { label: "Standard Definition Downloads", available: true },
-        { label: "High Definition Downloads", available: false },
-        { label: "Ultra High Definition Downloads", available: false },
-        { label: "Remove Background", available: false },
-        { label: "Enhance Image Quality", available: false },
+        "Standard Definition Downloads",
+        "High Definition Downloads",
+        "Ultra High Definition Downloads",
+        "Remove Background",
+        "Enhance Image Quality",
       ],
+      available: [true, false, false, false, false],
       crownColor: "text-yellow-700",
     },
     {
@@ -25,12 +27,13 @@ const Plans: React.FC = () => {
       price: "$7.99",
       credits: "100",
       features: [
-        { label: "Standard Definition Downloads", available: true },
-        { label: "High Definition Downloads", available: true },
-        { label: "Ultra High Definition Downloads", available: false },
-        { label: "Remove Background", available: false },
-        { label: "Enhance Image Quality", available: false },
+        "Standard Definition Downloads",
+        "High Definition Downloads",
+        "Ultra High Definition Downloads",
+        "Remove Background",
+        "Enhance Image Quality",
       ],
+      available: [true, true, false, false, false],
       crownColor: "text-gray-500",
     },
     {
@@ -38,40 +41,30 @@ const Plans: React.FC = () => {
       price: "$24.99",
       credits: "Unlimited",
       features: [
-        { label: "Standard Definition Downloads", available: true },
-        { label: "High Definition Downloads", available: true },
-        { label: "Ultra High Definition Downloads", available: true },
-        { label: "Remove Background", available: true },
-        { label: "Enhance Image Quality", available: true },
+        "Standard Definition Downloads",
+        "High Definition Downloads",
+        "Ultra High Definition Downloads",
+        "Remove Background",
+        "Enhance Image Quality",
       ],
+      available: [true, true, true, true, true],
       crownColor: "text-yellow-500",
     },
   ];
 
   const handleSelectPlan = async (planName: string) => {
-    if (planName.toLowerCase() !== currentPlan?.toLowerCase()) {
-      try {
-        const response = await fetch("/api/stripe/checkout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ planType: planName.toLowerCase() }),
-        });
-
-        const data = await response.json();
-
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          console.error(
-            "Failed to create Stripe Checkout session:",
-            data.error
-          );
-        }
-      } catch (error) {
-        console.error("Error during Stripe Checkout:", error);
-      }
+    try {
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planType: planName.toLowerCase() }),
+      });
+      const data = await response.json();
+      if (data.url) window.location.href = data.url;
+      else
+        console.error("Failed to create Stripe Checkout session:", data.error);
+    } catch (error) {
+      console.error("Error during Stripe Checkout:", error);
     }
   };
 
@@ -80,11 +73,7 @@ const Plans: React.FC = () => {
       {plans.map((plan) => (
         <PlanCard
           key={plan.name}
-          name={plan.name}
-          price={plan.price}
-          credits={plan.credits}
-          features={plan.features}
-          crownColor={plan.crownColor}
+          plan={plan}
           isCurrentPlan={plan.name.toLowerCase() === currentPlan?.toLowerCase()}
           onSelect={() => handleSelectPlan(plan.name)}
         />

@@ -11,7 +11,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh-66px)] w-full bg-white">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-66px)] w-full bg-gray-200">
       <ImageUploader onImageUpload={handleImageUpload} />
     </div>
   );
