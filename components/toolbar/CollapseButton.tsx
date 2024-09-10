@@ -1,5 +1,5 @@
-import { Button } from "@/components";
 import { PiSidebar, PiSidebarFill } from "react-icons/pi";
+import Button from "../common/Button";
 
 interface CollapseButtonProps {
   isCollapsed: boolean;

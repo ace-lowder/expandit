@@ -1,4 +1,4 @@
-import { formatAspectRatio } from "@/lib";
+import { formatAspectRatio } from "@/lib/utils";
 
 interface DownloadInfoProps {
   image: string | ArrayBuffer | null;

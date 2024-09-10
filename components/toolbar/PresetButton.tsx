@@ -1,4 +1,4 @@
-import { useImage } from "@/lib";
+import { useImage } from "@/lib/contexts/ImageContext";
 
 interface PresetButtonProps {
   label: string;

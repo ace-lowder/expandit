@@ -2,14 +2,11 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import {
-  ImageProvider,
-  ErrorProvider,
-  PlanProvider,
-  CreditProvider,
-  PaymentProvider,
-} from "@/lib";
-import { Navbar } from "@/components";
+import { ImageProvider } from "@/lib/contexts/ImageContext";
+import { ErrorProvider } from "@/lib/contexts/ErrorContext";
+import { CreditProvider } from "@/lib/contexts/CreditContext";
+import { PaymentProvider } from "@/lib/contexts/PaymentContext";
+import Navbar from "@/components/navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,20 +25,18 @@ export default function RootLayout({
       <body
         className={`${inter.className} min-h-screen flex flex-col overflow-x-hidden`}
       >
-        <ClerkProvider>
-          <ImageProvider>
-            <ErrorProvider>
-              <PlanProvider>
-                <CreditProvider>
-                  <PaymentProvider>
-                    <Navbar />
-                    <main className="flex-grow text-gray-700">{children}</main>
-                  </PaymentProvider>
-                </CreditProvider>
-              </PlanProvider>
-            </ErrorProvider>
-          </ImageProvider>
-        </ClerkProvider>
+        <ErrorProvider>
+          <ClerkProvider>
+            <CreditProvider>
+              <PaymentProvider>
+                <Navbar />
+                <ImageProvider>
+                  <main className="flex-grow text-gray-700">{children}</main>
+                </ImageProvider>
+              </PaymentProvider>
+            </CreditProvider>
+          </ClerkProvider>
+        </ErrorProvider>
       </body>
     </html>
   );

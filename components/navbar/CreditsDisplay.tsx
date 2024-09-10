@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
+import { useCredit } from "@/lib/contexts/CreditContext";
 import { RiCopperCoinLine } from "react-icons/ri";
 import { IoIosInfinite } from "react-icons/io";
-import { useCredit } from "@/lib";
+import { FaSpinner } from "react-icons/fa";
 import Link from "next/link";
 
 const CreditsDisplay: React.FC = () => {

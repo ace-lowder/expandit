@@ -1,5 +1,5 @@
-import { Header } from "@/components";
-import { presets } from "@/lib";
+import { presets } from "@/lib/presets";
+import Header from "../common/Header";
 
 interface SocialPresetsProps {
   setSelectedSocial: (social: string) => void;

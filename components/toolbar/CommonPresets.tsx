@@ -1,6 +1,6 @@
-import { useImage } from "@/lib";
+import { useImage } from "@/lib/contexts/ImageContext";
 import { FaDesktop, FaMobileAlt, FaUserCircle } from "react-icons/fa";
-import { Header } from "@/components";
+import Header from "../common/Header";
 
 const CommonPresets: React.FC = () => {
   const { setFillSize } = useImage();

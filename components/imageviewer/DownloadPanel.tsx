@@ -1,15 +1,13 @@
 "use client";
 
+import { useDownload } from "@/lib/contexts/DownloadContext";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  DownloadInfo,
-  Header,
-  QualitySelector,
-  ConfirmUnlock,
-} from "@/components";
 import { FaUnlock } from "react-icons/fa";
-import { useDownload } from "@/lib";
+import QualitySelector from "./QualitySelector";
+import DownloadInfo from "./DownloadInfo";
+import Header from "../common/Header";
+import Button from "../common/Button";
+import ConfirmUnlock from "./ConfirmUnlock";
 
 const DownloadPanel: React.FC = () => {
   const [isConfirming, setIsConfirming] = useState(false);

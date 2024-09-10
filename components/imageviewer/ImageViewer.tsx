@@ -1,8 +1,8 @@
 "use client";
 
+import { useImage } from "@/lib/contexts/ImageContext";
 import { useRef, useEffect, useState } from "react";
-import { useImage } from "@/lib";
-import { ImageUploader } from "@/components";
+import ImageUploader from "../common/ImageUploader";
 
 const ImageViewer: React.FC = () => {
   const {

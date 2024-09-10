@@ -1,10 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useError, useCredit } from "@/lib";
+import { useError } from "@/lib/contexts/ErrorContext";
+import { useCredit } from "@/lib/contexts/CreditContext";
 import { RiCopperCoinLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
-import { Header, Button } from "@/components";
+import Button from "../common/Button";
+import Header from "../common/Header";
 
 interface ConfirmUnlockProps {
   quality: string;

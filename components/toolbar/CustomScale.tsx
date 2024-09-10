@@ -1,9 +1,10 @@
 "use client";
 
+import { useImage } from "@/lib/contexts/ImageContext";
+import { formatAspectRatio } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { FaRedo } from "react-icons/fa";
-import { useImage, formatAspectRatio } from "@/lib";
-import { Button } from "@/components";
+import Button from "../common/Button";
 
 const CustomScale: React.FC = () => {
   const { width, height, fillWidth, fillHeight, setFillSize, generatedImage } =

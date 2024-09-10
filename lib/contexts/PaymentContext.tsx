@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { usePlan, useCredit } from "@/lib";
+import { useCredit } from "./CreditContext";
 
 interface PaymentContextType {
   handlePaymentSuccess: (sessionId: string) => Promise<void>;
@@ -13,7 +13,6 @@ const PaymentContext = createContext<PaymentContextType | undefined>(undefined);
 export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { setPlan } = usePlan();
   const { setCredits } = useCredit();
   const router = useRouter();
 
@@ -33,15 +32,12 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log("Setting Plan:", plan);
       console.log("Setting Credits:", credits);
 
-      // Update the plan and credits
-      await setPlan(plan);
       await setCredits(credits);
 
-      // Redirect to the pricing page
       router.push("/pricing");
     } catch (error) {
       console.error("Error during payment confirmation:", error);
-      router.push("/pricing"); // Redirect even if there's an error to avoid user confusion
+      router.push("/pricing");
     }
   };
 

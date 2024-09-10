@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 interface ErrorMessageProps {
   message: string;
   show: boolean;
-  index: number; // To determine the position of the message
+  index: number;
 }
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({
@@ -17,7 +17,6 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
 
   useEffect(() => {
     if (show) {
-      // Trigger fade-out after 2.5 seconds (0.5s before hiding)
       setTimeout(() => setFade(true), 2500);
     }
   }, [show]);
@@ -30,7 +29,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
         fade ? "opacity-0" : "opacity-100"
       }`}
       style={{
-        bottom: `${index * 60 + 20}px`, // Adjust position based on index
+        bottom: `${index * 60 + 20}px`,
         zIndex: 1000,
       }}
     >

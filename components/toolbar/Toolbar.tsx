@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ImageDetails,
-  GenerateButton,
-  CustomScale,
-  CommonPresets,
-  SocialPresets,
-  PresetCategory,
-} from "@/components";
+import PresetCategory from "./PresetCategory";
+import ImageDetails from "./ImageDetails";
+import CustomScale from "./CustomScale";
+import CommonPresets from "./CommonPresets";
+import SocialPresets from "./SocialPresets";
+import GenerateButton from "./GenerateButton";
 
 interface ToolbarProps {
   isCollapsed: boolean;

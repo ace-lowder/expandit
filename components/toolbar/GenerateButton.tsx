@@ -1,9 +1,10 @@
 "use client";
 
+import { useError } from "@/lib/contexts/ErrorContext";
+import { useImage } from "@/lib/contexts/ImageContext";
 import { useEffect, useState } from "react";
-import { useImage, useError } from "@/lib";
 import { FaWandMagicSparkles, FaSpinner } from "react-icons/fa6";
-import { Button } from "@/components";
+import Button from "../common/Button";
 
 const GenerateButton: React.FC = () => {
   const {

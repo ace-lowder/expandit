@@ -1,8 +1,9 @@
 "use client";
 
+import { useError } from "@/lib/contexts/ErrorContext";
+import { useImage } from "@/lib/contexts/ImageContext";
 import { useRef, useEffect } from "react";
-import { useError, useImage } from "@/lib";
-import { Button } from "@/components";
+import Button from "./Button";
 
 interface ImageUploaderProps {
   onImageUpload?: () => void;

@@ -1,7 +1,7 @@
 "use client";
 
+import ErrorMessage from "@/components/common/ErrorMessage";
 import { createContext, useState, useContext, ReactNode } from "react";
-import { ErrorMessage } from "@/components";
 
 interface ErrorContextProps {
   showError: (message: string) => void;

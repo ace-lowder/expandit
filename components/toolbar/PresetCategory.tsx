@@ -1,7 +1,9 @@
-import { useImage } from "@/lib";
-import { Button, Header, PresetButton } from "@/components";
-import { presets } from "@/lib";
+import { useImage } from "@/lib/contexts/ImageContext";
+import { presets } from "@/lib/presets";
 import { FaArrowLeft, FaRedo } from "react-icons/fa";
+import Button from "../common/Button";
+import PresetButton from "./PresetButton";
+import Header from "../common/Header";
 
 interface PresetCategoryProps {
   selectedSocial: string | null;

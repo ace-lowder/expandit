@@ -1,7 +1,8 @@
 "use client";
 
+import { useError } from "@/lib/contexts/ErrorContext";
+import { useImage } from "@/lib/contexts/ImageContext";
 import { useEffect, useState } from "react";
-import { useImage, useError } from "@/lib";
 import { FaPlus, FaTrash } from "react-icons/fa";
 
 const History = () => {

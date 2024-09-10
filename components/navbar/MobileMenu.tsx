@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { FaBars, FaSpinner, FaTimes } from "react-icons/fa";
-import { Button, MenuButton, CreditsDisplay, PlanDisplay } from "@/components";
-import { usePlan } from "@/lib";
+import Button from "../common/Button";
+import MenuButton from "../common/MenuButton";
+import CreditsDisplay from "./CreditsDisplay";
 
 const MobileMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
-  const { loadingPlan } = usePlan();
 
   const userButtonSize = 36;
 
@@ -52,11 +52,8 @@ const MobileMenu: React.FC = () => {
                 ))}
               </div>
               <div className="mt-auto flex flex-col items-start gap-4">
-                {loadingPlan ? (
-                  <FaSpinner className="animate-spin text-gray-500" />
-                ) : isSignedIn ? (
+                {isSignedIn ? (
                   <>
-                    <PlanDisplay />
                     <div className="flex justify-between items-center w-full">
                       <div className="flex items-center gap-3 text-gray-700 font-semibold text-lg ml-1.5">
                         <UserButton

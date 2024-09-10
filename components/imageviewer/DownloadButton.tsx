@@ -1,9 +1,11 @@
 "use client";
 
+import { DownloadProvider } from "@/lib/contexts/DownloadContext";
+import { useImage } from "@/lib/contexts/ImageContext";
 import { useState } from "react";
-import { useImage, DownloadProvider } from "@/lib";
+import Button from "../common/Button";
 import { FaDownload } from "react-icons/fa";
-import { Button, DownloadPanel } from "@/components";
+import DownloadPanel from "./DownloadPanel";
 
 const DownloadButton: React.FC = () => {
   const [showPanel, setShowPanel] = useState(false);
