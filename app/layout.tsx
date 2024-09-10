@@ -11,7 +11,7 @@ import Navbar from "@/components/navbar/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Expandit",
+  title: "Expand",
   description: "An image expander that uses generative fill AI",
 };
 
