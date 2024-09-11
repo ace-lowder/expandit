@@ -16,7 +16,7 @@ const CreditContext = createContext<CreditContextType | undefined>(undefined);
 export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [credits, setCreditsState] = useState<number | null>(null);
   const [loadingCredits, setLoadingCredits] = useState<boolean>(true);
 
@@ -78,7 +78,16 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const setCredits = async (newCredits: number): Promise<boolean> => {
-    if (!user) return false;
+    if (!isLoaded) {
+      setTimeout(() => setCreditsState(newCredits), 300);
+      console.log("Waiting for user to load...");
+      return false;
+    }
+
+    if (!user) {
+      console.log("User not logged in: cannot set credits");
+      return false;
+    }
 
     try {
       const response = await fetch("/api/mongodb/setcredits", {

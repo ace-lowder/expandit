@@ -146,7 +146,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         onClick={() => fileInputRef.current?.click()}
         className="w-3/4 rounded-2xl"
         color="bg-blue-500"
-        hoverColor="hover:bg-blue-600"
+        hoverColor="bg-blue-600"
       >
         Upload Image
       </Button>

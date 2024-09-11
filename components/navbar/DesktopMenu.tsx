@@ -3,25 +3,42 @@
 import { UserButton, useUser } from "@clerk/nextjs";
 import MenuButton from "../common/MenuButton";
 import CreditsDisplay from "./CreditsDisplay";
+import Button from "../common/Button";
+import { useCredit } from "@/lib/contexts/CreditContext";
+import { usePayment } from "@/lib/contexts/PaymentContext";
+import { FaSpinner } from "react-icons/fa";
 
 const DesktopMenu: React.FC = () => {
-  const { isSignedIn } = useUser();
-
-  const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "Editor", href: "/editor" },
-    { label: "Pricing", href: "/pricing" },
-  ];
+  const { isSignedIn, isLoaded } = useUser();
+  const { credits, setCredits } = useCredit();
+  const { checkout } = usePayment();
 
   return (
     <div className="hidden md:flex justify-between flex-grow items-center">
-      <div className="flex gap-4">
-        {menuItems.map((item) => (
-          <MenuButton key={item.label} {...item} />
-        ))}
+      <div className="rounded px-2 p-1 bg-yellow-500 text-xs text-white font-bold">
+        DEMO
       </div>
-      {isSignedIn ? (
+
+      {!isLoaded ? (
+        <FaSpinner className="animate-spin text-gray-500" />
+      ) : isSignedIn ? (
         <div className="flex items-center">
+          <Button
+            onClick={() => checkout()}
+            color="bg-blue-500"
+            hoverColor="bg-blue-600"
+            className="text-sm mr-2"
+          >
+            Buy Credits
+          </Button>
+          <Button
+            onClick={() => setCredits(credits ? credits + 5 : 100)}
+            color="bg-gray-400"
+            hoverColor="bg-gray-500"
+            className="text-sm mr-2"
+          >
+            Add Credits
+          </Button>
           <CreditsDisplay />
           <div className="w-2" />
           <UserButton

@@ -47,47 +47,6 @@ async function verifyUserFromClerk(req: NextRequest) {
   }
 }
 
-async function updateUserSubscription(
-  user: any,
-  session: Stripe.Checkout.Session
-) {
-  try {
-    const productId = session.line_items?.data[0].price?.product as string;
-
-    if (productId === "prod_QhikHKcMbNua3h") {
-      user.plan = "gold";
-      user.credits = -1;
-    } else if (productId === "prod_Qhij4t6d7uaw32") {
-      user.plan = "silver";
-      user.credits = 100;
-    } else if (productId === "prod_QhipUWWg9kROqN") {
-      user.plan = "gold";
-      user.credits = -1;
-    }
-
-    user.stripeCustomerId = session.customer;
-    user.subscriptionId = session.subscription;
-
-    user.paymentHistory.push({
-      amount: session.amount_total,
-      currency: session.currency,
-      status: session.payment_status,
-      created: session.created,
-      invoiceId: session.invoice,
-      paymentMethod: session.payment_method_types[0],
-      paymentDate: new Date(session.created * 1000),
-    });
-
-    await user.save({ validateBeforeSave: true });
-
-    console.log("User subscription updated:", user);
-    return true;
-  } catch (error) {
-    console.error("Failed to update user subscription:", error);
-    return false;
-  }
-}
-
 export async function GET(req: NextRequest) {
   try {
     const sessionId = extractSessionId(req);
@@ -111,14 +70,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         { error: "User not authenticated or not found" },
         { status: 401 }
-      );
-    }
-
-    const updateSuccess = await updateUserSubscription(user, session);
-    if (!updateSuccess) {
-      return NextResponse.json(
-        { error: "Failed to update user subscription" },
-        { status: 500 }
       );
     }
 

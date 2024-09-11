@@ -20,11 +20,10 @@ const CreditsDisplay: React.FC = () => {
   }, [credits]);
 
   return (
-    <Link
+    <div
       className={`flex items-center gap-2 transition-all pl-3 pr-4 py-1.5 text-gray-700 rounded-lg ${
         highlightCredits ? "bg-gray-200" : "hover:bg-gray-200"
       }`}
-      href="/pricing"
     >
       <RiCopperCoinLine className="w-6 h-6" />{" "}
       {credits === -1 ? (
@@ -34,7 +33,7 @@ const CreditsDisplay: React.FC = () => {
       ) : (
         <FaSpinner className="animate-spin" />
       )}
-    </Link>
+    </div>
   );
 };
 

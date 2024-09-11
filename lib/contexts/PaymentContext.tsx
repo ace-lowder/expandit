@@ -3,9 +3,11 @@
 import { createContext, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useCredit } from "./CreditContext";
+import { useUser } from "@clerk/nextjs";
 
 interface PaymentContextType {
   handlePaymentSuccess: (sessionId: string) => Promise<void>;
+  checkout: () => Promise<boolean>;
 }
 
 const PaymentContext = createContext<PaymentContextType | undefined>(undefined);
@@ -13,7 +15,7 @@ const PaymentContext = createContext<PaymentContextType | undefined>(undefined);
 export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { setCredits } = useCredit();
+  const { credits, setCredits } = useCredit();
   const router = useRouter();
 
   const handlePaymentSuccess = async (sessionId: string) => {
@@ -26,23 +28,42 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       const data = await response.json();
+
       console.log("Payment confirmation successful:", data);
+      console.log("Adding Credits");
 
-      const { plan, credits } = data;
-      console.log("Setting Plan:", plan);
-      console.log("Setting Credits:", credits);
+      await setCredits(credits ? credits + 5 : 100);
 
-      await setCredits(credits);
-
-      router.push("/pricing");
+      console.log("Credits added");
+      router.push("/");
     } catch (error) {
       console.error("Error during payment confirmation:", error);
-      router.push("/pricing");
+      router.push("/");
+    }
+  };
+
+  const checkout = async () => {
+    try {
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+        return true;
+      } else {
+        throw new Error("Failed to create Stripe Checkout session");
+      }
+    } catch (error) {
+      console.error("Error checking out:", error);
+      return false;
     }
   };
 
   return (
-    <PaymentContext.Provider value={{ handlePaymentSuccess }}>
+    <PaymentContext.Provider value={{ handlePaymentSuccess, checkout }}>
       {children}
     </PaymentContext.Provider>
   );
