@@ -36,7 +36,7 @@ const SuccessPage: React.FC = () => {
 
       await setCredits(credits + 10);
       console.log("Add credits");
-      setTimeout(() => router.push("/"), 400);
+      setTimeout(() => router.push("/"), 800);
     } catch (error) {
       console.error("Error during payment confirmation:", error);
       setLoadingMessage("Payment confirmation failed. Please try again.");
