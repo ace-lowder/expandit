@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { User, IUser } from "@/models";
 import dbConnect from "@/lib/mongodb";
+import User, { IUser } from "@/models/User";
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
       const newUser = await User.create({
         clerkId,
         credits: 100,
-        plan: "silver",
       });
       existingUser = newUser.toObject() as IUser;
     }
