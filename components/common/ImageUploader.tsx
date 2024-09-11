@@ -1,8 +1,8 @@
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import { useError } from "@/lib/contexts/ErrorContext";
 import { useImage } from "@/lib/contexts/ImageContext";
-import { useRef, useEffect } from "react";
 import Button from "./Button";
 
 interface ImageUploaderProps {
@@ -16,7 +16,24 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 }) => {
   const { showError } = useError();
   const { setImageDownscaled } = useImage();
+  const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const imageList = [
+    "https://static.remove.bg/uploader-examples/person/",
+    "https://static.remove.bg/uploader-examples/animal/",
+    "https://static.remove.bg/uploader-examples/car/",
+    "https://static.remove.bg/uploader-examples/product/",
+  ];
+
+  const generateRandomNumbers = () => {
+    const numbers = imageList.map(() => Math.floor(Math.random() * 6) + 1);
+    setRandomNumbers(numbers);
+  };
+
+  useEffect(() => {
+    generateRandomNumbers();
+  }, []);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -130,36 +147,61 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   }, []);
 
   return (
-    <div
-      className={`${className} p-8 bg-white rounded-3xl shadow-md flex flex-col items-center justify-center max-w-sm min-w-[232px]`}
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-    >
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
-        ref={fileInputRef}
-        className="hidden"
-      />
-      <Button
-        onClick={() => fileInputRef.current?.click()}
-        className="w-3/4 rounded-2xl"
-        color="bg-blue-500"
-        hoverColor="bg-blue-600"
+    <div className="flex flex-col gap-4">
+      <div
+        className={`${className} p-8 bg-white rounded-3xl shadow-md flex flex-col items-center justify-center max-w-sm min-w-[290px]`}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
       >
-        Upload Image
-      </Button>
-      <p className="mt-4 text-gray-700">or drop a file</p>
-      <p className="mt-2 text-sm text-gray-500">
-        paste image or{" "}
-        <span
-          className="text-blue-500 cursor-pointer hover:underline"
-          onClick={handleURLUpload}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          ref={fileInputRef}
+          className="hidden"
+        />
+        <Button
+          onClick={() => fileInputRef.current?.click()}
+          className="w-3/4 rounded-2xl"
+          color="bg-blue-500"
+          hoverColor="bg-blue-600"
         >
-          URL
-        </span>
-      </p>
+          Upload Image
+        </Button>
+        <p className="mt-4 text-gray-700">or drop a file</p>
+        <p className="mt-2 text-sm text-gray-500">
+          paste image or{" "}
+          <span
+            className="text-blue-500 cursor-pointer hover:underline"
+            onClick={handleURLUpload}
+          >
+            URL
+          </span>
+        </p>
+      </div>
+
+      <div className="flex flex-col w-full text-center gap-2">
+        <p className="text-sm text-gray-600">
+          Don&apos;t have an image? Try these:
+        </p>
+        <div className="flex justify-center gap-2">
+          {imageList.map((image, index) => (
+            <button
+              key={index}
+              onClick={() =>
+                setImageDownscaled(`${image}${randomNumbers[index]}.jpg`, "", 0)
+              }
+              className="w-16 h-16 bg-gray-300 rounded-lg relative overflow-hidden"
+              style={{
+                backgroundImage: `url(${image}${randomNumbers[index]}_thumbnail.jpg)`,
+                backgroundSize: "cover",
+              }}
+            >
+              <span className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity"></span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
