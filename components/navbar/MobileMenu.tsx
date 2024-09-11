@@ -19,7 +19,7 @@ const MobileMenu: React.FC = () => {
 
   return (
     <>
-      <div className="rounded px-2 p-1 bg-yellow-500 text-xs text-white font-bold mr-auto">
+      <div className="rounded px-2 p-1 bg-yellow-500 text-xs text-white font-bold mr-auto md:hidden">
         DEMO
       </div>
 
