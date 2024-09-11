@@ -35,7 +35,7 @@
 
 <p>The navbar showcases the integration of SaaS features such as user authentication and credit purchases. Users are able to sign up and log in through Clerk's authentication API. Once the user logs in, a webhook creates a user profile in a MongoDB database, where credits and purchased images are tracked. The site also features a working checkout flow (in test mode), where you can simulate a purchase using the following test card:</p>
 <ul>
-  <li>Card Number: 2424 2424 2424 2424</li>
+  <li>Card Number: 4242 4242 4242 4242</li>
   <li>Expiry: 02/42</li>
   <li>CVC: 424</li>
 </ul>
