@@ -1,37 +1,43 @@
 <h1 align="center">
   Expandit
 </h1>
-Expandit is a fully functioning web app that allows users to expand images using AI generative fill powered by Cloudinary's API. Users can log in securely through Clerk's API, and choose between three monthly subscription plans managed via Stripe's API.<br/><br/>
 
-All images are stored locally in the user's browser to minimize storage space and ensure privacy. Expandit also features a versatile toolbar with social media presets, enabling users to quickly resize any image for profiles and banners.<br/><br/>
+<a href="https://expandit.site/"><img src="/readme/header.png" width="1280" alt="Project Banner"></a>
 
-You can view the deployed build at https://acelowder-expandit.netlify.app/
-
-<a href="https://acelowder-expandit.netlify.app/"><img src="example.gif" width="1280"></a>
-
-<div align="right">
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/857da5bb-0f99-485f-b855-2b951cfdedc4/deploy-status)](https://acelowder-expandit.netlify.app/)
-
+<div align="center">
+  <a href="https://react.dev/"><img src="/readme/icons/react.png" width="48" height="48" alt="React"></a>&nbsp;
+  <a href="https://www.typescriptlang.org/"><img src="/readme/icons/typescript.png" width="48" height="48" alt="Typescript"></a>&nbsp;
+  <a href="https://nextjs.org/"><img src="/readme/icons/next.png" width="48" height="48" alt="Next"></a>&nbsp;
+  <a href="https://tailwindcss.com/"><img src="/readme/icons/tailwind.png" width="48" height="48" alt="Tailwind"></a>&nbsp;
+  <a href="https://cloudinary.com/"><img src="/readme/icons/cloudinary.png" width="48" height="48" alt="Cloudinary"></a>&nbsp;
+  <a href="https://www.mongodb.com/"><img src="/readme/icons/mongo.png" width="48" height="48" alt="MongoDB"></a>&nbsp;
+  <a href="https://clerk.com/"><img src="/readme/icons/clerk.png" width="48" height="48" alt="Clerk"></a>&nbsp;
+  <a href="https://stripe.com/"><img src="/readme/icons/stripe.png" width="48" height="48" alt="Stripe"></a>&nbsp;
 </div>
 
-## Features
+## Overview
 
-- **Drag and Drop Upload**: A simple upload component with drag and drop, copy/paste, and file upload options.
-- **AI Image Expansion**: Use Cloudinary's AI generative fill to seamlessly expand images.
-- **User Authentication**: Secure login and account management through Clerk's API.
-- **Subscription Plans**: Choose between three different monthly plans with payment processing via Stripe.
-- **Local Image Storage**: All images are stored in the user's local storage for privacy and space efficiency.
-- **Social Media Presets**: A handy toolbar with presets to quickly resize images for various social media platforms.
+<p>Expandit (https://expandit.site) is a free Software-as-a-Service (SaaS) web application that allows users to upload and expand images using AI. The goal was to create a useful tool that people would be willing to pay for, while also showcasing my ability to build a fully functional, mobile-friendly web app.</p>
 
-## Future Plans
+<br>
+<p align="center">Click <a href="https://expandit.site/" >here</a> to check it out!</p>
+<div align="center"><a href="https://expandit.site/" ><img src="/readme/generate.png" width="420" alt="Generate Button"></a></div>
 
-If I have the opportunity to enhance this project further, I plan to add the following features:
+<br><br><br><a href="https://expandit.site/"><img src="/readme/example.png" width="1280" alt="Example"></a>
 
-- **Enhanced Image Editing**: Introduce advanced editing tools like cropping, rotating, and filters.
-- **Image Gravity**: Allow users to move the original image within the generative fill space.
-- **Remove Development Mode**: Adjust the pricing and remove development mode to make a functioning SaaS.
+## How it Works
 
-## Reflections
+<h4 align="center">Image Expanding Tool</h4>
 
-Working on Expandit was an exciting challenge, especially integrating multiple APIs like Cloudinary, Clerk, and Stripe. Managing image storage locally to ensure privacy while keeping the app responsive and user-friendly was a rewarding experience. If I were to revisit this project, I would focus on optimizing the user interface further and potentially explore additional AI-powered image editing features.
+<p>The core functionality of Expandit revolves around expanding images. It features a simple upload system that allows users to drag and drop image files or paste images directly into the app. The images are stored in local storage to increase performance and allow users to edit old images without having to reupload them. Users can adjust the width and height of each image or select a social media preset for quick resizing. When you click the generate button, Expandit will send your image to Cloudinary's servers along with the new dimensions. Once the web app receives a new image from Cloudinary's api, the app allows users to download the expanded image and spend credits for higher-quality downloads.</p>
+
+<h4 align="center">Demo Navbar</h4>
+
+<p>The navbar showcases the integration of SaaS features such as user authentication and credit purchases. Users are able to sign up and log in through Clerk's authentication API. Once the user logs in, a webhook creates a user profile in a MongoDB database, where credits and purchased images are tracked. The site also features a working checkout flow (in test mode), where you can simulate a purchase using the following test card:</p>
+<ul>
+  <li>Card Number: 2424 2424 2424 2424</li>
+  <li>Expiry: 02/42</li>
+  <li>CVC: 424</li>
+</ul>
+
+<br><br><a href="https://expandit.site/"><img src="/readme/footer.png" width="1280" alt="Footer Image"></a>
