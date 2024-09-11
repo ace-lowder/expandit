@@ -10,7 +10,7 @@ const Logo: React.FC = () => {
     >
       <Image src={logo} alt="Expandit Logo" width={40} height={40} />
       <span className="text-2xl font-bold text-gray-900 mt-[2px] relative">
-        Expand
+        Expandit
       </span>
       <span
         className="absolute inset-0 opacity-50
