@@ -7,6 +7,7 @@ import { ErrorProvider } from "@/lib/contexts/ErrorContext";
 import { CreditProvider } from "@/lib/contexts/CreditContext";
 import { PaymentProvider } from "@/lib/contexts/PaymentContext";
 import Navbar from "@/components/navbar/Navbar";
+import { HistoryProvider } from "@/lib/contexts/HistoryContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,9 +30,11 @@ export default function RootLayout({
           <ClerkProvider>
             <CreditProvider>
               <PaymentProvider>
-                <Navbar />
                 <ImageProvider>
-                  <main className="flex-grow text-gray-700">{children}</main>
+                  <HistoryProvider>
+                    <Navbar />
+                    <main className="flex-grow text-gray-700">{children}</main>
+                  </HistoryProvider>
                 </ImageProvider>
               </PaymentProvider>
             </CreditProvider>
