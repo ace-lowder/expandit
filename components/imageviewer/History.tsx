@@ -1,11 +1,11 @@
 "use client";
 
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { useHistory } from "@/lib/contexts/HistoryContext"; // Import the useHistory hook
+import { useHistory } from "@/lib/contexts/HistoryContext";
 import { useImage } from "@/lib/contexts/ImageContext";
 
 const History = () => {
-  const { pastImages, saveImage, deleteImage } = useHistory(); // Get the history functions
+  const { pastImages, saveImage, deleteImage } = useHistory();
   const { setImage, overrideFillSize, setGeneratedImage } = useImage();
 
   return (
@@ -14,7 +14,7 @@ const History = () => {
         className="bg-gray-100 border-2 border-gray-700 text-gray-700 
             hover:outline hover:outline-1 hover:outline-gray-700
             flex justify-center items-center h-24 w-24 rounded-xl transition-all"
-        onClick={saveImage} // Call saveImage when the button is clicked
+        onClick={saveImage}
       >
         <FaPlus className="w-7 h-7" />
       </button>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useHistory } from "@/lib/contexts/HistoryContext";
 
 interface MenuButtonProps {
   label: string;
@@ -17,6 +18,13 @@ const MenuButton: React.FC<MenuButtonProps> = ({
   outline = false,
   onClick,
 }) => {
+  const { saveImage } = useHistory();
+
+  const handleClick = () => {
+    saveImage();
+    onClick && onClick();
+  };
+
   return (
     <Link
       className={`transition-all px-4 py-1.5 ${
@@ -29,7 +37,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
           : "hover:bg-gray-200"
       }`}
       href={href}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {label}
     </Link>

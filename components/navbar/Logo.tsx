@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
-import { useHistory } from "@/lib/contexts/HistoryContext"; // Import useHistory
+import { useHistory } from "@/lib/contexts/HistoryContext";
 
 const Logo: React.FC = () => {
-  const { saveImage } = useHistory(); // Get the saveImage function
+  const { saveImage } = useHistory();
 
   return (
     <Link

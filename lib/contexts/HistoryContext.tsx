@@ -51,6 +51,8 @@ export const HistoryProvider = ({
   }, [pastImages, isClient]);
 
   const saveImage = () => {
+    console.log("Saving image");
+
     if (!image) return;
 
     const isMatch = (pastImage: any) => {

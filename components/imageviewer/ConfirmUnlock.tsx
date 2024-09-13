@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useError } from "@/lib/contexts/ErrorContext";
 import { useCredit } from "@/lib/contexts/CreditContext";
+import { useHistory } from "@/lib/contexts/HistoryContext";
 import { RiCopperCoinLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
 import Button from "../common/Button";
@@ -24,6 +25,7 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
   const router = useRouter();
   const { showError } = useError();
   const { credits, payCredits } = useCredit();
+  const { saveImage } = useHistory();
   const cost = quality === "HD" ? 1 : 2;
 
   const handleConfirm = async () => {
@@ -37,8 +39,9 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
 
   if (!visible) return null;
 
-  const handleViewPlans = () => {
-    router.push("/pricing");
+  const handleLogin = () => {
+    saveImage();
+    router.push("/login");
   };
 
   return (
@@ -82,19 +85,35 @@ const ConfirmUnlock: React.FC<ConfirmUnlockProps> = ({
           <>
             <p className="mb-4">
               <span className="text-red-600">
-                You don&apos;t have enough credits.
+                You need to log in to unlock high quality images.
               </span>{" "}
-              Please upgrade your plan to earn more credits.
+              Please log into your account using the buttons below.
             </p>
 
-            <Button
-              onClick={handleViewPlans}
-              className="w-full"
-              color="bg-blue-500"
-              hoverColor="bg-blue-600"
-            >
-              View Plans
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                onClick={() => {
+                  saveImage();
+                  router.push("/login");
+                }}
+                className="w-full rounded-full"
+                color="bg-gray-700"
+                hoverColor="bg-gray-500"
+              >
+                Log In
+              </Button>
+              <Button
+                onClick={() => {
+                  saveImage();
+                  router.push("/signup");
+                }}
+                className="w-full rounded-full border border-gray-300 !text-gray-700"
+                color="bg-white"
+                hoverColor="bg-gray-100"
+              >
+                Sign Up
+              </Button>
+            </div>
           </>
         )}
       </div>
